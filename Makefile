@@ -1,18 +1,28 @@
 NAME	= program
 
+LIBSFML = libsfml.so
+
+PACMAN	= pacman.so
+
 CC	= 
 
 RM	= rm -f
 
 SRCS	= 
 
+SRCSSFML= ./src/libs/libsfml.cpp
+
 OBJS	= $(SRCS:.cpp=.o)
 
-CFLAGS = -I
+CFLAGS = -I./inc
 CFLAGS += -W -Wall -Wextra
-LDLIBS = 
 
 all: $(NAME)
+
+libs: $(LIBSFML)
+
+$(LIBSFML): 
+	 @$(CXX) -shared -o $(LIBSFML) $(CFLAGS) -fPC $(SRCSSFML)
 
 $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS) $(LDLIBS)
@@ -26,9 +36,5 @@ fclean:
 	@$(RM) $(NAME)
 
 re: fclean all
-
-%.o: %.cpp
-	@g++ -c -o $@ $(CXXFLAGS) $<
-	@echo -e "[\033[0;32m OK \033[0m] built '$@'"
 
 .PHONY: all clean fclean re
