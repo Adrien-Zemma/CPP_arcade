@@ -5,17 +5,17 @@
 ** 
 */
 
-#ifndef LIBSFML_HPP_
-	#define LIBSFML_HPP_
+#ifndef LIB_HPP_
+	#define LIB_HPP_
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-class Libsfml
+class Lib
 {
 public:
-	Libsfml();
-	~Libsfml();
+	Lib();
+	~Lib();
 private:
 	void	createMapAssest();
 	void	draw(int x, int y, std::string type);

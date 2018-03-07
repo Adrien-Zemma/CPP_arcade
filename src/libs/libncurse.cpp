@@ -5,7 +5,7 @@
 ** 
 */
 
-#include "Libncurses.hpp"
+#include "libncurses.hpp"
 
 Libncurses::Libncurses()
 {
