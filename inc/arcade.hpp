@@ -10,11 +10,12 @@
 
 #include <iostream>
 #include <dlfcn.h>
-#include <IGame.hpp>
 #include <Ilib.hpp>
-#include "Ilib.hpp"
 #include <fstream>
 #include <string.h>
+#include <cstring>
+#include "Ilib.hpp"
+#include "IGame.hpp"
 
 class Arcade
 {
@@ -22,7 +23,7 @@ public:
 	Arcade();
 	Arcade(std::string arg);
 	~Arcade();
-	void start();
+	void	start();
 	void	loadLib(std::string arg);
 	void	gameloop();
 private:
@@ -42,11 +43,12 @@ private:
 	bool	_exit_status = false;
 	void	loadSet(std::ifstream file);
 	void	readSet(std::ifstream file);
-	static	std::pair<std::string, std::string>	Arcade::split(std::string str, char cut);
-	void	Arcade::initAssetsLocal(std::string game);
+	static	std::pair<std::string, std::string>	split(std::string str, char cut);
+	void	initAssetsLocal(std::string game);
 
 	void	initWallPacman();
 	void	initPersoPacman();
+	void	initSetPacman();
 
 	std::map <std::string, std::string> _assets;
 	std::map <std::string, std::string> _setting;

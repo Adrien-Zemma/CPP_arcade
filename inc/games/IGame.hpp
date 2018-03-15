@@ -8,9 +8,6 @@
 #ifndef IGAME_HPP_
 	#define IGAME_HPP_
 
-
-#include "pacman.hpp"
-#include "nibbler.hpp"
 #include <iostream>
 
 class IGame

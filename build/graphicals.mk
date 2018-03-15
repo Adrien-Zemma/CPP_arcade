@@ -14,6 +14,8 @@ SFML_SRCS	=	$(LIBS_DIR)libsfml.cpp
 SFML_OBJS	=	$(SFML_SRCS:.cpp=.o)
 SFML_NAME	=	lib_arcade_sfml.so
 
+graphicals:	sfml allegro ncurse
+
 sfml: $(SFML_OBJS)
 	@$(CXX) -shared -o $(LIBS_COMPIL_DIR)$(SFML_NAME) $(LIBS_FLAGS) $(SFML_OBJS)
 	@echo -e "[LIB][SFML][\033[0;32m OK \033[0m] built"
@@ -25,7 +27,3 @@ allegro: $(ALLEGRO_OBJS)
 ncurse: $(NCURSE_OBJS)
 	@$(CXX) -shared -o $(LIBS_COMPIL_DIR)$(NCURSE_NAME) $(LIBS_FLAGS) $(NCURSE_OBJS)
 	@echo -e "[LIB][NCURSE][\033[0;32m OK \033[0m] built"
-
-
-%.o: %.cpp
-	@$(CXX) -c -o $@ $(LIBS_FLAGS) $< 
