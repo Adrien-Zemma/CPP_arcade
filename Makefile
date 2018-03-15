@@ -2,19 +2,21 @@ CXX	= g++
 
 RM	= rm -f
 
-CFLAGS = -I./inc
-CFLAGS += -W -Wall -Wextra
+CXXFLAGS = -I./inc
+CXXFLAGS += -W -Wall -Wextra
+
+include build/games.mk
+include build/graphicals.mk
+include build/arcade.mk
 
 
+all:	core games graphicals
 
-all: games libs
+core:	arcade
 
-include games.mk
-include libs.mk
+games:	pacman nibbler 
 
-games: pacman nibbler
-
-libs:	allegro sfml ncurse
+graphicals:	sfml allegro ncurse
 
 clean:
 	@echo -e "\033[1;46m clean OK \033[0m"
@@ -36,4 +38,4 @@ fclean:	clean
 
 re: fclean all
 
-.PHONY: all games clean fclean re
+.PHONY:	all games graphicals core clean fclean re

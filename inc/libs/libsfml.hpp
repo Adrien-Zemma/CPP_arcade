@@ -10,15 +10,18 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "Ilib.hpp"
 
-class Lib
+class Lib : public ILib
 {
 public:
 	Lib();
 	~Lib();
+	Lib createLib();
+	void	drawMenu(std::string game);
 private:
 	void	createMapAssest();
-	void	draw(int x, int y, std::string type);
+	void	drawSprite(int x, int y, std::string type);
 	void	makeSprite(std::map<std::string, std::string> input);
 	void	loadSprite(std::pair<std::string, std::string> input, std::string);
 	void	makeFont();

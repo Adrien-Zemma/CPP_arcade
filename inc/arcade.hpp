@@ -8,7 +8,48 @@
 #ifndef ARCANE_HPP_
 	#define ARCANE_HPP_
 
+#include <iostream>
+#include <dlfcn.h>
+#include <IGame.hpp>
+#include <Ilib.hpp>
+#include "Ilib.hpp"
+#include <fstream>
+#include <string.h>
+
 class Arcade
-{};
+{
+public:
+	Arcade();
+	Arcade(std::string arg);
+	~Arcade();
+	void start();
+	void	loadLib(std::string arg);
+	void	gameloop();
+private:
+	//IGame game;
+	//ILib lib;
+	void	initAssets(std::string);
+	ILib(*createLib)();
+	void(*createMapAssest)();
+	void(*drawSprite)(int x, int y, std::string type);
+	void(*makeSprite)(std::map<std::string, std::string> input);
+	void(*loadSprite)(std::pair<std::string, std::string>, std::string);
+	void(*makeFont)();
+	void(*drawGameMenu)();
+	std::string(*drawStartMenu)();
+	void(*drawMenu)(std::vector<std::string> choix);
+	void	*_handle;
+	bool	_exit_status = false;
+	void	loadSet(std::ifstream file);
+	void	readSet(std::ifstream file);
+	static	std::pair<std::string, std::string>	Arcade::split(std::string str, char cut);
+	void	Arcade::initAssetsLocal(std::string game);
+
+	void	initWallPacman();
+	void	initPersoPacman();
+
+	std::map <std::string, std::string> _assets;
+	std::map <std::string, std::string> _setting;
+};
 
 #endif /* !ARCANE_HPP_ */

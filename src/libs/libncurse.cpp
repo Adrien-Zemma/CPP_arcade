@@ -7,26 +7,10 @@
 
 #include "libncurses.hpp"
 
-Libncurses::Libncurses()
-{
-	_win = initscr();
-}
-
-Libncurses::~Libncurses()
-{
-	endwin();
-}
-
-void	Libncurses::change_color(int back, int front)
+Lib::Lib()
 {
 }
 
-void	Libncurses::Draw_str(std::string str)
+Lib::~Lib()
 {
-	printw(str.c_str());
-}
-
-void	Libncurses::refresh()
-{
-	refresh();
 }
