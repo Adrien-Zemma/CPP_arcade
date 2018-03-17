@@ -142,7 +142,6 @@ void	Arcade::initAssetsLocal(std::string game)
 
 void	Arcade::start()
 {
-	//initAssets((*drawStartMenu)());
 	initAssetsLocal((*drawStartMenu)());
 	gameloop();
 }
