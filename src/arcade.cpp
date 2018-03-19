@@ -9,11 +9,16 @@
 
 Arcade::Arcade(std::string arg)
 {
+	std::cout << "lol" << std::endl;
 	loadLib(arg);
+	std::cout << "coucou"<< std::endl;
+	lib = (*createLib)();
+	lib.makeFont();
 }
 
 Arcade::~Arcade()
 {
+	std::cout << "lol" << std::endl;
 	dlclose(_handle);
 }
 
@@ -23,17 +28,7 @@ void	Arcade::loadLib(std::string arg)
 	std::strcpy (cstr, arg.c_str());
 	_handle = dlopen(cstr, RTLD_LAZY);
 	if (_handle != NULL)
-	{
-		
-		createLib = reinterpret_cast<ILib(*)()> (dlsym(_handle, "createLib"));
-		createMapAssest = reinterpret_cast<void(*)()> (dlsym(_handle, "createMapAssest"));
-		drawSprite = reinterpret_cast<void(*)(int, int, std::string)>(dlsym(_handle, "drawSprite"));
-		makeSprite = reinterpret_cast<void(*)(std::map<std::string, std::string>)>(dlsym(_handle, "makeSprite"));
-		loadSprite = reinterpret_cast<void(*)(std::pair<std::string, std::string>, std::string)>(dlsym(_handle, "loadSprite"));
-		makeFont = reinterpret_cast<void(*)()>(dlsym(_handle, "makeFont"));
-		drawStartMenu = reinterpret_cast<std::string(*)()>(dlsym(_handle, "drawStartMenu"));
-		drawGameMenu = reinterpret_cast<void(*)()>(dlsym(_handle, "drawGameManu"));
-	}
+		createLib = reinterpret_cast<Lib(*)()>(dlsym(_handle,"Lib"));
 	else
 		_exit_status = true;
 }
@@ -137,12 +132,12 @@ void	Arcade::initAssetsLocal(std::string game)
 		initWallPacman();
 		initPersoPacman();
 	}
-	(*makeSprite)(_assets);
+	lib.makeSprite(_assets);
 }
 
 void	Arcade::start()
 {
-	initAssetsLocal((*drawStartMenu)());
+	initAssetsLocal(lib.drawStartMenu());
 	gameloop();
 }
 

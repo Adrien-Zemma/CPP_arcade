@@ -9,12 +9,8 @@
 
 int	main(int ac, char **av)
 {
-	if (ac != 2)
-	{
-		std::cout << "./arcade [wrapper]" << std::endl;
-	}
-	else 
-	{
-		Arcade station(std::string(av[1]));
-	}
+	std::cout << "lol" << std::endl;
+	Arcade station(std::string(av[1]));
+	std::cout << "lol" << std::endl;
+	(void)av;
 }

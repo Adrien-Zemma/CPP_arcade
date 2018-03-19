@@ -12,17 +12,20 @@ RM	= rm -f
 
 ARCADE_NAME	=	arcade
 
-CXXFLAGS = -I./inc
-CXXFLAGS += -I./inc/games -I./inc/libs
-CXXFLAGS += -W -Wall -Wextra
+CXXFLAGS = -I./inc -I./inc/games -I./inc/libs
+CXXFLAGS += -W -Wall -Wextra -L
 CXXFLAGS += -ldl
-CXXFLAGS += -fpic
+CXXFLAGS += -lsfml -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS += -fPIC
+CXXFLAGS += -lncurses
+
+
+
+all:	core games graphicals
 
 include build/core.mk
 include build/graphicals.mk
 include build/games.mk
-
-all:	core games graphicals
 
 clean:
 	@echo -e "\033[1;46m clean OK \033[0m"

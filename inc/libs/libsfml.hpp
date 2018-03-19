@@ -17,12 +17,11 @@ class Lib : public ILib
 public:
 	Lib();
 	~Lib();
-	Lib(std::map<std::string, std::string> input);
 	void	makeFont();
-	//ILib	createLib();
-	void	drawGameMenu();
-	void	drawStartMenu();
+	std::string	drawGameMenu();
+	std::string	drawStartMenu();
 	std::string	getEvent();
+	Lib	createLib();
 	void	drawSprite(int x, int y, std::string type);
 	void	makeSprite(std::map<std::string, std::string> input);
 private:

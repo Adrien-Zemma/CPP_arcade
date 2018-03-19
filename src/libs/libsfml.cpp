@@ -7,30 +7,22 @@
 
 #include "libsfml.hpp"
 
-Lib::Lib()
+extern "C" Lib createLib()
+{
+	Lib tmp;
+	return tmp;
+}
+
+extern "C" Lib::Lib()
 {
 	_window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "SFML window");
 	makeFont();
 }
-
-Lib::Lib(std::map<std::string, std::string> input)
-{
-	_window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "SFML window");
-	makeSprite(input);
-	makeFont();
-}
-
 
 extern "C" Lib::~Lib()
 {
 	free(_window);
 }
-
-/*extern "C" ILib Lib::createLib()
-{
-	ILib tmp;
-	return tmp;
-}*/
 
 /*
 	wall horizontal
@@ -59,6 +51,7 @@ extern "C" void	Lib::loadSprite(std::pair<std::string, std::string> input)
 
 extern "C" void	Lib::makeFont()
 {
+	std::cout << "ZA WARDO" << std::endl;
 	_font.loadFromFile("assets/font/arial.ttf");
 }
 

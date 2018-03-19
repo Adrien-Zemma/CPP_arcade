@@ -1,7 +1,7 @@
 ARCADE_DIR	=	src/
 
 ARCADE_SRCS	=	src/main.cpp \
-			src/arcade.cpp 
+			src/arcade.cpp
 
 ARCADE_OBJS	=	$(ARCADE_SRCS:.cpp=.o)
 

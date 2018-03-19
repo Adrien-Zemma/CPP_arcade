@@ -1,6 +1,6 @@
 LIBS_DIR	=	src/libs/
 LIBS_COMPIL_DIR	=	lib/
-LIBS_FLAGS	=	-I./inc/libs -W -Wall -Wextra
+LIBS_FLAGS	=	-I./inc/libs -W -Wall -Wextr
 
 ALLEGRO_SRCS	=	$(LIBS_DIR)liballegro.cpp
 ALLEGRO_OBJS	=	$(ALLEGRO_SRCS:.cpp=.o)

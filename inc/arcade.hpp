@@ -14,13 +14,12 @@
 #include <fstream>
 #include <string.h>
 #include <cstring>
-#include "Ilib.hpp"
+#include "libsfml.hpp"
 #include "IGame.hpp"
 
 class Arcade
 {
 public:
-	Arcade();
 	Arcade(std::string arg);
 	~Arcade();
 	void	start();
@@ -28,17 +27,10 @@ public:
 	void	gameloop();
 private:
 	//IGame game;
-	//ILib lib;
+	Lib lib;
 	void	initAssets(std::string);
-	ILib(*createLib)();
-	void(*createMapAssest)();
-	void(*drawSprite)(int x, int y, std::string type);
-	void(*makeSprite)(std::map<std::string, std::string> input);
-	void(*loadSprite)(std::pair<std::string, std::string>, std::string);
-	void(*makeFont)();
-	void(*drawGameMenu)();
-	std::string(*drawStartMenu)();
-	void(*drawMenu)(std::vector<std::string> choix);
+
+	Lib (*createLib)();
 	void	*_handle;
 	bool	_exit_status = false;
 	void	loadSet(std::ifstream file);
