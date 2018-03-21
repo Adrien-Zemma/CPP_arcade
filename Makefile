@@ -5,7 +5,6 @@
 ##
 ##
 
-
 CXX	= g++
 
 RM	= rm -f
@@ -13,13 +12,8 @@ RM	= rm -f
 ARCADE_NAME	=	arcade
 
 CXXFLAGS = -I./inc -I./inc/games -I./inc/libs
-CXXFLAGS += -W -Wall -Wextra -L
-CXXFLAGS += -ldl
-CXXFLAGS += -lsfml -lsfml-graphics -lsfml-window -lsfml-system
-CXXFLAGS += -fPIC
-CXXFLAGS += -lncurses
-
-
+CXXFLAGS += -W -Wall -Wextra -ldl
+CXXFLAGS += -fPIC --std=c++14 
 
 all:	core games graphicals
 
@@ -29,6 +23,10 @@ include build/games.mk
 
 clean:
 	@echo -e "\033[1;46m clean OK \033[0m"
+
+	@$(RM) $(ARCADE_OBJS)
+	@echo -e "\033[31m	$(ARCADE_OBJS) \033[0m"
+
 	@$(RM) $(NIBBLER_OBJS)
 	@echo -e "\033[31m	$(NIBBLER_OBJS) \033[0m"
 	@$(RM) $(PACMAN_OBJS)
@@ -43,6 +41,7 @@ clean:
 
 fclean:	clean
 	@echo -e "\033[1;46m fclean OK \033[0m"
+	
 	@$(RM) $(ARCADE_NAME)
 	@echo -e "\033[31m	$(ARCADE_NAME) \033[0m"
 

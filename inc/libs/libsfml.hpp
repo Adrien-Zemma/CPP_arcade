@@ -24,6 +24,7 @@ public:
 	Lib	createLib();
 	void	drawSprite(int x, int y, std::string type);
 	void	makeSprite(std::map<std::string, std::string> input);
+	void	refresh();
 private:
 	void	loadSprite(std::pair<std::string, std::string> input);
 	sf::RenderWindow	*_window;

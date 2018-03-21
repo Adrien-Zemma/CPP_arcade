@@ -9,28 +9,28 @@
 
 Arcade::Arcade(std::string arg)
 {
-	std::cout << "lol" << std::endl;
-	loadLib(arg);
-	std::cout << "coucou"<< std::endl;
-	lib = (*createLib)();
-	lib.makeFont();
+	Arcade::loadLib(arg);
+	if (_exit_status == true)
+		return ;
+	//lib  = (*createLib)();
+	//jeu = (*createGame)();
 }
 
 Arcade::~Arcade()
 {
-	std::cout << "lol" << std::endl;
-	dlclose(_handle);
+	dlclose(_handle_lib);
 }
 
 void	Arcade::loadLib(std::string arg)
 {
-	char * cstr = new char [arg.length()+1];
-	std::strcpy (cstr, arg.c_str());
-	_handle = dlopen(cstr, RTLD_LAZY);
-	if (_handle != NULL)
-		createLib = reinterpret_cast<Lib(*)()>(dlsym(_handle,"Lib"));
+	_handle_lib = dlopen(arg.data(), RTLD_NOW);
+	if (_handle_lib != NULL)
+		createLib = reinterpret_cast<ILib*(*)()>(dlsym(_handle_lib, "createLib"));
 	else
+	{
+		std::cout << dlerror() << std::endl;
 		_exit_status = true;
+	}
 }
 
 std::pair<std::string, std::string>	Arcade::split(std::string str, char cut)
@@ -124,20 +124,30 @@ void	Arcade::initSetPacman()
 	_setting.insert(tmp);
 }
 
+void	Arcade::loadGame(std::string game)
+{
+	std::string tmp = "./games/lib_arcade_" + game;
+	_handle_game = dlopen(tmp.data(), RTLD_NOW);
+	if (_handle_game != NULL)
+		createGame = reinterpret_cast<IGame*(*)()>(dlsym(_handle_game, "createGame"));
+	else
+	{
+		std::cout << dlerror() << std::endl;
+		_exit_status = true;
+	}
+}
+
 void	Arcade::initAssetsLocal(std::string game)
 {
-	if (game == "pacman")
-	{
-		initSetPacman();
-		initWallPacman();
-		initPersoPacman();
-	}
-	lib.makeSprite(_assets);
+	loadGame(game);
+	_assets = jeu->getGameAssets();
+	lib->makeSprite(_assets);
+	jeu->getMap(); 
 }
 
 void	Arcade::start()
 {
-	initAssetsLocal(lib.drawStartMenu());
+	initAssetsLocal(lib->drawStartMenu());
 	gameloop();
 }
 

@@ -9,8 +9,12 @@
 
 int	main(int ac, char **av)
 {
-	std::cout << "lol" << std::endl;
-	Arcade station(std::string(av[1]));
-	std::cout << "lol" << std::endl;
+
+	std::cout << "debut main" << std::endl;
+	if (ac == 2)
+	{
+		Arcade station(av[1]);
+	}
+	std::cout << "fin main" << std::endl;
 	(void)av;
 }

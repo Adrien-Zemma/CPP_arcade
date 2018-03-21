@@ -9,18 +9,19 @@
 	#define PACMAN_HPP_
 
 #include "IGame.hpp"
-#include <vector>
 
 class Game : public IGame
 {
 public:
 	Game();
 	~Game();
-	Game	gameStart();
-	void	gamePlay();
+	std::vector<std::vector<std::string>>	gamePlay();
 	void	gameEnd();
-	void	setkey(std::string key);
+	std::vector<std::vector<std::string>>	getMap();
 private:
+	void	initSetPacman();
+	void	initPersoPacman();
+	void	initWallPacman();
 	void	mouvePlayer();
 	void	mouveEnemy();
 	void	checkColide();
@@ -33,6 +34,8 @@ private:
 	std::string	_key;
 	std::pair<size_t, size_t>	_posPlayer;
 	std::vector<std::pair<size_t, size_t>> _posEnemy;
+	std::map <std::string, std::string> _assets;
+	std::map <std::string, std::string> _setting;
 };
 
 #endif /* !PACMAN_HPP_ */

@@ -6,11 +6,17 @@
 */
 
 #include "pacman.hpp"
-
 #include <fstream>
+
+extern "C" IGame	*createGame()
+{
+	std::cout << "idk quoi mettre" << std::endl;	
+	return new Game();
+}
 
 Game::Game()
 {
+	std::cout << "game begin" << std::endl;
 	createMap();
 }
 
@@ -18,7 +24,7 @@ Game::~Game()
 {
 }
 
-extern "C" std::vector<std::string> Game::readLine(std::string line)
+std::vector<std::string> Game::readLine(std::string line)
 {
 	std::vector<std::string> tmp;
 	for (size_t i = 0; i < line.size(); i++)
@@ -29,24 +35,68 @@ extern "C" std::vector<std::string> Game::readLine(std::string line)
 			tmp.push_back("wall_V");
 		if (line[i] == '0')
 			tmp.push_back("wall_P");
+		if (line[i] == ' ')
+			tmp.push_back("food");
 	}
 	return tmp;
 }
 
-extern "C" void	Game::createMap()
+void	Game::initWallPacman()
 {
+	std::pair<std::string, std::string> tmp;
+	tmp.first = "wall_H";
+	tmp.second = "assets/pacman/wall_T.png";
+	_assets.insert(tmp);
+	tmp.first = "wall_V";
+	tmp.second = "assets/pacman/wall_B.png";
+	_assets.insert(tmp);
+	tmp.first = "wall_P";
+	tmp.second = "assets/pacman/wall_P.png";
+	_assets.insert(tmp);
+}
+
+void	Game::initPersoPacman()
+{
+	std::pair<std::string, std::string> tmp;
+	tmp.first = "perso_R";
+	tmp.second = "assets/pacman/perso_R.png";
+	_assets.insert(tmp);
+	tmp.first = "perso_L";
+	tmp.second = "assets/pacman/perso_T.png";
+	_assets.insert(tmp);
+	tmp.first = "perso_T";
+	tmp.second = "assets/pacman/perso_T.png";
+	_assets.insert(tmp);
+	tmp.first = "perso_B";
+	tmp.second = "assets/pacman/perso_B.png";
+	_assets.insert(tmp);
+	tmp.first = "perso_C";
+	tmp.second = "assets/pacman/perso_C.png";
+	_assets.insert(tmp);
+}
+
+void	Game::initSetPacman()
+{
+	std::pair<std::string, std::string> tmp;
+	tmp.first = "map";
+	tmp.second = "assets/pacman/map.txt";
+	_setting.insert(tmp);
+}
+
+void	Game::createMap()
+{
+	initSetPacman();
+	initWallPacman();
+	initPersoPacman();
 	std::ifstream file;
-	file.open("assest/pacman/map.txt");
+	file.open("assets/pacman/map.txt");
 	std::string str;
-	std::getline(file, str);
-	this->_map.push_back(readLine(str));
-	for(; !file.eof(); std::getline(file, str)) {
+	while (std::getline(file, str)) 
 		this->_map.push_back(readLine(str));
-	}
 	dumpMap();
 }
 
-extern "C" void Game::dumpMap()
+void Game::dumpMap()
 {
 	for(auto el:_map)
 	{
@@ -56,32 +106,32 @@ extern "C" void Game::dumpMap()
 	}
 }
 
-extern "C" Game	Game::gameStart()
-{
-	Game tmp;
-	return tmp;
-}
-
-extern "C" void	Game::gameEnd()
+void	Game::gameEnd()
 {
 	this->~Game();
 }
 
-extern "C" void	Game::mouvePlayer()
+void	Game::mouvePlayer()
 {
 }
 
-extern "C" void Game::mouveEnemy()
+void Game::mouveEnemy()
 {
 }
 
-extern "C" void checkColide()
+void Game::checkColide()
 {
 }
 
-extern "C" void	Game::gamePlay()
+std::vector<std::vector<std::string>>	Game::gamePlay()
 {
 	mouvePlayer();
 	mouveEnemy();
 	checkColide();
+	return _map;
+}
+
+std::vector<std::vector<std::string>>	Game::getMap()
+{
+	return _map;
 }

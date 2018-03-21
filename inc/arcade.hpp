@@ -14,24 +14,28 @@
 #include <fstream>
 #include <string.h>
 #include <cstring>
-#include "libsfml.hpp"
+#include "Ilib.hpp"
 #include "IGame.hpp"
 
 class Arcade
 {
 public:
 	Arcade(std::string arg);
+	Arcade();
 	~Arcade();
 	void	start();
-	void	loadLib(std::string arg);
 	void	gameloop();
 private:
-	//IGame game;
-	Lib lib;
+	void	loadLib(std::string arg);
+	void	loadGame(std::string game);
+	ILib *lib;
+	IGame *jeu;
 	void	initAssets(std::string);
-
-	Lib (*createLib)();
-	void	*_handle;
+	ILib	*(*createLib)();
+	IGame	*(*createGame)();
+	void	*_handle_lib;
+	void	*_handle_game;
+	std::vector<std::vector<std::string>>	_map;
 	bool	_exit_status = false;
 	void	loadSet(std::ifstream file);
 	void	readSet(std::ifstream file);
