@@ -98,10 +98,10 @@ std::string Lib::getEvent()
 
 std::string	Lib::drawGameMenu()
 {
-	return "pacman";
+	return "nibbler";
 }
 
 std::string	Lib::drawStartMenu()
 {
-	return "pacman";
+	return "nibbler";
 }
