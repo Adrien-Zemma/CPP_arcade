@@ -35,7 +35,7 @@ std::vector<std::string> Game::readLine(std::string line)
 			tmp.push_back("wall_V");
 		if (line[i] == '0')
 			tmp.push_back("wall_P");
-		if (line[i] == ' ')
+		else
 			tmp.push_back("food");
 	}
 	return tmp;

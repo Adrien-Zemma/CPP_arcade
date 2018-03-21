@@ -20,19 +20,22 @@ extern "C" void	destroyLib(ILib *lib)
 
 Lib::Lib()
 {
-	_window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "SFML window");
-	sf::Text text;
-	text.setString("Hello world");
+	_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Arcade");
+	_window->clear(sf::Color::Black);
 }
 
 Lib::~Lib()
 {
-	free(_window);
+	delete _window;
+}
+
+void	Lib::clear()
+{
+	_window->clear(sf::Color::Black);
 }
 
 void	Lib::refresh()
 {
-	_window->clear();
 	_window->display();
 }
 
@@ -54,6 +57,7 @@ void	Lib::loadSprite(std::pair<std::string, std::string> input)
 {
 	sf::Texture texture;
 	std::pair<std::string, sf::Sprite> tmp;
+	texture.create(16, 16);
 	texture.loadFromFile(input.second);
 	sf::Sprite sprite(texture);
 	tmp.first = input.first;
@@ -73,14 +77,12 @@ void	Lib::makeSprite(std::map<std::string, std::string> input)
 
 void	Lib::drawSprite(int x, int y, std::string type)
 {
-	for (auto el: _assest)
-	{
-		std::cout << el.first << std::endl;
-	}
-	std::cout << "-------------------------------"<<std::endl;
-	/*sf::Vector2i pos(x * 16, y * 16);
-	_window->setPosition(pos);
-	_window->draw(_assest.at(type));*/
+	for (auto el : _assest)
+		if (el.first == type)
+		{
+			el.second.setPosition(x * 16, y * 16);
+			_window->draw(el.second);
+		}
 }
 
 std::string Lib::getEvent()
@@ -93,15 +95,17 @@ std::string Lib::getEvent()
 		return "up";
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		return "down";
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		return "echap";
 	return "";
 }
 
 std::string	Lib::drawGameMenu()
 {
-	return "nibbler";
+	return "pacman";
 }
 
 std::string	Lib::drawStartMenu()
 {
-	return "nibbler";
+	return "pacman";
 }
