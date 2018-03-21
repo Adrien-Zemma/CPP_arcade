@@ -15,6 +15,9 @@ extern "C" IGame	*createGame()
 
 Game::Game()
 {
+	initSetPacman();
+	initWallPacman();
+	initPersoPacman();
 	createMap();
 }
 
@@ -83,9 +86,6 @@ void	Game::initSetPacman()
 
 void	Game::createMap()
 {
-	initSetPacman();
-	initWallPacman();
-	initPersoPacman();
 	std::ifstream file;
 	file.open("assets/pacman/map.txt");
 	std::string str;

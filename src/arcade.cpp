@@ -115,11 +115,26 @@ void	Arcade::start()
 }
 
 void	Arcade::drawMap()
-{}
+{
+	int x = -1;
+	int y = -1;
+	lib->drawSprite(x, y, "");
+	/*for (auto el: _map)
+	{
+		x += 1;
+		for (auto it: el)
+		{
+			y += 1;
+			std::cout << it << "\t";
+			lib->drawSprite(x, y, it);
+		}
+		std::cout << std::endl;
+	}*/
+}
 
 void	Arcade::gameloop()
 {
-	while(1 || !_exit_status)
+	//while(1 || !_exit_status)
 	{
 		jeu->gamePlay();
 		_map = jeu->getMap();

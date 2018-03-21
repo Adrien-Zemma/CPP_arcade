@@ -73,9 +73,14 @@ void	Lib::makeSprite(std::map<std::string, std::string> input)
 
 void	Lib::drawSprite(int x, int y, std::string type)
 {
-	sf::Vector2i pos(x, y);
+	for (auto el: _assest)
+	{
+		std::cout << el.first << std::endl;
+	}
+	std::cout << "-------------------------------"<<std::endl;
+	/*sf::Vector2i pos(x * 16, y * 16);
 	_window->setPosition(pos);
-	_window->draw(_assest.at(type));
+	_window->draw(_assest.at(type));*/
 }
 
 std::string Lib::getEvent()
