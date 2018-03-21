@@ -10,13 +10,11 @@
 
 extern "C" IGame	*createGame()
 {
-	std::cout << "idk quoi mettre" << std::endl;	
 	return new Game();
 }
 
 Game::Game()
 {
-	std::cout << "game begin" << std::endl;
 	createMap();
 }
 
@@ -45,10 +43,10 @@ void	Game::initWallPacman()
 {
 	std::pair<std::string, std::string> tmp;
 	tmp.first = "wall_H";
-	tmp.second = "assets/pacman/wall_T.png";
+	tmp.second = "assets/pacman/wall_H.png";
 	_assets.insert(tmp);
 	tmp.first = "wall_V";
-	tmp.second = "assets/pacman/wall_B.png";
+	tmp.second = "assets/pacman/wall_V.png";
 	_assets.insert(tmp);
 	tmp.first = "wall_P";
 	tmp.second = "assets/pacman/wall_P.png";
@@ -62,7 +60,7 @@ void	Game::initPersoPacman()
 	tmp.second = "assets/pacman/perso_R.png";
 	_assets.insert(tmp);
 	tmp.first = "perso_L";
-	tmp.second = "assets/pacman/perso_T.png";
+	tmp.second = "assets/pacman/perso_L.png";
 	_assets.insert(tmp);
 	tmp.first = "perso_T";
 	tmp.second = "assets/pacman/perso_T.png";
@@ -93,7 +91,6 @@ void	Game::createMap()
 	std::string str;
 	while (std::getline(file, str)) 
 		this->_map.push_back(readLine(str));
-	dumpMap();
 }
 
 void Game::dumpMap()

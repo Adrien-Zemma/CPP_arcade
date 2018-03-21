@@ -28,6 +28,7 @@ public:
 private:
 	void	loadLib(std::string arg);
 	void	loadGame(std::string game);
+	void	drawMap();
 	ILib *lib;
 	IGame *jeu;
 	void	initAssets(std::string);

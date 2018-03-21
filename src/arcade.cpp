@@ -84,48 +84,6 @@ void	Arcade::initAssets(std::string game)
 
 }*/
 
-void	Arcade::initWallPacman()
-{
-	std::pair<std::string, std::string> tmp;
-	tmp.first = "wall_H";
-	tmp.second = "assets/pacman/wall_T.png";
-	_assets.insert(tmp);
-	tmp.first = "wall_V";
-	tmp.second = "assets/pacman/wall_B.png";
-	_assets.insert(tmp);
-	tmp.first = "wall_P";
-	tmp.second = "assets/pacman/wall_P.png";
-	_assets.insert(tmp);
-}
-
-void	Arcade::initPersoPacman()
-{
-	std::pair<std::string, std::string> tmp;
-	tmp.first = "perso_R";
-	tmp.second = "assets/pacman/perso_R.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_L";
-	tmp.second = "assets/pacman/perso_T.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_T";
-	tmp.second = "assets/pacman/perso_T.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_B";
-	tmp.second = "assets/pacman/perso_B.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_C";
-	tmp.second = "assets/pacman/perso_C.png";
-	_assets.insert(tmp);
-}
-
-void	Arcade::initSetPacman()
-{
-	std::pair<std::string, std::string> tmp;
-	tmp.first = "map";
-	tmp.second = "assets/pacman/map.txt";
-	_setting.insert(tmp);
-}
-
 void	Arcade::loadGame(std::string game)
 {
 	std::string tmp = "./games/lib_arcade_" + game + ".so";
@@ -156,9 +114,15 @@ void	Arcade::start()
 	gameloop();
 }
 
+void	Arcade::drawMap()
+{}
+
 void	Arcade::gameloop()
 {
 	while(1 || !_exit_status)
 	{
+		jeu->gamePlay();
+		_map = jeu->getMap();
+		drawMap();
 	}
 }
