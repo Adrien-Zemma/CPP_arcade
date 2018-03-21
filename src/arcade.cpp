@@ -12,20 +12,22 @@ Arcade::Arcade(std::string arg)
 	Arcade::loadLib(arg);
 	if (_exit_status == true)
 		return ;
-	//lib  = (*createLib)();
-	//jeu = (*createGame)();
 }
 
 Arcade::~Arcade()
 {
 	dlclose(_handle_lib);
+	dlclose(_handle_game);
 }
 
 void	Arcade::loadLib(std::string arg)
 {
 	_handle_lib = dlopen(arg.data(), RTLD_NOW);
 	if (_handle_lib != NULL)
+	{
 		createLib = reinterpret_cast<ILib*(*)()>(dlsym(_handle_lib, "createLib"));
+		lib  = (*createLib)();
+	}
 	else
 	{
 		std::cout << dlerror() << std::endl;
@@ -126,10 +128,13 @@ void	Arcade::initSetPacman()
 
 void	Arcade::loadGame(std::string game)
 {
-	std::string tmp = "./games/lib_arcade_" + game;
+	std::string tmp = "./games/lib_arcade_" + game + ".so";
 	_handle_game = dlopen(tmp.data(), RTLD_NOW);
 	if (_handle_game != NULL)
+	{
 		createGame = reinterpret_cast<IGame*(*)()>(dlsym(_handle_game, "createGame"));
+		jeu = (*createGame)();
+	}
 	else
 	{
 		std::cout << dlerror() << std::endl;

@@ -4,11 +4,11 @@ GAME_FLAGS	=	-fPIC -I./inc/-W -Wall -Wextra
 
 NIBBLER_SRCS	=	$(GAME_DIR)nibbler.cpp
 NIBBLER_OBJS	=	$(NIBBLER_SRCS:.cpp=.o)
-NIBBLER_NAME	=	libnibbler.so
+NIBBLER_NAME	=	lib_arcade_nibbler.so
 
 PACMAN_SRCS	=	$(GAME_DIR)pacman.cpp
 PACMAN_OBJS	=	$(PACMAN_SRCS:.cpp=.o)
-PACMAN_NAME	=	libpacman.so
+PACMAN_NAME	=	lib_arcade_pacman.so
 
 
 games:	pacman nibbler 
