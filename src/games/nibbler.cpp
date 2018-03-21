@@ -7,6 +7,11 @@
 
 #include "nibbler.hpp"
 
+extern "C" IGame	*createGame()
+{
+	return new Nibbler();
+}
+
 Nibbler::Nibbler()
 {
 	std::cout << "Oue un nibbler" << std::endl;
