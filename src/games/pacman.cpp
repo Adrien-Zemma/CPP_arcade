@@ -6,7 +6,6 @@
 */
 
 #include "pacman.hpp"
-#include <fstream>
 
 extern "C" IGame	*createGame()
 {
