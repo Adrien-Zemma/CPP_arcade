@@ -142,7 +142,7 @@ void	Arcade::initAssetsLocal(std::string game)
 	loadGame(game);
 	_assets = jeu->getGameAssets();
 	lib->makeSprite(_assets);
-	jeu->getMap(); 
+	_map = jeu->getMap();
 }
 
 void	Arcade::start()

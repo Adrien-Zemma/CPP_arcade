@@ -15,8 +15,9 @@ class Game : public IGame
 public:
 	Game();
 	~Game();
-	std::vector<std::vector<std::string>>	gamePlay();
+	bool	gamePlay();
 	void	gameEnd();
+	std::map <std::string, std::string>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
 private:
 	void	initSetPacman();
@@ -24,7 +25,7 @@ private:
 	void	initWallPacman();
 	void	mouvePlayer();
 	void	mouveEnemy();
-	void	checkColide();
+	bool	checkColide();
 	void	makesprite();
 	void	createMap();
 	void	dumpMap();

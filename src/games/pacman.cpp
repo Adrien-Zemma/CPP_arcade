@@ -106,11 +106,6 @@ void Game::dumpMap()
 	}
 }
 
-void	Game::gameEnd()
-{
-	this->~Game();
-}
-
 void	Game::mouvePlayer()
 {
 }
@@ -119,19 +114,24 @@ void Game::mouveEnemy()
 {
 }
 
-void Game::checkColide()
+bool Game::checkColide()
 {
+	return false;
 }
 
-std::vector<std::vector<std::string>>	Game::gamePlay()
+bool	Game::gamePlay()
 {
 	mouvePlayer();
 	mouveEnemy();
-	checkColide();
-	return _map;
+	return checkColide();
 }
 
 std::vector<std::vector<std::string>>	Game::getMap()
 {
 	return _map;
+}
+
+std::map <std::string, std::string>	Game::getGameAssets()
+{
+	return _assets;
 }
