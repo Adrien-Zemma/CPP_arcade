@@ -21,6 +21,8 @@ public:
 	std::vector<std::vector<std::string>>	getMap();
 private:
 	std::vector<std::string> readLine(std::string line);
+	void	initPerso();
+	void	initWall();
 	void create_map();
 	std::vector<std::vector<std::string>>	_map;
 	std::pair<size_t, size_t>	_posPlayer;
