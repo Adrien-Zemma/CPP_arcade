@@ -22,13 +22,14 @@ public:
 	std::string	drawStartMenu();
 	std::string	getEvent();
 	Lib	createLib();
-	void	drawSprite(int x, int y, std::string type);
+	void	drawSprite(float x, float y, std::string type);
 	void	makeSprite(std::map<std::string, std::string> input);
 	void	refresh();
+	void	clear();
 private:
 	void	loadSprite(std::pair<std::string, std::string> input);
 	sf::RenderWindow	*_window;
-	std::map<std::string, sf::Sprite>	_assest;
+	std::map<std::string, std::pair<sf::Sprite *, sf::Texture *>>	_assets;
 	sf::Font	_font;
 };
 
