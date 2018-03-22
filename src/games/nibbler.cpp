@@ -17,17 +17,10 @@ Nibbler::Nibbler()
 	std::cout << "Oue un nibbler" << std::endl;
 	create_map();
 	initWall();
-	for (auto &it : _map) {
-    		for (auto &el : it) {
-			    std::cout << el;
-		}
-		std::cout << std::endl;
-	}
 }
 
 Nibbler::~Nibbler()
 {
-	
 }
 
 void Nibbler::create_map()
@@ -50,12 +43,16 @@ std::vector<std::string> Nibbler::readLine(std::string line)
 	{
 		if (line[i] == '-')
 			tmp.push_back("wall_H");
-		if (line[i] == '|')
+		else if (line[i] == '|')
 			tmp.push_back("wall_V");
-		if (line[i] == '0')
+		else if (line[i] == '0')
 			tmp.push_back("wall_P");
 		if (line[i] == ' ')
 			tmp.push_back("void");
+		if (line[i] == 'H')
+			tmp.push_back("head");
+		if (line[i] == 'B')
+			tmp.push_back("body");
 	}
 	return tmp;
 }
@@ -71,6 +68,12 @@ void	Nibbler::initWall()
 	_assets.insert(tmp);
 	tmp.first = "wall_P";
 	tmp.second = "assets/nibbler/wall_P.png";
+	_assets.insert(tmp);
+	tmp.first = "head";
+	tmp.second = "assets/nibbler/head.png";
+	_assets.insert(tmp);
+	tmp.first = "body";
+	tmp.second = "assets/nibbler/skin.png";
 	_assets.insert(tmp);
 }
 
