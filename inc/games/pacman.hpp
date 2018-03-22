@@ -17,15 +17,17 @@ public:
 	~Game();
 	bool	gamePlay();
 	void	gameEnd();
+	void	setKey(std::string key);
 	std::map <std::string, std::string>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
 private:
+	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
 	void	initSetPacman();
 	void	initPersoPacman();
 	void	initWallPacman();
 	void	mouvePlayer();
 	void	mouveEnemy();
-	bool	checkColide();
+	bool	checkColide(std::pair<int, int>);
 	void	makesprite();
 	void	createMap();
 	void	dumpMap();
@@ -37,6 +39,7 @@ private:
 	std::vector<std::pair<size_t, size_t>> _posEnemy;
 	std::map <std::string, std::string> _assets;
 	std::map <std::string, std::string> _setting;
+	std::vector<std::pair<size_t, size_t>> _gate;
 };
 
 #endif /* !PACMAN_HPP_ */

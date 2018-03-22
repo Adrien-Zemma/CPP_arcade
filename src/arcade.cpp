@@ -6,6 +6,8 @@
 */
 
 #include "arcade.hpp"
+#include <thread>
+#include <chrono>
 
 Arcade::Arcade(std::string arg)
 {
@@ -134,10 +136,16 @@ void	Arcade::drawMap()
 
 void	Arcade::gameloop()
 {
-	while(lib->getEvent() != "echap")
+	std::string key = "";
+	auto	next_frame = std::chrono::steady_clock::now();
+	while(key != "echap")
 	{
+		next_frame += std::chrono::milliseconds(1000 / 15);
+		key  = lib->getEvent();
+		jeu->setKey(key);
 		jeu->gamePlay();
 		_map = jeu->getMap();
 		drawMap();
+		std::this_thread::sleep_until(next_frame);
 	}
 }
