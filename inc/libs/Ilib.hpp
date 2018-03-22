@@ -21,7 +21,7 @@ public:
 	virtual std::string	drawGameMenu() = 0;
 	virtual std::string	drawStartMenu() = 0;
 	virtual std::string	getEvent() = 0;
-	virtual void	drawSprite(int x, int y, std::string type) = 0;
+	virtual void	drawSprite(float x, float y, std::string type) = 0;
 	virtual void	makeSprite(std::map<std::string, std::string> input) = 0;
 	virtual void	refresh() = 0;
 	virtual void	clear() = 0;

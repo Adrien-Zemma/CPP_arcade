@@ -31,9 +31,9 @@ std::vector<std::string> Game::readLine(std::string line)
 	{
 		if (line[i] == '-')
 			tmp.push_back("wall_H");
-		if (line[i] == '|')
+		else if (line[i] == '|')
 			tmp.push_back("wall_V");
-		if (line[i] == '0')
+		else if (line[i] == '0')
 			tmp.push_back("wall_P");
 		else
 			tmp.push_back("food");
@@ -94,10 +94,10 @@ void	Game::createMap()
 
 void Game::dumpMap()
 {
-	for(auto el:_map)
+	for(auto el : _map)
 	{
 		for (auto it:el)
-			std::cout << it;
+			std::cout << it + " ";
 		std::cout << std::endl;
 	}
 }
