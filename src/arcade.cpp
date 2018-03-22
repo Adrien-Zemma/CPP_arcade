@@ -86,8 +86,8 @@ void	Arcade::initAssets(std::string game)
 
 void	Arcade::loadGame(std::string game)
 {
-	std::string tmp = "./games/lib_arcade_" + game + ".so";
-	_handle_game = dlopen(tmp.data(), RTLD_NOW);
+	if (game != "")
+		_handle_game = dlopen(std::string("./games/" + game).data(), RTLD_NOW);
 	if (_handle_game != NULL)
 	{
 		createGame = reinterpret_cast<IGame*(*)()>(dlsym(_handle_game, "createGame"));
@@ -116,7 +116,7 @@ void	Arcade::start()
 
 void	Arcade::drawMap()
 {
-	float x = 8;
+	float x = 4;
 	float y = 16;
 	lib->clear();
 	for (auto el: _map)
@@ -126,7 +126,7 @@ void	Arcade::drawMap()
 			x = x + 1;
 			lib->drawSprite(x, y, it);
 		}
-		x = 8;
+		x = 4;
 		y = y + 1;
 	}
 	lib->refresh();
