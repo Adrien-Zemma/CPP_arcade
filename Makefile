@@ -11,7 +11,7 @@ RM	= rm -f
 
 ARCADE_NAME	=	arcade
 
-CXXFLAGS = -I./inc -I./inc/games -I./inc/libs
+CXXFLAGS = -I./inc -I./inc/games -I./inc/games/nibbler -I./inc/libs
 CXXFLAGS += -W -Wall -Wextra -ldl
 CXXFLAGS += -fPIC --std=c++14 
 
