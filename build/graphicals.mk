@@ -5,7 +5,7 @@ ALLEGRO_SRCS	=	$(LIBS_DIR)liballegro.cpp
 ALLEGRO_OBJS	=	$(ALLEGRO_SRCS:.cpp=.o)
 ALLEGRO_NAME	=	$(LIBS_COMPIL_DIR)lib_arcade_allegro.so
 
-NCURSE_SRCS	=	$(LIBS_DIR)libncurse.cpp
+NCURSE_SRCS	=	$(LIBS_DIR)libncurses.cpp
 NCURSE_OBJS	=	$(NCURSE_SRCS:.cpp=.o)
 NCURSE_NAME	=	$(LIBS_COMPIL_DIR)lib_arcade_ncurse.so
 NCURSE_FLAGS	=	-lncurses

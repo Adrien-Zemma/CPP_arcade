@@ -8,21 +8,21 @@
 #ifndef Ncurse_HPP_
 	#define Ncurse_HPP_
 
-#include <caca.h>
+#include <ncurses.h>
 #include "Ilib.hpp"
 
-class Caca: public ILib
+class Ncurses: public ILib
 {
 public:
-	Caca();
-	~Caca();
+	Ncurses();
+	~Ncurses();
 	void	makeFont();
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
 	std::string	getEvent();
 	void	drawSprite(float x, float y, std::string type);
 	void	drawText(std::vector<std::string> text);
-	void	makeSprite(std::map<std::string, std::string> input);
+	void	makeSprite(std::vector<std::vector<std::string>>  input);
 	void	refresh();
 	void	clear();
 private:
