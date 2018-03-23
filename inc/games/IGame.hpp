@@ -17,7 +17,7 @@ class IGame
 {
 public:
 	virtual						~IGame() = default;
-	virtual	std::map <std::string, std::string>	getGameAssets() = 0;
+	virtual	std::vector<std::vector<std::string>>	getGameAssets() = 0;
 	virtual bool					gamePlay() = 0; //calcule une image du jeu
 	virtual std::vector<std::vector<std::string>>	getMap() = 0;
 	virtual void	setKey(std::string key) = 0;

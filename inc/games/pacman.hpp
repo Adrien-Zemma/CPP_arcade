@@ -18,7 +18,7 @@ public:
 	bool	gamePlay();
 	void	gameEnd();
 	void	setKey(std::string key);
-	std::map <std::string, std::string>	getGameAssets();
+	std::vector<std::vector<std::string>>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
 	std::vector<std::string>	getInfos();
 private:
@@ -38,7 +38,7 @@ private:
 	std::string	_key;
 	std::pair<size_t, size_t>	_posPlayer;
 	std::vector<std::pair<size_t, size_t>> _posEnemy;
-	std::map <std::string, std::string> _assets;
+	std::vector<std::vector<std::string>> _assets;
 	std::map <std::string, std::string> _setting;
 	std::vector<std::pair<size_t, size_t>> _gate;
 	size_t	_nbPacdot = 0;

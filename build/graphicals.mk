@@ -8,6 +8,7 @@ ALLEGRO_NAME	=	$(LIBS_COMPIL_DIR)lib_arcade_allegro.so
 NCURSE_SRCS	=	$(LIBS_DIR)libncurse.cpp
 NCURSE_OBJS	=	$(NCURSE_SRCS:.cpp=.o)
 NCURSE_NAME	=	$(LIBS_COMPIL_DIR)lib_arcade_ncurse.so
+NCURSE_FLAGS	=	-lncurses
 
 SFML_SRCS	=	$(LIBS_DIR)libsfml.cpp
 SFML_OBJS	=	$(SFML_SRCS:.cpp=.o)
@@ -27,5 +28,5 @@ allegro: $(ALLEGRO_OBJS)
 	@echo -e "[LIB][ALLEGRO][\033[0;32m OK \033[0m] built"
 
 ncurse: $(NCURSE_OBJS)
-	@$(CXX) -shared -o $(NCURSE_NAME) $(LIBS_FLAGS) $(NCURSE_OBJS)
+	@$(CXX) $(LDFLAGS) $(CXXFLAGS) $(NCURSE_FLAGS) -o $(NCURSE_NAME) $(NCURSE_OBJS)
 	@echo -e "[LIB][NCURSE][\033[0;32m OK \033[0m] built"

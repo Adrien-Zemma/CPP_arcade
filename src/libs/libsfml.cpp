@@ -9,7 +9,7 @@
 
 extern "C" ILib *createLib()
 {
-	ILib *tmp = new Lib();
+	ILib *tmp = new Sfml();
 	return tmp;
 }
 
@@ -18,24 +18,24 @@ extern "C" void	destroyLib(ILib *lib)
 	lib->~ILib();
 }
 
-Lib::Lib()
+Sfml::Sfml()
 {
 	_window = new sf::RenderWindow(sf::VideoMode(450, 800), "Arcade");
 	_window->clear(sf::Color::Black);
 	makeFont();
 }
 
-Lib::~Lib()
+Sfml::~Sfml()
 {
 	delete _window;
 }
 
-void	Lib::clear()
+void	Sfml::clear()
 {
 	_window->clear(sf::Color::Black);
 }
 
-void	Lib::refresh()
+void	Sfml::refresh()
 {
 	_window->display();
 }
@@ -54,23 +54,7 @@ void	Lib::refresh()
 	food special
 */
 
-void	Lib::loadSprite(std::pair<std::string, std::string> input)
-{
-	sf::Texture *texture;
-	sf::Sprite *sprite;
-
-	texture = new sf::Texture;
-	std::pair<std::string, std::pair<sf::Sprite *, sf::Texture *>> tmp;
-	texture->create(16, 16);
-	texture->loadFromFile(input.second);
-	sprite = new sf::Sprite(*texture);
-	tmp.first = input.first;
-	tmp.second.first = sprite;
-	tmp.second.second = texture;
-	_assets.insert(tmp);
-}
-
-void	Lib::drawText(std::vector<std::string> text)
+void	Sfml::drawText(std::vector<std::string> text)
 {
 	float x = 10;
 	float y = 50;
@@ -84,19 +68,36 @@ void	Lib::drawText(std::vector<std::string> text)
 	}
 }
 
-void	Lib::makeFont()
+void	Sfml::makeFont()
 {
 	_font_text.loadFromFile("./assets/font/AtariSmall.ttf");
 	_font_title.loadFromFile("./assets/font/Forvertz.ttf");
 }
 
-void	Lib::makeSprite(std::map<std::string, std::string> input)
+void	Sfml::loadSprite(std::vector<std::string> input)
+{
+	sf::Texture *texture;
+	sf::Sprite *sprite;
+
+	texture = new sf::Texture;
+	std::pair<std::string, std::pair<sf::Sprite *, sf::Texture *>> tmp;
+	texture->create(16, 16);
+	texture->loadFromFile(input[1]);
+	sprite = new sf::Sprite(*texture);
+	sprite->setRotation(stoi(input[3]));
+	tmp.first = input[0];
+	tmp.second.first = sprite;
+	tmp.second.second = texture;
+	_assets.insert(tmp);
+}
+
+void	Sfml::makeSprite(std::vector<std::vector<std::string>> input)
 {
 	for (auto &el: input)
 		loadSprite(el);
 }
 
-void	Lib::drawSprite(float x, float y, std::string type)
+void	Sfml::drawSprite(float x, float y, std::string type)
 {
 	for (auto el : _assets)
 		if (el.first == type)
@@ -106,7 +107,7 @@ void	Lib::drawSprite(float x, float y, std::string type)
 		}
 }
 
-std::string Lib::getEvent()
+std::string Sfml::getEvent()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		return "left";
@@ -123,19 +124,19 @@ std::string Lib::getEvent()
 	return "";
 }
 
-std::string	Lib::drawGameMenu()
+std::string	Sfml::drawGameMenu()
 {
 	return "nibbler";
 }
 
-std::string	Lib::clearGameName(std::string line)
+std::string	Sfml::clearGameName(std::string line)
 {
 	line.erase(0, 11);
 	line.erase(line.size()-3, 3);
 	return line;
 }
 
-void	Lib::getContentDir()
+void	Sfml::getContentDir()
 {
 	float y = 350;
 	std::vector<sf::Text *> tmp;
@@ -161,14 +162,14 @@ void	Lib::getContentDir()
 		_window->draw(sf::Text("No file found", _font_title, 50));
 }
 
-void	Lib::drawTitle()
+void	Sfml::drawTitle()
 {
 	sf::Text title("ARCADE", _font_title, 50);
 	title.setPosition(100, 100);
 	_window->draw(title);
 }
 
-void	Lib::drawBack()
+void	Sfml::drawBack()
 {
 	sf::Texture texture;
 	texture.create(600, 800);
@@ -177,7 +178,7 @@ void	Lib::drawBack()
 	_window->draw(sprite);
 }
 
-std::string	Lib::drawChoise()
+std::string	Sfml::drawChoise()
 {
 	static size_t index = 0;
 	static float y = 370;
@@ -202,7 +203,7 @@ std::string	Lib::drawChoise()
 	return "";
 }
 
-std::string	Lib::drawStartMenu()
+std::string	Sfml::drawStartMenu()
 {
 	std::string tmp;
 	auto	next_frame = std::chrono::steady_clock::now();

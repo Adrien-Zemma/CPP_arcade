@@ -48,7 +48,7 @@ private:
 	void	initPersoPacman();
 	void	initSetPacman();
 
-	std::map <std::string, std::string> _assets;
+	std::vector<std::vector<std::string>> _assets;
 	std::map <std::string, std::string> _setting;
 };
 

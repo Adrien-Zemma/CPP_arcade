@@ -13,7 +13,7 @@ ARCADE_NAME	=	arcade
 
 CXXFLAGS = -I./inc -I./inc/games -I./inc/games/nibbler -I./inc/libs
 CXXFLAGS += -W -Wall -Wextra -ldl
-CXXFLAGS += -fPIC --std=c++14 
+CXXFLAGS += -fPIC --std=c++14  -g3
 
 all:	core games graphicals
 
@@ -50,12 +50,12 @@ fclean:	clean
 	@$(RM) $(GAME_COMPIL_DIR)$(PACMAN_NAME)
 	@echo -e "\033[31m	$(GAME_COMPIL_DIR)$(PACMAN_NAME) \033[0m"
 
-	@$(RM) $(LIBS_COMPIL_DIR)$(ALLEGRO_NAME)
-	@echo -e "\033[31m	$(LIBS_COMPIL_DIR)$(ALLEGRO_NAME) \033[0m"
-	@$(RM) $(LIBS_COMPIL_DIR)$(NCURSE_NAME)
-	@echo -e "\033[31m	$(LIBS_COMPIL_DIR)$(NCURSE_NAME) \033[0m"
-	@$(RM) $(LIBS_COMPIL_DIR)$(SFML_NAME)
-	@echo -e "\033[31m	$(LIBS_COMPIL_DIR)$(SFML_NAME) \033[0m"
+	@$(RM) $(ALLEGRO_NAME)
+	@echo -e "\033[31m	$(ALLEGRO_NAME) \033[0m"
+	@$(RM) $(NCURSE_NAME)
+	@echo -e "\033[31m	$(NCURSE_NAME) \033[0m"
+	@$(RM) $(SFML_NAME)
+	@echo -e "\033[31m	$(SFML_NAME) \033[0m"
 
 re: fclean all
 

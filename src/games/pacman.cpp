@@ -75,42 +75,20 @@ std::vector<std::string> Game::readLine(std::string line)
 
 void	Game::initWallPacman()
 {
-	std::pair<std::string, std::string> tmp;
-	tmp.first = "wall_H";
-	tmp.second = "assets/pacman/wall_H.png";
-	_assets.insert(tmp);
-	tmp.first = "wall_V";
-	tmp.second = "assets/pacman/wall_V.png";
-	_assets.insert(tmp);
-	tmp.first = "wall_P";
-	tmp.second = "assets/pacman/wall_P.png";
-	_assets.insert(tmp);
-	tmp.first = "food";
-	tmp.second = "assets/pacman/pacdot.png";
-	_assets.insert(tmp);
-	tmp.first = "back";
-	tmp.second = "assets/pacman/back.png";
-	_assets.insert(tmp);
+	_assets.push_back(std::vector<std::string>{"wall_H","assets/pacman/wall_H.png", "-", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_V","assets/pacman/wall_V.png", "|", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_P","assets/pacman/wall_P.png", "0", "0"});
+	_assets.push_back(std::vector<std::string>{"food", "assets/pacman/pacdot.png", ".", "0"});
+	_assets.push_back(std::vector<std::string>{"back", "assets/pacman/back.png", " ", "0"});
 }
 
 void	Game::initPersoPacman()
 {
-	std::pair<std::string, std::string> tmp;
-	tmp.first = "perso_R";
-	tmp.second = "assets/pacman/perso_R.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_L";
-	tmp.second = "assets/pacman/perso_L.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_T";
-	tmp.second = "assets/pacman/perso_T.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_B";
-	tmp.second = "assets/pacman/perso_B.png";
-	_assets.insert(tmp);
-	tmp.first = "perso_C";
-	tmp.second = "assets/pacman/perso_C.png";
-	_assets.insert(tmp);
+	_assets.push_back(std::vector<std::string>{"perso_R", "assets/pacman/perso_R.png", "<", "0"});
+	_assets.push_back(std::vector<std::string>{"perso_L", "assets/pacman/perso_L.png", ">", "0"});
+	_assets.push_back(std::vector<std::string>{"perso_T", "assets/pacman/perso_T.png", "u", "0"});
+	_assets.push_back(std::vector<std::string>{"perso_B", "assets/pacman/perso_B.png", "n", "0"});
+	_assets.push_back(std::vector<std::string>{"perso_C", "assets/pacman/perso_C.png", "o", "0"});
 }
 
 void	Game::initSetPacman()
@@ -190,7 +168,7 @@ bool Game::checkColide(std::pair<int, int> input)
 	if (_map[tmp.first][tmp.second] == "food")
 		_score++;
 	if (_map[tmp.first][tmp.second] == "food" || _map[tmp.first][tmp.second] == "back")
-		if (tmp.second >= 0 && tmp.second < int(_map[tmp.first].size()) - 1)
+		if (tmp.second >= 0 && tmp.second <= int(_map[tmp.first].size()) - 1)
 			return true;
 	if (_map[tmp.first][tmp.second] == "gate")
 	{
@@ -217,7 +195,7 @@ std::vector<std::vector<std::string>>	Game::getMap()
 	return _map;
 }
 
-std::map <std::string, std::string>	Game::getGameAssets()
+std::vector<std::vector<std::string>>	Game::getGameAssets()
 {
 	return _assets;
 }
