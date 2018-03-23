@@ -120,7 +120,6 @@ void	Arcade::drawMap()
 {
 	float x = 4;
 	float y = 16;
-	lib->clear();
 	for (auto el: _map)
 	{
 		for (auto it: el)
@@ -143,8 +142,10 @@ void	Arcade::gameloop()
 		next_frame += std::chrono::milliseconds(1000 / 15);
 		key  = lib->getEvent();
 		jeu->setKey(key);
+		lib->clear();
 		jeu->gamePlay();
 		_map = jeu->getMap();
+		lib->drawText(jeu->getInfos());
 		drawMap();
 		std::this_thread::sleep_until(next_frame);
 	}

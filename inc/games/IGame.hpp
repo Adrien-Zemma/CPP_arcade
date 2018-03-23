@@ -21,6 +21,7 @@ public:
 	virtual bool					gamePlay() = 0; //calcule une image du jeu
 	virtual std::vector<std::vector<std::string>>	getMap() = 0;
 	virtual void	setKey(std::string key) = 0;
+	virtual std::vector<std::string>	getInfos() = 0;
 };
 
 #endif /* !IGAME_HPP_ */

@@ -32,6 +32,7 @@ public:
 	void	getContentDir();
 	void	clear();
 	static std::string	clearGameName(std::string line);
+	void	drawText(std::vector<std::string> text);
 private:
 	void	drawTitle();
 	void	drawBack();

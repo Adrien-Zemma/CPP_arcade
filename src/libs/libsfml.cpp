@@ -70,6 +70,20 @@ void	Lib::loadSprite(std::pair<std::string, std::string> input)
 	_assets.insert(tmp);
 }
 
+void	Lib::drawText(std::vector<std::string> text)
+{
+	float x = 10;
+	float y = 50;
+	float next_x = x;
+	for (auto el:text)
+	{
+		sf::Text to_display(el+"\t", _font_title, 15);
+		to_display.setPosition(next_x, y);
+		next_x = (el.size() * 15) * 2 + 1;
+		_window->draw(to_display);
+	}
+}
+
 void	Lib::makeFont()
 {
 	_font_text.loadFromFile("./assets/font/AtariSmall.ttf");

@@ -49,7 +49,10 @@ std::vector<std::string> Game::readLine(std::string line)
 		else if (line[i] == '0')
 			tmp.push_back("wall_P");
 		else if (line[i] == ' ')
+		{
 			tmp.push_back("food");
+			_nbPacdot++;
+		}
 		else if (line[i] == 'P')
 		{
 			tmp.push_back("perso_R");
@@ -172,9 +175,20 @@ void Game::mouveEnemy()
 {
 }
 
+std::vector<std::string>	Game::getInfos()
+{
+	std::vector<std::string> tmp;
+	tmp.push_back(std::to_string(_score));
+	tmp.push_back(std::to_string(_playerLife));
+	std::cout << _score << std::endl;
+	return tmp;
+}
+
 bool Game::checkColide(std::pair<int, int> input)
 {
 	std::pair<int, int>tmp = {_posPlayer.first + input.first, _posPlayer.second + input.second};
+	if (_map[tmp.first][tmp.second] == "food")
+		_score++;
 	if (_map[tmp.first][tmp.second] == "food" || _map[tmp.first][tmp.second] == "back")
 		if (tmp.second >= 0 && tmp.second < int(_map[tmp.first].size()) - 1)
 			return true;

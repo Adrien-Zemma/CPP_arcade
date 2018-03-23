@@ -20,6 +20,7 @@ public:
 	void	setKey(std::string key);
 	std::map <std::string, std::string>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
+	std::vector<std::string>	getInfos();
 private:
 	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
 	void	initSetPacman();
@@ -40,6 +41,9 @@ private:
 	std::map <std::string, std::string> _assets;
 	std::map <std::string, std::string> _setting;
 	std::vector<std::pair<size_t, size_t>> _gate;
+	size_t	_nbPacdot = 0;
+	size_t	_score = 0;
+	size_t	_playerLife = 3;
 };
 
 #endif /* !PACMAN_HPP_ */
