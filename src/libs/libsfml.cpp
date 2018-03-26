@@ -9,13 +9,12 @@
 
 extern "C" ILib *createLib()
 {
-	ILib *tmp = new Sfml();
-	return tmp;
+	return new Sfml();
 }
 
 extern "C" void	destroyLib(ILib *lib)
 {
-	lib->~ILib();
+	delete lib;
 }
 
 Sfml::Sfml()
@@ -93,6 +92,7 @@ void	Sfml::loadSprite(std::vector<std::string> input)
 
 void	Sfml::makeSprite(std::vector<std::vector<std::string>> input)
 {
+	_assets.clear();
 	for (auto &el: input)
 		loadSprite(el);
 }
@@ -121,6 +121,14 @@ std::string Sfml::getEvent()
 		return "echap";
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 		return "insert";
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		return "Lib -1";
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+		return "Lib +1";
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+		return "Game -1";
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+		return "Game +1";
 	return "";
 }
 

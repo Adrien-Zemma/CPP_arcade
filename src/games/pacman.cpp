@@ -21,6 +21,12 @@ extern "C" IGame	*createGame()
 	return new Game();
 }
 
+extern "C" void destroyGame(IGame *game)
+{
+	delete game;
+}
+
+
 Game::Game()
 {
 	initSetPacman();
@@ -89,11 +95,11 @@ void	Game::initPersoPacman()
 	_assets.push_back(std::vector<std::string>{"perso_T", "assets/pacman/perso_T.png", "u", "0"});
 	_assets.push_back(std::vector<std::string>{"perso_B", "assets/pacman/perso_B.png", "n", "0"});
 	_assets.push_back(std::vector<std::string>{"perso_C", "assets/pacman/perso_C.png", "o", "0"});
-	_assets.push_back(std::vector<std::string>{"monster_R", "assets/pacman/monster_R.png", "M", "0"});
-	_assets.push_back(std::vector<std::string>{"monster_L", "assets/pacman/monster_L.png", "M", "0"});
-	_assets.push_back(std::vector<std::string>{"monster_T", "assets/pacman/monster_T.png", "M", "0"});
-	_assets.push_back(std::vector<std::string>{"monster_B", "assets/pacman/monster_B.png", "M", "0"});
-	_assets.push_back(std::vector<std::string>{"monster_C", "assets/pacman/monster_C.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_R", "assets/pacman/monster.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_L", "assets/pacman/monster.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_T", "assets/pacman/monster.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_B", "assets/pacman/monster.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_C", "assets/pacman/monster.png", "M", "0"});
 }
 
 void	Game::initSetPacman()
@@ -156,9 +162,8 @@ void	Game::mouvePlayer()
 
 void Game::mouveEnemy()
 {
-	for(auto el: _posEnemy)
+	//for(auto el: _posEnemy)
 	{
-		
 	}
 }
 
@@ -207,6 +212,11 @@ std::vector<std::vector<std::string>>	Game::getMap()
 
 std::vector<std::vector<std::string>>	Game::getGameAssets()
 {
+	std::cout <<"assets load"<< std::endl;
+	_assets.clear();
+	initSetPacman();
+	initWallPacman();
+	initPersoPacman();
 	return _assets;
 }
 

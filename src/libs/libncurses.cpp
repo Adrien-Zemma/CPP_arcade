@@ -12,11 +12,16 @@ extern "C" ILib *createLib()
 	return new Ncurses();
 }
 
+extern "C" void	destroyLib(ILib *lib)
+{
+	delete lib;
+}
 Ncurses::Ncurses()
 {
 	initscr();
 	keypad(stdscr, TRUE);
-	//nocbreak();
+	nodelay(stdscr, 0);
+	timeout(0);
 	noecho();
 }
 
@@ -36,7 +41,7 @@ std::string	Ncurses::drawGameMenu()
 std::string	Ncurses::drawChoise()
 {
 	static size_t index = 0;
-	static float y = 5;
+	static float y = 3;
 	static std::string old_key = "";
 	std::string key = getEvent();
 	if (key == "up" && index > 0 && key != old_key)
@@ -44,7 +49,7 @@ std::string	Ncurses::drawChoise()
 		mvprintw(y, 3, "->");
 		index -= 1;
 	}
-	else if (key == "down" && index < _available_games.size() -1 && key != old_key)
+	else if (key == "down" && index < _available_games.size() - 1 && key != old_key)
 	{
 		mvprintw(y, 3, "->");
 		index += 1;
@@ -74,7 +79,8 @@ void	Ncurses::getContentDir()
 		if (line.find("lib_arcade_") != std::string::npos && 
 			line.find(".so") != std::string::npos)
 			{
-				mvprintw(y, 15, "%s", clearGameName(line));
+				mvprintw(y, 15, "%s", clearGameName(line).data());
+				y += 2;
 				_available_games.push_back(line);
 			}
 	}
@@ -89,7 +95,7 @@ std::string	Ncurses::drawStartMenu()
 	while (getEvent() != "echap")
 	{
 		next_frame += std::chrono::milliseconds(1000 / 120);
-		mvprintw(1, 5, "ARCADE");
+		mvprintw(1, 15, "ARCADE");
 		getContentDir();
 		tmp = drawChoise();
 		if (tmp != "")
@@ -110,10 +116,18 @@ std::string	Ncurses::getEvent()
 		return "up";
 	else if (key == KEY_DOWN)
 		return "down";
-	else if (key == KEY_EXIT)
+	else if (key == 27)
 		return "echap";
-	else if (key == KEY_ENTER)
+	else if (key == 10)
 		return "insert";
+	else if (key == 99)
+		return "Lib -1";
+	else if (key == 118)
+		return "Lib +1";
+	else if (key == 98)
+		return "Game -1";
+	else if (key == 110)
+		return "Game +1";
 	return "";
 }
 
@@ -123,7 +137,7 @@ void	Ncurses::drawSprite(float x, float y, std::string type)
 	{
 		if (el.first == type)
 		{
-			mvprintw(y-10, x, "%s", el.second.data());
+			mvprintw(y - 10, x, "%s", el.second.data());
 		}
 	}
 }
@@ -153,4 +167,6 @@ void	Ncurses::refresh()
 }
 
 void	Ncurses::clear()
-{}
+{
+	wclear(stdscr);
+}
