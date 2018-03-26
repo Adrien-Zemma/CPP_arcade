@@ -11,6 +11,7 @@
 #include <ncurses.h>
 #include "Ilib.hpp"
 
+
 class Ncurses: public ILib
 {
 public:
@@ -26,7 +27,14 @@ public:
 	void	refresh();
 	void	clear();
 private:
+
+	void	getContentDir();
+	std::string	drawChoise();
+	std::string	clearGameName(std::string line);
 	std::map<std::string, std::string> _assets;
+	WINDOW *_screen;
+	std::vector<std::string> _available_games;
+	
 };
 
 #endif /* !LIBSFML_HPP_ */

@@ -12,9 +12,6 @@
 #include <SFML/Graphics.hpp>
 #include "Ilib.hpp"
 #include <sys/types.h>
-#include <dirent.h>
-#include <thread>
-#include <chrono>
 
 class Sfml : public ILib
 {
@@ -34,6 +31,7 @@ public:
 	static std::string	clearGameName(std::string line);
 	void	drawText(std::vector<std::string> text);
 private:
+
 	void	drawTitle();
 	void	drawBack();
 	std::string	drawChoise();

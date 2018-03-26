@@ -89,6 +89,11 @@ void	Game::initPersoPacman()
 	_assets.push_back(std::vector<std::string>{"perso_T", "assets/pacman/perso_T.png", "u", "0"});
 	_assets.push_back(std::vector<std::string>{"perso_B", "assets/pacman/perso_B.png", "n", "0"});
 	_assets.push_back(std::vector<std::string>{"perso_C", "assets/pacman/perso_C.png", "o", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_R", "assets/pacman/monster_R.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_L", "assets/pacman/monster_L.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_T", "assets/pacman/monster_T.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_B", "assets/pacman/monster_B.png", "M", "0"});
+	_assets.push_back(std::vector<std::string>{"monster_C", "assets/pacman/monster_C.png", "M", "0"});
 }
 
 void	Game::initSetPacman()
@@ -151,6 +156,10 @@ void	Game::mouvePlayer()
 
 void Game::mouveEnemy()
 {
+	for(auto el: _posEnemy)
+	{
+		
+	}
 }
 
 std::vector<std::string>	Game::getInfos()
@@ -158,7 +167,6 @@ std::vector<std::string>	Game::getInfos()
 	std::vector<std::string> tmp;
 	tmp.push_back(std::to_string(_score));
 	tmp.push_back(std::to_string(_playerLife));
-	std::cout << _score << std::endl;
 	return tmp;
 }
 
@@ -170,6 +178,8 @@ bool Game::checkColide(std::pair<int, int> input)
 	if (_map[tmp.first][tmp.second] == "food" || _map[tmp.first][tmp.second] == "back")
 		if (tmp.second >= 0 && tmp.second <= int(_map[tmp.first].size()) - 1)
 			return true;
+	if (_map[tmp.first][tmp.second].find("monster") != std::string::npos)
+		_playerLife -= 1;
 	if (_map[tmp.first][tmp.second] == "gate")
 	{
 		_map[_posPlayer.first][_posPlayer.second] = "back";
@@ -198,4 +208,20 @@ std::vector<std::vector<std::string>>	Game::getMap()
 std::vector<std::vector<std::string>>	Game::getGameAssets()
 {
 	return _assets;
+}
+
+std::pair<bool, int>	Game::gameEnd()
+{
+	if (_nbPacdot == _score)
+	{
+		return {false, 1};
+	}
+	if (_playerLife == 0)
+	{
+		return {false, 0};
+	}
+	else
+	{
+		return {true, 0};
+	}
 }

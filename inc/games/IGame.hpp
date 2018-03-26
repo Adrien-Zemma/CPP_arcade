@@ -22,6 +22,7 @@ public:
 	virtual std::vector<std::vector<std::string>>	getMap() = 0;
 	virtual void	setKey(std::string key) = 0;
 	virtual std::vector<std::string>	getInfos() = 0;
+	virtual std::pair<bool, int> gameEnd() = 0;
 };
 
 #endif /* !IGAME_HPP_ */

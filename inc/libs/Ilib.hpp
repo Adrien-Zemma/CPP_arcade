@@ -8,9 +8,12 @@
 #ifndef ILIB_HPP_
 	#define ILIB_HPP_
 
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
+#include <map>
+#include <dirent.h>
+#include <thread>
+#include <chrono>
 
 class ILib
 {

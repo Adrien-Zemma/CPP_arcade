@@ -49,43 +49,6 @@ std::pair<std::string, std::string>	Arcade::split(std::string str, char cut)
 	return tmp;
 }
 
-/*void	Arcade::readSet(std::ifstream file)
-{
-	std::string line;
-	while (getline(file, line) && line.find("[") == std::string::npos
-	&& line.find("]") == std::string::npos)
-	{
-		if (line.find("=") != std::string::npos)
-			_setting.insert((split(line, '=')));
-	}
-}
-
-void	Arcade::loadSet(std::ifstream file)
-{
-	std::string line;
-	while (getline(file, line))
-		if (line.find("[set]") != std::string::npos)
-			readSet(file);
-}
-
-void	Arcade::initAssets(std::string game)
-{
-	std::ifstream file(game + ".ini");
-	if (file)
-	{
-		loadSet(file);
-		file.seekg(file.beg);
-		loadSprite(file);
-		file.close();
-	}
-	else 
-	{
-		std::cerr << "no config file" << std::endl;
-		_exit_status = true;
-	}
-
-}*/
-
 void	Arcade::loadGame(std::string game)
 {
 	if (game != "")
@@ -137,7 +100,7 @@ void	Arcade::gameloop()
 {
 	std::string key = "";
 	auto	next_frame = std::chrono::steady_clock::now();
-	while(key != "echap")
+	while(key != "echap" && jeu->gameEnd().first)
 	{
 		next_frame += std::chrono::milliseconds(1000 / 15);
 		key  = lib->getEvent();

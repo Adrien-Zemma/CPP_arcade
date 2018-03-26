@@ -7,15 +7,14 @@
 
 #ifndef ARCANE_HPP_
 	#define ARCANE_HPP_
-
-#include <iostream>
-#include <dlfcn.h>
-#include <Ilib.hpp>
-#include <fstream>
-#include <string.h>
-#include <cstring>
 #include "Ilib.hpp"
 #include "IGame.hpp"
+#include <iostream>
+#include <dlfcn.h>
+#include <string.h>
+#include <cstring>
+
+
 
 
 class Arcade
