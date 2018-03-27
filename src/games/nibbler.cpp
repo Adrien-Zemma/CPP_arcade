@@ -59,29 +59,19 @@ std::vector<std::string> Nibbler::readLine(std::string line)
 
 void	Nibbler::initWall()
 {
-	std::pair<std::string, std::string> tmp;
-	tmp.first = "wall_H";
-	tmp.second = "assets/nibbler/wall_H.png";
-	_assets.insert(tmp);
-	tmp.first = "wall_V";
-	tmp.second = "assets/nibbler/wall_V.png";
-	_assets.insert(tmp);
-	tmp.first = "wall_P";
-	tmp.second = "assets/nibbler/wall_P.png";
-	_assets.insert(tmp);
-	tmp.first = "head";
-	tmp.second = "assets/nibbler/head.png";
-	_assets.insert(tmp);
-	tmp.first = "body";
-	tmp.second = "assets/nibbler/skin.png";
-	_assets.insert(tmp);
+	_assets.clear();
+	_assets.push_back(std::vector<std::string>{"wall_H", "assets/nibbler/wall_H.png", "-", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_V", "assets/nibbler/wall_V.png", "-", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_P", "assets/nibbler/wall_P.png", "-", "0"});
+	_assets.push_back(std::vector<std::string>{"head", "assets/nibbler/head.png", "-", "0"});
+	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "-", "0"});
 }
 
 void	Nibbler::initPerso()
 {
 }
 
-std::map <std::string, std::string>	Nibbler::getGameAssets()
+std::vector<std::vector<std::string>>	Nibbler::getGameAssets()
 {
 	return _assets;
 }

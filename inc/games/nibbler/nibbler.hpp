@@ -16,9 +16,12 @@ class Nibbler : public IGame
 public:
 	Nibbler();
 	~Nibbler();
-	std::map <std::string, std::string>	getGameAssets();
+	std::vector<std::vector<std::string>>	getGameAssets();
 	bool					gamePlay();
 	std::vector<std::vector<std::string>>	getMap();
+	void					setKey(std::string key);
+	std::vector<std::string>		getInfos();
+	std::pair<bool, int>			gameEnd();
 private:
 	std::vector<std::string> readLine(std::string line);
 	void	initPerso();
@@ -27,7 +30,7 @@ private:
 	std::vector<std::vector<std::string>>	_map;
 	std::pair<size_t, size_t>	_posPlayer;
 	std::vector<std::pair<size_t, size_t>> _posBonus;
-	std::map <std::string, std::string> _assets;
+	std::vector<std::vector<std::string>> _assets;
 };
 
 #endif /* !NIBBLER_HPP_ */
