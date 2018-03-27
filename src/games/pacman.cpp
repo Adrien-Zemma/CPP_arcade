@@ -212,7 +212,6 @@ std::vector<std::vector<std::string>>	Game::getMap()
 
 std::vector<std::vector<std::string>>	Game::getGameAssets()
 {
-	std::cout <<"assets load"<< std::endl;
 	_assets.clear();
 	initSetPacman();
 	initWallPacman();
@@ -220,18 +219,18 @@ std::vector<std::vector<std::string>>	Game::getGameAssets()
 	return _assets;
 }
 
-std::pair<bool, int>	Game::gameEnd()
+std::pair<bool, IGame::state>	Game::gameEnd()
 {
 	if (_nbPacdot == _score)
 	{
-		return {false, 1};
+		return {false, WIN};
 	}
 	if (_playerLife == 0)
 	{
-		return {false, 0};
+		return {false, LOOSE};
 	}
 	else
 	{
-		return {true, 0};
+		return {true, NEXT_MAP};
 	}
 }

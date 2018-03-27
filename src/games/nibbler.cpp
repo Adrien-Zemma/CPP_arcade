@@ -12,6 +12,11 @@ extern "C" IGame	*createGame()
 	return new Nibbler();
 }
 
+extern "C" void	destroyGame(IGame *jeu)
+{
+	delete jeu;
+}
+
 Nibbler::Nibbler()
 {
 	std::cout << "Oue un nibbler" << std::endl;

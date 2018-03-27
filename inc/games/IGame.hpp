@@ -16,13 +16,20 @@
 class IGame
 {
 public:
-	virtual						~IGame() = default;
-	virtual	std::vector<std::vector<std::string>>	getGameAssets() = 0;
-	virtual bool					gamePlay() = 0; //calcule une image du jeu
-	virtual std::vector<std::vector<std::string>>	getMap() = 0;
+	enum state
+	{
+		WIN,
+		LOOSE,
+		NEXT_MAP,
+	};
+	virtual	~IGame() = default;
+	virtual bool	gamePlay() = 0; //calcule une image du jeu
 	virtual void	setKey(std::string key) = 0;
+	virtual std::pair<bool, IGame::state> gameEnd() = 0;
 	virtual std::vector<std::string>	getInfos() = 0;
-	virtual std::pair<bool, int> gameEnd() = 0;
+	virtual std::vector<std::vector<std::string>>	getMap() = 0;
+	virtual	std::vector<std::vector<std::string>>	getGameAssets() = 0;
+	
 };
 
 #endif /* !IGAME_HPP_ */

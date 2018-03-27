@@ -13,7 +13,6 @@ Arcade::Arcade(std::string arg)
 {
 	_handle_game = NULL;
 	_handle_lib = NULL;
-	std::cout << arg << std::endl;
 	loadLib(arg);
 	if (_exit_status == true)
 		return ;
@@ -60,18 +59,26 @@ std::pair<std::string, std::string>	Arcade::split(std::string str, char cut)
 
 void	Arcade::loadGame(std::string game)
 {
+	std::cout << "coucou" << std::endl;
 	if (_handle_game != NULL)
 	{
 		destroyGame(jeu);
 		dlclose(_handle_game);
 	}
 	if (game != "")
+	{
+		std::cout << game << std::endl;
 		_handle_game = dlopen(std::string("./games/" + game).data(), RTLD_NOW);
+		std::cout << "dlopen fini"<< std::endl;
+	}
 	if (_handle_game != NULL)
 	{
+		std::cout << "Create game" << std::endl;
 		createGame = reinterpret_cast<IGame*(*)()>(dlsym(_handle_game, "createGame"));
+		std::cout << "destroy game" << std::endl;
 		destroyGame = reinterpret_cast<void(*)(IGame *)>(dlsym(_handle_game, "destroyGame"));
 		jeu = (*createGame)();
+		std::cout << "Create NIBBLER" << std::endl;
 	}
 	else
 	{
@@ -176,7 +183,6 @@ void	Arcade::loadNewLib(std::string key)
 		key.erase(0, 4);
 		nb += stoi(key) ;
 		std::string tmp = _available_games[nb % _available_games.size()];
-		std::cout << tmp<< std::endl;
 		initAssetsLocal(tmp);
 	}
 	std::this_thread::sleep_until(next_frame);
