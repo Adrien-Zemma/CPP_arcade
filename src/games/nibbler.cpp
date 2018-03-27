@@ -85,3 +85,8 @@ std::vector<std::vector<std::string>>	Nibbler::getMap()
 {
 	return _map;
 }
+
+std::pair<bool, int> gameEnd()
+{
+	return std::pair(true, 1);
+}
