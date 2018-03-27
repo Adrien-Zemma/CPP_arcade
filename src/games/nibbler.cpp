@@ -93,5 +93,5 @@ std::vector<std::vector<std::string>>	Nibbler::getMap()
 
 std::pair<bool, IGame::state>			gameEnd()
 {
-	return {true, WIN};
+	return {true, IGame::WIN};
 }
