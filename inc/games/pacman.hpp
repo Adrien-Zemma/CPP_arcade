@@ -16,7 +16,7 @@ public:
 	Game();
 	~Game();
 	bool	gamePlay();
-	std::pair<bool, int>	gameEnd();
+	std::pair<bool, IGame::state>	gameEnd();
 	void	setKey(std::string key);
 	std::vector<std::vector<std::string>>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
