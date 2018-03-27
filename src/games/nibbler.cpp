@@ -91,7 +91,16 @@ std::vector<std::vector<std::string>>	Nibbler::getMap()
 	return _map;
 }
 
-std::pair<bool, IGame::state>			gameEnd()
+std::pair<bool, IGame::state>			Nibbler::gameEnd()
 {
-	return {true, IGame::WIN};
+	return {true, WIN};
+}
+
+void Nibbler::setKey(std::string key)
+{
+}
+
+std::vector<std::string>	Nibbler::getInfos()
+{
+	return std::vector<std::string>({"Coucou", "Tokou il ai pede"});
 }

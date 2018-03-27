@@ -80,7 +80,7 @@ void	Arcade::loadGame(std::string game)
 	}
 	else
 	{
-		std::cout << "dleror"<< std::endl;
+		std::cout << "Can't open lib" << std::endl;
 		if (_handle_game == NULL)
 			std::cout << dlerror() << std::endl;
 		_exit_status = true;
