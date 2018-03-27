@@ -21,7 +21,7 @@ public:
 	std::vector<std::vector<std::string>>	getMap();
 	void					setKey(std::string key);
 	std::vector<std::string>		getInfos();
-	std::pair<bool, IGame::state>			gameEnd();
+	std::pair<bool, IGame::state>		gameEnd();
 private:
 	std::vector<std::string> readLine(std::string line);
 	void	initPerso();

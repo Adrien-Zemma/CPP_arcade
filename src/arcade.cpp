@@ -67,9 +67,7 @@ void	Arcade::loadGame(std::string game)
 	}
 	if (game != "")
 	{
-		std::cout << game << std::endl;
 		_handle_game = dlopen(std::string("./games/" + game).data(), RTLD_NOW);
-		std::cout << "dlopen fini"<< std::endl;
 	}
 	if (_handle_game != NULL)
 	{
@@ -82,7 +80,8 @@ void	Arcade::loadGame(std::string game)
 	}
 	else
 	{
-		if (_handle_game != NULL)
+		std::cout << "dleror"<< std::endl;
+		if (_handle_game == NULL)
 			std::cout << dlerror() << std::endl;
 		_exit_status = true;
 	}
