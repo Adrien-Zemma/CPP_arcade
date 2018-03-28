@@ -18,7 +18,7 @@ bool operator==(const std::pair<int, int>& lhs, const std::pair<size_t, size_t>&
 
 extern "C" IGame	*createGame()
 {
-	return new Game();
+	return new Pacman();
 }
 
 extern "C" void destroyGame(IGame *game)
@@ -27,7 +27,7 @@ extern "C" void destroyGame(IGame *game)
 }
 
 
-Game::Game()
+Pacman::Pacman()
 {
 	initSetPacman();
 	initWallPacman();
@@ -35,11 +35,11 @@ Game::Game()
 	createMap();
 }
 
-Game::~Game()
+Pacman::~Pacman()
 {
 }
 
-std::vector<std::string> Game::readLine(std::string line)
+std::vector<std::string> Pacman::readLine(std::string line)
 {
 	static size_t x = -1;
 	static size_t y = -1;
@@ -79,7 +79,7 @@ std::vector<std::string> Game::readLine(std::string line)
 	return tmp;
 }
 
-void	Game::initWallPacman()
+void	Pacman::initWallPacman()
 {
 	_assets.push_back(std::vector<std::string>{"wall_H","assets/pacman/wall_H.png", "-", "0"});
 	_assets.push_back(std::vector<std::string>{"wall_V","assets/pacman/wall_V.png", "|", "0"});
@@ -88,7 +88,7 @@ void	Game::initWallPacman()
 	_assets.push_back(std::vector<std::string>{"back", "assets/pacman/back.png", " ", "0"});
 }
 
-void	Game::initPersoPacman()
+void	Pacman::initPersoPacman()
 {
 	_assets.push_back(std::vector<std::string>{"perso_R", "assets/pacman/perso_R.png", "<", "0"});
 	_assets.push_back(std::vector<std::string>{"perso_L", "assets/pacman/perso_L.png", ">", "0"});
@@ -102,7 +102,7 @@ void	Game::initPersoPacman()
 	_assets.push_back(std::vector<std::string>{"monster_C", "assets/pacman/monster.png", "M", "0"});
 }
 
-void	Game::initSetPacman()
+void	Pacman::initSetPacman()
 {
 	std::pair<std::string, std::string> tmp;
 	tmp.first = "map";
@@ -110,7 +110,7 @@ void	Game::initSetPacman()
 	_setting.insert(tmp);
 }
 
-void	Game::createMap()
+void	Pacman::createMap()
 {
 	std::ifstream file;
 	file.open("assets/pacman/map.txt");
@@ -119,7 +119,7 @@ void	Game::createMap()
 		this->_map.push_back(readLine(str));
 }
 
-void Game::dumpMap()
+void Pacman::dumpMap()
 {
 	for(auto el : _map)
 	{
@@ -129,7 +129,7 @@ void Game::dumpMap()
 	}
 }
 
-std::pair<std::string, std::pair<int, int>>	Game::mouveSpritePlayer()
+std::pair<std::string, std::pair<int, int>>	Pacman::mouveSpritePlayer()
 {
 	if (_key == "left")
 		return {"perso_L",{0, -1}};
@@ -142,12 +142,12 @@ std::pair<std::string, std::pair<int, int>>	Game::mouveSpritePlayer()
 	return {"", {0, 0}};
 }
 
-void	Game::setKey(std::string key)
+void	Pacman::setKey(std::string key)
 {
 	_key = key;
 }
 
-void	Game::mouvePlayer()
+void	Pacman::mouvePlayer()
 {
 	std::pair<std::string, std::pair<int, int>> tmp;
 	tmp  = mouveSpritePlayer();
@@ -160,22 +160,22 @@ void	Game::mouvePlayer()
 	}
 }
 
-void Game::mouveEnemy()
+void Pacman::mouveEnemy()
 {
 	//for(auto el: _posEnemy)
 	{
 	}
 }
 
-std::vector<std::string>	Game::getInfos()
+std::vector<std::pair<std::string, std::string>>	Pacman::getInfos()
 {
-	std::vector<std::string> tmp;
-	tmp.push_back(std::to_string(_score));
-	tmp.push_back(std::to_string(_playerLife));
+	std::vector<std::pair<std::string, std::string>> tmp;
+	tmp.push_back({"score", std::to_string(_score)});
+	tmp.push_back({"life", std::to_string(_playerLife)});
 	return tmp;
 }
 
-bool Game::checkColide(std::pair<int, int> input)
+bool Pacman::checkColide(std::pair<int, int> input)
 {
 	std::pair<int, int>tmp = {_posPlayer.first + input.first, _posPlayer.second + input.second};
 	if (_map[tmp.first][tmp.second] == "food")
@@ -198,19 +198,19 @@ bool Game::checkColide(std::pair<int, int> input)
 	return false;
 }
 
-bool	Game::gamePlay()
+bool	Pacman::gamePlay()
 {
 	mouvePlayer();
 	mouveEnemy();
 	return true;
 }
 
-std::vector<std::vector<std::string>>	Game::getMap()
+std::vector<std::vector<std::string>>	Pacman::getMap()
 {
 	return _map;
 }
 
-std::vector<std::vector<std::string>>	Game::getGameAssets()
+std::vector<std::vector<std::string>>	Pacman::getGameAssets()
 {
 	_assets.clear();
 	initSetPacman();
@@ -219,7 +219,7 @@ std::vector<std::vector<std::string>>	Game::getGameAssets()
 	return _assets;
 }
 
-std::pair<bool, IGame::state>	Game::gameEnd()
+std::pair<bool, IGame::state>	Pacman::gameEnd()
 {
 	if (_nbPacdot == _score)
 	{

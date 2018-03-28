@@ -142,14 +142,14 @@ void	Ncurses::drawSprite(float x, float y, std::string type)
 	}
 }
 
-void	Ncurses::drawText(std::vector<std::string> text)
+void	Ncurses::drawText(std::vector<std::pair<std::string, std::string>> text)
 {
 	int x = 5;
 	int y = 3;
 	for (auto el: text)
 	{
-		mvprintw(y, x,"%s",el.data());
-		x += el.size() + 3;
+		mvprintw(y, x,"%s:\t%s",el.first.data(), el.second.data());
+		x += (el.first.size() + el.second.size() + 3);
 	}
 }
 
@@ -170,3 +170,6 @@ void	Ncurses::clear()
 {
 	wclear(stdscr);
 }
+
+void	Ncurses::drawBack()
+{}
