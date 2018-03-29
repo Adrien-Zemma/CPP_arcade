@@ -20,7 +20,7 @@ public:
 	void	makeFont();
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
-	std::string	getEvent();
+	Key	getEvent();
 	void	drawSprite(float x, float y, std::string type);
 	void	drawText(std::vector<std::string> text);
 	void	makeSprite(std::vector<std::vector<std::string>>  input);

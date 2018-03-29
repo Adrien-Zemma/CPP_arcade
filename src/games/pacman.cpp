@@ -131,18 +131,18 @@ void Game::dumpMap()
 
 std::pair<std::string, std::pair<int, int>>	Game::mouveSpritePlayer()
 {
-	if (_key == "left")
+	if (_key == ILib::LEFT)
 		return {"perso_L",{0, -1}};
-	else if (_key == "right")
+	else if (_key == ILib::RIGHT)
 		return {"perso_R", {0, 1}};
-	else if (_key == "up")
+	else if (_key == ILib::UP)
 		return {"perso_T", {-1, 0}};
-	else if (_key == "down")
+	else if (_key == ILib::DOWN)
 		return {"perso_B", {1, 0}};
 	return {"", {0, 0}};
 }
 
-void	Game::setKey(std::string key)
+void	Game::setKey(ILib::Key key)
 {
 	_key = key;
 }

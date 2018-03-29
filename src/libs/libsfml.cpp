@@ -107,29 +107,29 @@ void	Sfml::drawSprite(float x, float y, std::string type)
 		}
 }
 
-std::string Sfml::getEvent()
+ILib::Key Sfml::getEvent()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		return "left";
+		return LEFT;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		return "right";
+		return RIGHT;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		return "up";
+		return UP;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		return "down";
+		return DOWN;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		return "echap";
+		return ESCAPE;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-		return "insert";
+		return RETURN;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-		return "Lib -1";
+		return C;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
-		return "Lib +1";
+		return V;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-		return "Game -1";
+		return B;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-		return "Game +1";
-	return "";
+		return N;
+	return UNKNOW;
 }
 
 std::string	Sfml::drawGameMenu()
@@ -190,23 +190,23 @@ std::string	Sfml::drawChoise()
 {
 	static size_t index = 0;
 	static float y = 370;
-	static std::string old_key = "";
-	std::string key = getEvent();
+	static ILib::Key old_key = UNKNOW;
+	ILib::Key key = getEvent();
 	sf::Text arrow("->", _font_text, 15);
 	arrow.setPosition(150, y);
-	if (key == "up" && index > 0 && key != old_key)
+	if (key == UP && index > 0 && key != old_key)
 	{
 		arrow.setPosition(150, y -= 21);
 		index -= 1;
 	}
-	else if (key == "down" && index < _available_games.size() -1 && key != old_key)
+	else if (key == DOWN && index < _available_games.size() -1 && key != old_key)
 	{
 		arrow.setPosition(150, y += 21);
 		index += 1;
 	}
 	old_key = key;
 	_window->draw(arrow);
-	if (key == "insert")
+	if (key == RETURN)
 		return _available_games[index];
 	return "";
 }
@@ -215,7 +215,7 @@ std::string	Sfml::drawStartMenu()
 {
 	std::string tmp;
 	auto	next_frame = std::chrono::steady_clock::now();
-	while (getEvent() != "echap")
+	while (getEvent() != ESCAPE)
 	{
 		next_frame += std::chrono::milliseconds(1000 / 120);
 		_window->clear(sf::Color::Black);

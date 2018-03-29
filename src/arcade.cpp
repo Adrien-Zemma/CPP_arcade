@@ -162,25 +162,24 @@ void	Arcade::readAllDir()
 }
 
 
-void	Arcade::loadNewLib(std::string key)
+void	Arcade::loadNewLib(ILib::Key key)
 {
 	static size_t nb = 0;
 	auto	next_frame = std::chrono::steady_clock::now();
 	next_frame += std::chrono::milliseconds(1000 / 30);
-	if (key.find("Lib") != std::string::npos)
+	if ((key == ILib::C || key == ILib::V) && key != ILib::UNKNOW)
 	{
-		key.erase(0, 4);
-		nb += stoi(key);
+		nb += key;
 		std::string tmp = "./lib/" + _available_libs[nb %  _available_libs.size()];
+		std::cout << "from load new lib \t" + tmp << std::endl;
 		loadLib(tmp);
 		_assets = jeu->getGameAssets();
 		lib->makeSprite(_assets);
 		_map = jeu->getMap();
 	}
-	if (key.find("Game") != std::string::npos)
+	else if (key == ILib::B || key == ILib::N)
 	{
-		key.erase(0, 4);
-		nb += stoi(key) ;
+		nb += (key + 1);
 		std::string tmp = _available_games[nb % _available_games.size()];
 		initAssetsLocal(tmp);
 	}
@@ -191,9 +190,9 @@ void	Arcade::loadNewLib(std::string key)
 
 void	Arcade::gameloop()
 {
-	std::string key = "";
+	ILib::Key key = ILib::UNKNOW;
 	auto	next_frame = std::chrono::steady_clock::now();
-	while(key != "echap" && jeu->gameEnd().first)
+	while(key != ILib::ESCAPE && jeu->gameEnd().first)
 	{
 		next_frame += std::chrono::milliseconds(1000 / 15);
 		key  = lib->getEvent();

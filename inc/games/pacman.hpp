@@ -9,6 +9,7 @@
 	#define PACMAN_HPP_
 
 #include "IGame.hpp"
+#include "Ilib.hpp"
 
 class Game : public IGame
 {
@@ -17,7 +18,7 @@ public:
 	~Game();
 	bool	gamePlay();
 	std::pair<bool, IGame::state>	gameEnd();
-	void	setKey(std::string key);
+	void	setKey(ILib::Key key);
 	std::vector<std::vector<std::string>>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
 	std::vector<std::string>	getInfos();
@@ -35,7 +36,7 @@ private:
 	std::vector<std::string> readLine(std::string line);
 	std::vector<std::vector<std::string>>	_map;
 	std::vector<std::string>	_menu;
-	std::string	_key;
+	ILib::Key	_key;
 	std::pair<size_t, size_t>	_posPlayer;
 	std::vector<std::pair<size_t, size_t>> _posEnemy;
 	std::vector<std::vector<std::string>> _assets;

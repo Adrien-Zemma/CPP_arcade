@@ -10,8 +10,9 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "Ilib.hpp"
 #include <sys/types.h>
+#include "Ilib.hpp"
+#include "arcade.hpp"
 
 class Sfml : public ILib
 {
@@ -21,7 +22,7 @@ public:
 	void	makeFont();
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
-	std::string	getEvent();
+	Key	getEvent();
 	Sfml	createLib();
 	void	drawSprite(float x, float y, std::string type);
 	void	makeSprite(std::vector<std::vector<std::string>>);

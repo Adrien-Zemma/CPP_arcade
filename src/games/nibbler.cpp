@@ -22,10 +22,23 @@ Nibbler::Nibbler()
 	std::cout << "Oue un nibbler" << std::endl;
 	create_map();
 	initWall();
+	initCoords();
+	_key = ILib::UNKNOW;
 }
 
 Nibbler::~Nibbler()
 {
+}
+
+void	Nibbler::initCoords()
+{
+	for (size_t i = 0; i < _map.size(); i++) {
+		for (size_t j = 0; j < _map[i].size(); j++) {
+			if (_map[i][j] == "head_l" || _map[i][j] == "skin") {
+				_coords.push_back({i, j});
+			}
+		}
+	}
 }
 
 void Nibbler::create_map()
@@ -52,12 +65,12 @@ std::vector<std::string> Nibbler::readLine(std::string line)
 			tmp.push_back("wall_V");
 		else if (line[i] == '0')
 			tmp.push_back("wall_P");
-		if (line[i] == ' ')
-			tmp.push_back("void");
 		if (line[i] == 'H')
-			tmp.push_back("head");
-		if (line[i] == 'B')
-			tmp.push_back("body");
+			tmp.push_back("head_L");
+		else if (line[i] == 'S')
+			tmp.push_back("skin");
+		else if (line[i] == ' ')
+			tmp.push_back("void");
 	}
 	return tmp;
 }
@@ -66,10 +79,13 @@ void	Nibbler::initWall()
 {
 	_assets.clear();
 	_assets.push_back(std::vector<std::string>{"wall_H", "assets/nibbler/wall_H.png", "-", "0"});
-	_assets.push_back(std::vector<std::string>{"wall_V", "assets/nibbler/wall_V.png", "-", "0"});
-	_assets.push_back(std::vector<std::string>{"wall_P", "assets/nibbler/wall_P.png", "-", "0"});
-	_assets.push_back(std::vector<std::string>{"head", "assets/nibbler/head.png", "-", "0"});
-	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "-", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_V", "assets/nibbler/wall_V.png", "|", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_P", "assets/nibbler/wall_P.png", "O", "0"});
+	_assets.push_back(std::vector<std::string>{"head_D", "assets/nibbler/head_U.png", "H", "0"});
+	_assets.push_back(std::vector<std::string>{"head_R", "assets/nibbler/head_L.png", "H", "0"});
+	_assets.push_back(std::vector<std::string>{"head_U", "assets/nibbler/head_D.png", "H", "0"});
+	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_R.png", "H", "0"});
+	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "H", "0"});
 }
 
 void	Nibbler::initPerso()
@@ -83,7 +99,8 @@ std::vector<std::vector<std::string>>	Nibbler::getGameAssets()
 
 bool					Nibbler::gamePlay()
 {
-	return false;	
+	movePlayer();
+	return true;
 }
 
 std::vector<std::vector<std::string>>	Nibbler::getMap()
@@ -96,11 +113,51 @@ std::pair<bool, IGame::state>			Nibbler::gameEnd()
 	return {true, WIN};
 }
 
-void Nibbler::setKey(std::string key)
+std::pair<std::string, std::pair<int, int>>	Nibbler::mouveSpritePlayer()
 {
+	if (_key == ILib::LEFT)
+		return {"head_L",{0, -1}};
+	else if (_key == ILib::RIGHT)
+		return {"head_R", {0, 1}};
+	else if (_key == ILib::UP)
+		return {"head_U", {-1, 0}};
+	else if (_key == ILib::DOWN)
+		return {"head_D", {1, 0}};
+	return {"", {0, 0}};
+}
+
+void	Nibbler::movePlayer()
+{
+	std::pair<std::string, std::pair<int, int>>	tmp;
+	if (checkColide(_coords[0])) {
+		tmp = mouveSpritePlayer();
+		std::cout << tmp.first << " =>" << tmp.second.first << " ; " << tmp.second.second << std::endl;
+		if (tmp.first != "") {
+			std::cout << "Map[" << _coords[0].first + tmp.second.first << "][" << _coords[0].second + tmp.second.second << "]" << std::endl;
+			_map[_coords[0].first + tmp.second.first][_coords[0].second + tmp.second.second] = tmp.first;
+			_map[_coords[0].first][_coords[0].second] = "void";
+			_coords[0].first += tmp.second.first;
+			_coords[0].second += tmp.second.second;
+		}
+	}
+	/*for (size_t i = 0; i < _coords.size(); i++) {
+		if (checkColide(_coords[i])) {
+			tmp = mouveSpritePlayer();
+			_map[_coords[i].first + tmp.second.first][_coords[i].second + tmp.second.second] = tmp.first;
+		}
+	}*/
+}
+
+bool Nibbler::checkColide(std::pair<int, int> input)
+{
+	return true;
+}
+void Nibbler::setKey(ILib::Key key)
+{
+	_key = key;
 }
 
 std::vector<std::string>	Nibbler::getInfos()
 {
-	return std::vector<std::string>({"Coucou", "Tokou il ai pede"});
+	return std::vector<std::string>({"Coucou"});
 }

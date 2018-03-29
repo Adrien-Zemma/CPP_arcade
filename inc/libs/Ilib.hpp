@@ -18,11 +18,24 @@
 class ILib
 {
 public:
+	enum Key {
+		RETURN = 0,
+		C = 1,
+		V = -1,
+		B = 2,
+		N = -2,
+		UP = 3,
+		LEFT = 4,
+		RIGHT = 5,
+		DOWN = 6,
+		ESCAPE = 7,
+		UNKNOW = 42
+	};
 	virtual ~ILib() = default;
 	virtual void	makeFont() = 0;
 	virtual std::string	drawGameMenu() = 0;
 	virtual std::string	drawStartMenu() = 0;
-	virtual std::string	getEvent() = 0;
+	virtual Key	getEvent() = 0;
 	virtual void	drawSprite(float x, float y, std::string type) = 0;
 	virtual void	drawText(std::vector<std::string> text) = 0;
 	virtual void	makeSprite(std::vector<std::vector<std::string>> input) = 0;

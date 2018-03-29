@@ -15,9 +15,6 @@
 #include <string.h>
 #include <cstring>
 
-
-
-
 class Arcade
 {
 public:
@@ -39,7 +36,7 @@ private:
 	void	loadGame(std::string game);
 	void	loadSet(std::ifstream file);
 	void	readSet(std::ifstream file);
-	void	loadNewLib(std::string key);
+	void	loadNewLib(ILib::Key key);
 	void	initAssetsLocal(std::string game);
 	static	std::pair<std::string, std::string>	split(std::string str, char cut);
 	
