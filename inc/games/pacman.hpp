@@ -11,28 +11,28 @@
 #include "IGame.hpp"
 #include "Ilib.hpp"
 
-class Game : public IGame
+class Pacman : public IGame
 {
 public:
-	Game();
-	~Game();
+	Pacman();
+	~Pacman();
 	bool	gamePlay();
 	std::pair<bool, IGame::state>	gameEnd();
 	void	setKey(ILib::Key key);
 	std::vector<std::vector<std::string>>	getGameAssets();
 	std::vector<std::vector<std::string>>	getMap();
-	std::vector<std::string>	getInfos();
+	std::vector<std::pair<std::string, std::string>>	getInfos();
 private:
-	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
-	void	initSetPacman();
-	void	initPersoPacman();
-	void	initWallPacman();
-	void	mouvePlayer();
-	void	mouveEnemy();
-	bool	checkColide(std::pair<int, int>);
-	void	makesprite();
-	void	createMap();
 	void	dumpMap();
+	void	createMap();
+	void	makesprite();
+	void	mouveEnemy();
+	void	mouvePlayer();
+	void	initSetPacman();
+	void	initWallPacman();
+	void	initPersoPacman();
+	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
+	bool	checkColide(std::pair<int, int>);
 	std::vector<std::string> readLine(std::string line);
 	std::vector<std::vector<std::string>>	_map;
 	std::vector<std::string>	_menu;
@@ -43,8 +43,8 @@ private:
 	std::map <std::string, std::string> _setting;
 	std::vector<std::pair<size_t, size_t>> _gate;
 	size_t	_nbPacdot = 0;
-	size_t	_score = 0;
 	size_t	_playerLife = 3;
+	size_t	_score = 0;
 };
 
 #endif /* !PACMAN_HPP_ */

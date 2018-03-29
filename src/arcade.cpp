@@ -104,8 +104,8 @@ void	Arcade::start()
 
 void	Arcade::drawMap()
 {
-	float x = 4;
-	float y = 16;
+	float x = MAP_POS_X;
+	float y = MAP_POS_Y ;
 	for (auto el: _map)
 	{
 		for (auto it: el)
@@ -113,7 +113,7 @@ void	Arcade::drawMap()
 			x = x + 1;
 			lib->drawSprite(x, y, it);
 		}
-		x = 4;
+		x = MAP_POS_X;
 		y = y + 1;
 	}
 	lib->refresh();
@@ -202,6 +202,7 @@ void	Arcade::gameloop()
 		lib->clear();
 		jeu->gamePlay();
 		_map = jeu->getMap();
+		lib->drawBack();
 		lib->drawText(jeu->getInfos());
 		drawMap();
 		std::this_thread::sleep_until(next_frame);

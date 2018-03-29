@@ -19,29 +19,31 @@ class Sfml : public ILib
 public:
 	Sfml();
 	~Sfml();
+	void	clear();
+	void	refresh();
+	void	drawBack();
 	void	makeFont();
+	Sfml	createLib();
+	void	getContentDir();
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
 	Key	getEvent();
-	Sfml	createLib();
 	void	drawSprite(float x, float y, std::string type);
-	void	makeSprite(std::vector<std::vector<std::string>>);
-	void	refresh();
-	void	getContentDir();
-	void	clear();
 	static std::string	clearGameName(std::string line);
-	void	drawText(std::vector<std::string> text);
+	void	makeSprite(std::vector<std::vector<std::string>>);
+	void	drawText(std::vector<std::pair<std::string, std::string>> text);
 private:
 
+	
 	void	drawTitle();
-	void	drawBack();
 	std::string	drawChoise();
 	void	loadSprite(std::vector<std::string> input);
-	sf::RenderWindow	*_window;
-	std::map<std::string, std::pair<sf::Sprite *, sf::Texture *>>	_assets;
+
 	sf::Font	_font_text;
 	sf::Font	_font_title;
+	sf::RenderWindow	*_window;
 	std::vector<std::string>	_available_games;
+	std::map<std::string, std::pair<sf::Sprite *, sf::Texture *>>	_assets;
 };
 
 #endif /* !LIBSFML_HPP_ */

@@ -15,6 +15,8 @@
 #include <string.h>
 #include <cstring>
 
+#define MAP_POS_X 50
+#define MAP_POS_Y 22
 class Arcade
 {
 public:

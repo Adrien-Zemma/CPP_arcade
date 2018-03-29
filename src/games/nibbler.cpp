@@ -157,7 +157,9 @@ void Nibbler::setKey(ILib::Key key)
 	_key = key;
 }
 
-std::vector<std::string>	Nibbler::getInfos()
+std::vector<std::pair<std::string, std::string>>	Nibbler::getInfos()
 {
-	return std::vector<std::string>({"Coucou"});
+	std::vector<std::pair<std::string, std::string>> tmp;
+	tmp.push_back({"Test", "Coucou"});
+	return tmp;
 }

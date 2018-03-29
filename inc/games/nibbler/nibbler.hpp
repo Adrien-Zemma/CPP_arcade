@@ -20,7 +20,7 @@ public:
 	bool					gamePlay();
 	std::vector<std::vector<std::string>>	getMap();
 	void					setKey(ILib::Key key);
-	std::vector<std::string>		getInfos();
+	std::vector<std::pair<std::string, std::string>>	getInfos();
 	std::pair<bool, IGame::state>		gameEnd();
 private:
 	std::vector<std::string>		readLine(std::string line);

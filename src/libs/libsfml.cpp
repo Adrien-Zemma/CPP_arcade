@@ -19,7 +19,7 @@ extern "C" void	destroyLib(ILib *lib)
 
 Sfml::Sfml()
 {
-	_window = new sf::RenderWindow(sf::VideoMode(450, 800), "Arcade");
+	_window = new sf::RenderWindow(sf::VideoMode(SCREEN_X, SCREEN_Y), "Arcade");
 	_window->clear(sf::Color::Black);
 	makeFont();
 }
@@ -39,30 +39,14 @@ void	Sfml::refresh()
 	_window->display();
 }
 
-/*
-	wall horizontal
-	wall vertical
-	wall plein
-	perso right
-	perso left
-	perso top
-	perso botom
-	perso corp
-	background
-	food 
-	food special
-*/
-
-void	Sfml::drawText(std::vector<std::string> text)
+void	Sfml::drawText(std::vector<std::pair<std::string, std::string>> text)
 {
-	float x = 10;
-	float y = 50;
-	float next_x = x;
+	float x = SCREEN_X / 5 * 2;
+	float y = SCREEN_Y / 10;
 	for (auto el:text)
 	{
-		sf::Text to_display(el+"\t", _font_title, 15);
-		to_display.setPosition(next_x, y);
-		next_x = (el.size() * 15) * 2 + 1;
+		sf::Text to_display(el.first + ":\t" + el.second, _font_title, 15);
+		to_display.setPosition(x, y += 15);
 		_window->draw(to_display);
 	}
 }
@@ -173,24 +157,24 @@ void	Sfml::getContentDir()
 void	Sfml::drawTitle()
 {
 	sf::Text title("ARCADE", _font_title, 50);
-	title.setPosition(100, 100);
+	title.setPosition(SCREEN_X / 2 - 120, SCREEN_Y / 20 * 4);
 	_window->draw(title);
 }
 
 void	Sfml::drawBack()
 {
 	sf::Texture texture;
-	texture.create(600, 800);
-	texture.loadFromFile("./assets/back.png");
+	texture.create(SCREEN_X, SCREEN_Y);
+	texture.loadFromFile("./assets/back.jpg");
 	sf::Sprite sprite(texture);
 	_window->draw(sprite);
 }
 
 std::string	Sfml::drawChoise()
 {
-	static size_t index = 0;
 	static float y = 370;
 	static ILib::Key old_key = UNKNOW;
+	size_t index = 0;
 	ILib::Key key = getEvent();
 	sf::Text arrow("->", _font_text, 15);
 	arrow.setPosition(150, y);
