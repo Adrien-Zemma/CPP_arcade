@@ -140,7 +140,7 @@ void	Nibbler::movePlayer()
 			_coords[0].second += tmp.second.second;
 		}
 	}
-	/*for (size_t i = 0; i < _coords.size(); i++) {
+	/*for (int i = 0; i < _coords.size(); i++) {
 		if (checkColide(_coords[i])) {
 			tmp = mouveSpritePlayer();
 			_map[_coords[i].first + tmp.second.first][_coords[i].second + tmp.second.second] = tmp.first;

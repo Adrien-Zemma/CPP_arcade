@@ -172,9 +172,9 @@ void	Sfml::drawBack()
 
 std::string	Sfml::drawChoise()
 {
+	size_t index = 0;
 	static float y = 370;
 	static ILib::Key old_key = UNKNOW;
-	size_t index = 0;
 	ILib::Key key = getEvent();
 	sf::Text arrow("->", _font_text, 15);
 	arrow.setPosition(150, y);
