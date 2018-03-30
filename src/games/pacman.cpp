@@ -8,7 +8,7 @@
 #include "pacman.hpp"
 
 
-bool operator==(const std::pair<int, int>& lhs, const std::pair<size_t, size_t>& rhs)
+bool operator==(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs)
 {
 	std::pair<int, int> tmp = {rhs.first, rhs.second};
 	if (tmp.first == lhs.first && tmp.second == lhs.second)
@@ -41,8 +41,8 @@ Pacman::~Pacman()
 
 std::vector<std::string> Pacman::readLine(std::string line)
 {
-	static size_t x = -1;
-	static size_t y = -1;
+	static int x = -1;
+	static int y = -1;
 	std::vector<std::string> tmp;
 	y++;
 	for (size_t i = 0; i < line.size(); i++)
@@ -147,7 +147,7 @@ void	Pacman::setKey(ILib::Key key)
 	_key = key;
 }
 
-void	Pacman::mouvePlayer()
+void	Pacman::movePlayer()
 {
 	std::pair<std::string, std::pair<int, int>> tmp;
 	tmp  = mouveSpritePlayer();
@@ -160,10 +160,32 @@ void	Pacman::mouvePlayer()
 	}
 }
 
-void Pacman::mouveEnemy()
+std::pair<int, int>	Pacman::checkColideEnemy(std::pair<int, int> tmp, std::pair<int, int> pos)
 {
-	//for(auto el: _posEnemy)
+	static std::string stringOldPose = "back";
+	_map[pos.first][pos.second] = stringOldPose;
+	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos)
+		pos.first += tmp.first;
+	if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos)
+		pos.second += tmp.second;
+	stringOldPose = _map[pos.first][pos.second];
+	_map[pos.first][pos.second] = "monster_C";
+	return {pos.first, pos.second};
+}
+
+std::pair<int, int>	Pacman::moveOneEnemy(std::pair<int, int> pos)
+{
+	std::pair<int, int> tmp;
+	tmp.first = pos.first > _posPlayer.first ? -1 : 1;
+	tmp.second = pos.second > _posPlayer.second ? -1 : 1;
+	return checkColideEnemy(tmp, pos);
+}
+
+void Pacman::moveEnemy()
+{
+	for(auto el: _posEnemy)
 	{
+		el = moveOneEnemy(el);
 	}
 }
 
@@ -200,8 +222,8 @@ bool Pacman::checkColide(std::pair<int, int> input)
 
 bool	Pacman::gamePlay()
 {
-	mouvePlayer();
-	mouveEnemy();
+	movePlayer();
+	moveEnemy();
 	return true;
 }
 

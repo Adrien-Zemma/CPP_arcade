@@ -164,7 +164,7 @@ void	Arcade::readAllDir()
 
 void	Arcade::loadNewLib(ILib::Key key)
 {
-	static size_t nb = 0;
+	static int nb = 0;
 	auto	next_frame = std::chrono::steady_clock::now();
 	next_frame += std::chrono::milliseconds(1000 / 30);
 	if ((key == ILib::C || key == ILib::V) && key != ILib::UNKNOW)
