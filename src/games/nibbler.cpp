@@ -116,42 +116,46 @@ std::pair<bool, IGame::state>			Nibbler::gameEnd()
 std::pair<std::string, std::pair<int, int>>	Nibbler::mouveSpritePlayer()
 {
 	if (_key == ILib::LEFT)
-		return {"head_L",{0, -1}};
+		return {"head_R",{0, -1}};
 	else if (_key == ILib::RIGHT)
-		return {"head_R", {0, 1}};
+		return {"head_L", {0, 1}};
 	else if (_key == ILib::UP)
-		return {"head_U", {-1, 0}};
+		return {"head_D", {-1, 0}};
 	else if (_key == ILib::DOWN)
-		return {"head_D", {1, 0}};
+		return {"head_U", {1, 0}};
 	return {"", {0, 0}};
+}
+
+void Nibbler::moveChara(size_t i)
+{
+	std::pair<std::string, std::pair<int, int>>	tmp;
+
+	tmp = mouveSpritePlayer();
+	if (checkColide(_coords[i], tmp.second)) {
+		if (tmp.first != "") {
+			_map[_coords[i].first + tmp.second.first][_coords[i].second + tmp.second.second] = (i == 0 ? tmp.first : "skin");
+			_map[_coords[i].first][_coords[i].second] = "void";
+			_coords[i].first += tmp.second.first;
+			_coords[i].second += tmp.second.second;
+		}
+	}
 }
 
 void	Nibbler::movePlayer()
 {
-	std::pair<std::string, std::pair<int, int>>	tmp;
-	if (checkColide(_coords[0])) {
-		tmp = mouveSpritePlayer();
-		std::cout << tmp.first << " =>" << tmp.second.first << " ; " << tmp.second.second << std::endl;
-		if (tmp.first != "") {
-			std::cout << "Map[" << _coords[0].first + tmp.second.first << "][" << _coords[0].second + tmp.second.second << "]" << std::endl;
-			_map[_coords[0].first + tmp.second.first][_coords[0].second + tmp.second.second] = tmp.first;
-			_map[_coords[0].first][_coords[0].second] = "void";
-			_coords[0].first += tmp.second.first;
-			_coords[0].second += tmp.second.second;
-		}
+	moveChara(0);
+	for (size_t i = 0; i < _coords.size(); i++) {
+		moveChara(i);
 	}
-	/*for (size_t i = 0; i < _coords.size(); i++) {
-		if (checkColide(_coords[i])) {
-			tmp = mouveSpritePlayer();
-			_map[_coords[i].first + tmp.second.first][_coords[i].second + tmp.second.second] = tmp.first;
-		}
-	}*/
 }
 
-bool Nibbler::checkColide(std::pair<int, int> input)
+bool Nibbler::checkColide(std::pair<int, int> input, std::pair<int, int> move)
 {
+	if (_map[input.first + move.first][input.second + move.second].find("wall") != std::string::npos)
+		return false;
 	return true;
 }
+
 void Nibbler::setKey(ILib::Key key)
 {
 	_key = key;
