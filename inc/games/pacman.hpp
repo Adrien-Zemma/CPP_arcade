@@ -26,12 +26,14 @@ public:
 	std::vector<std::pair<std::string, std::string>>	getInfos();
 private:
 	void	dumpMap();
+	size_t	getTime();
 	void	createMap();
 	void	moveEnemy();
 	void	makesprite();
 	void	movePlayer();
 	void	initSetPacman();
 	void	initWallPacman();
+	void	playerGetDamage();
 	void	initPersoPacman();
 	bool	checkColide(std::pair<int, int>);
 	std::vector<std::string> readLine(std::string line);

@@ -160,6 +160,16 @@ void	Pacman::movePlayer()
 	}
 }
 
+void	Pacman::playerGetDamage()
+{
+	static size_t last_hit = getTime();
+	if (last_hit > getTime() + 3)
+	{
+		_playerLife--;
+		last_hit = getTime();
+	}
+}
+
 std::pair<int, int>	Pacman::checkColideEnemy(std::pair<int, int> tmp, std::pair<int, int> pos)
 {
 	static std::string stringOldPose = "back";
@@ -168,6 +178,8 @@ std::pair<int, int>	Pacman::checkColideEnemy(std::pair<int, int> tmp, std::pair<
 		pos.first += tmp.first;
 	if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos)
 		pos.second += tmp.second;
+	if (_map[pos.first][pos.second].find("perso") != std::string::npos)
+		playerGetDamage();
 	stringOldPose = _map[pos.first][pos.second];
 	_map[pos.first][pos.second] = "monster_C";
 	return {pos.first, pos.second};
@@ -181,11 +193,18 @@ std::pair<int, int>	Pacman::moveOneEnemy(std::pair<int, int> pos)
 	return checkColideEnemy(tmp, pos);
 }
 
-void Pacman::moveEnemy()
+size_t	Pacman::getTime()
 {
-	for(auto el: _posEnemy)
+	return (clock() / CLOCKS_PER_SEC);
+}
+
+void Pacman::moveEnemy()
+{ 
+	if (getTime() > 10)
 	{
-		el = moveOneEnemy(el);
+		int i = -1;
+		for(auto el: _posEnemy)
+			_posEnemy[++i] = moveOneEnemy(el);
 	}
 }
 
@@ -194,6 +213,7 @@ std::vector<std::pair<std::string, std::string>>	Pacman::getInfos()
 	std::vector<std::pair<std::string, std::string>> tmp;
 	tmp.push_back({"score", std::to_string(_score)});
 	tmp.push_back({"life", std::to_string(_playerLife)});
+	tmp.push_back({"temps", std::to_string(getTime())});
 	return tmp;
 }
 
@@ -206,7 +226,7 @@ bool Pacman::checkColide(std::pair<int, int> input)
 		if (tmp.second >= 0 && tmp.second <= int(_map[tmp.first].size()) - 1)
 			return true;
 	if (_map[tmp.first][tmp.second].find("monster") != std::string::npos)
-		_playerLife -= 1;
+		playerGetDamage();
 	if (_map[tmp.first][tmp.second] == "gate")
 	{
 		_map[_posPlayer.first][_posPlayer.second] = "back";

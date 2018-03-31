@@ -59,7 +59,6 @@ std::pair<std::string, std::string>	Arcade::split(std::string str, char cut)
 
 void	Arcade::loadGame(std::string game)
 {
-	std::cout << "coucou" << std::endl;
 	if (_handle_game != NULL)
 	{
 		destroyGame(jeu);
@@ -71,12 +70,9 @@ void	Arcade::loadGame(std::string game)
 	}
 	if (_handle_game != NULL)
 	{
-		std::cout << "Create game" << std::endl;
 		createGame = reinterpret_cast<IGame*(*)()>(dlsym(_handle_game, "createGame"));
-		std::cout << "destroy game" << std::endl;
 		destroyGame = reinterpret_cast<void(*)(IGame *)>(dlsym(_handle_game, "destroyGame"));
 		jeu = (*createGame)();
-		std::cout << "Create NIBBLER" << std::endl;
 	}
 	else
 	{

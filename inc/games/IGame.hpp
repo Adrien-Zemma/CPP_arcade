@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <ctime>
 #include "Ilib.hpp"
 
 class IGame
