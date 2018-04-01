@@ -33,6 +33,7 @@ private:
 	void	initSetPacman();
 	void	initWallPacman();
 	void	initPersoPacman();
+	bool	loadFunctionLib();
 	void	initAssets(std::string);
 	void	loadLib(std::string arg);
 	void	loadGame(std::string game);

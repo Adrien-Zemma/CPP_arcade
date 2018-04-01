@@ -113,6 +113,10 @@ ILib::Key Sfml::getEvent()
 		return B;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
 		return N;
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+		return G;
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
+		return H;
 	return UNKNOW;
 }
 

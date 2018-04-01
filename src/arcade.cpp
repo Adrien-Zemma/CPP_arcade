@@ -20,8 +20,22 @@ Arcade::Arcade(std::string arg)
 
 Arcade::~Arcade()
 {
-	dlclose(_handle_lib);
-	dlclose(_handle_game);
+	if (_handle_game != NULL)
+		dlclose(_handle_game);
+	if (_handle_lib != NULL)
+		dlclose(_handle_lib);
+		
+}
+
+bool	Arcade::loadFunctionLib()
+{
+	createLib = reinterpret_cast<ILib*(*)()>(dlsym(_handle_lib, "createLib"));
+	if (createLib == NULL)
+		return false;
+	destroyLib = reinterpret_cast<void(*)(ILib *)>(dlsym(_handle_lib, "destroyLib"));
+	if (destroyLib == NULL)
+		return false;
+	return true;
 }
 
 void	Arcade::loadLib(std::string arg)
@@ -34,9 +48,10 @@ void	Arcade::loadLib(std::string arg)
 	_handle_lib = dlopen(arg.data(), RTLD_NOW);
 	if (_handle_lib != NULL)
 	{
-		createLib = reinterpret_cast<ILib*(*)()>(dlsym(_handle_lib, "createLib"));
-		destroyLib = reinterpret_cast<void(*)(ILib *)>(dlsym(_handle_lib, "destroyLib"));
-		lib  = (*createLib)();
+		if (!loadFunctionLib())
+			_exit_status = true;
+		else
+			lib = (*createLib)();
 	}
 	else
 	{
@@ -85,6 +100,8 @@ void	Arcade::loadGame(std::string game)
 
 void	Arcade::initAssetsLocal(std::string game)
 {
+	if (game == "")
+		return ;
 	_assets.clear();
 	loadGame(game);
 	_assets = jeu->getGameAssets();
@@ -94,7 +111,12 @@ void	Arcade::initAssetsLocal(std::string game)
 
 void	Arcade::start()
 {
-	initAssetsLocal(lib->drawStartMenu());
+	if (_exit_status)
+		return ;
+	std::string tmp = lib->drawStartMenu();
+	if (tmp == "")
+		return ;
+	initAssetsLocal(tmp);
 	gameloop();
 }
 
@@ -161,27 +183,26 @@ void	Arcade::readAllDir()
 void	Arcade::loadNewLib(ILib::Key key)
 {
 	static int nb = 0;
-	auto	next_frame = std::chrono::steady_clock::now();
-	next_frame += std::chrono::milliseconds(1000 / 30);
+	if (key == ILib::G)
+		lib->drawStartMenu();
 	if ((key == ILib::C || key == ILib::V) && key != ILib::UNKNOW)
 	{
 		nb += key;
-		std::string tmp = "./lib/" + _available_libs[nb %  _available_libs.size()];
-		std::cout << "from load new lib \t" + tmp << std::endl;
-		loadLib(tmp);
+		loadLib("./lib/" + _available_libs[nb %  _available_libs.size()]);
 		_assets = jeu->getGameAssets();
 		lib->makeSprite(_assets);
 		_map = jeu->getMap();
 	}
-	else if (key == ILib::B || key == ILib::N)
+	else if (key == ILib::B || key == ILib::N || key == ILib::H)
 	{
-		nb += (key + 1);
-		std::string tmp = _available_games[nb % _available_games.size()];
-		initAssetsLocal(tmp);
+		if (key == ILib::H)
+			initAssetsLocal(_available_games[nb % _available_games.size()]);
+		else 
+		{
+			nb += (key + 1);
+			initAssetsLocal(_available_games[nb % _available_games.size()]);
+		}
 	}
-	std::this_thread::sleep_until(next_frame);
-	
-
 }
 
 void	Arcade::gameloop()
@@ -190,11 +211,11 @@ void	Arcade::gameloop()
 	auto	next_frame = std::chrono::steady_clock::now();
 	while(key != ILib::ESCAPE && jeu->gameEnd().first)
 	{
-		next_frame += std::chrono::milliseconds(1000 / 15);
+		next_frame += std::chrono::milliseconds(1000 / 60);
 		key  = lib->getEvent();
-		jeu->setKey(key);
 		readAllDir();
 		loadNewLib(key);
+		jeu->setKey(key);
 		lib->clear();
 		jeu->gamePlay();
 		_map = jeu->getMap();

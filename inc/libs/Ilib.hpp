@@ -25,6 +25,8 @@ public:
 		RETURN = 0,
 		C = 1,
 		V = -1,
+		G = 8,
+		H = 9,
 		B = 2,
 		N = -2,
 		UP = 3,
