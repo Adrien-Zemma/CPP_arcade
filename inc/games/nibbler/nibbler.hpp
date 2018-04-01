@@ -27,9 +27,10 @@ private:
 	void					initPerso();
 	void					initWall();
 	void					initCoords();
+	void					moveChara(size_t i);
 	void 					create_map();
 	void					movePlayer();
-	bool					checkColide(std::pair<int, int> input);
+	bool					checkColide(std::pair<int, int> input, std::pair<int, int> move);
 	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
 	std::vector<std::vector<std::string>>	_map;
 	std::vector<std::vector<std::string>>	_assets;

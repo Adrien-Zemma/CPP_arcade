@@ -176,7 +176,7 @@ void	Sfml::drawBack()
 
 std::string	Sfml::drawChoise()
 {
-	size_t index = 0;
+	static size_t index = 0;
 	static float y = 370;
 	static ILib::Key old_key = UNKNOW;
 	ILib::Key key = getEvent();
