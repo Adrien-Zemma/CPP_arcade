@@ -20,9 +20,9 @@ class IGame
 public:
 	enum state
 	{
-		WIN,
-		LOOSE,
-		NEXT_MAP,
+		WIN = 1,
+		LOOSE = 0,
+		NEXT_MAP = -1,
 	};
 	virtual	~IGame() = default;
 	virtual bool	gamePlay() = 0; //calcule une image du jeu

@@ -13,7 +13,7 @@ NCURSE_FLAGS	=	-lncurses
 SFML_SRCS	=	$(LIBS_DIR)libsfml.cpp
 SFML_OBJS	=	$(SFML_SRCS:.cpp=.o)
 SFML_NAME	=	$(LIBS_COMPIL_DIR)lib_arcade_sfml.so
-SFML_FLAGS	=	-L./lib/sfml/ -lsfml-window -lsfml-graphics 
+SFML_FLAGS	=	-L./lib/sfml/ -lsfml-window -lsfml-graphics  -lsfml-audio
 
 LDFLAGS		=	-shared
 

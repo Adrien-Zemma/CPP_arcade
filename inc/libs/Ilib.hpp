@@ -41,11 +41,12 @@ public:
 	virtual void	refresh() = 0;
 	virtual void	makeFont() = 0;
 	virtual	void	drawBack() = 0;
+	virtual Key	getEvent() = 0;
 	virtual std::string	drawGameMenu() = 0;
 	virtual std::string	drawStartMenu() = 0;
-	virtual Key	getEvent() = 0;
 	virtual void	drawSprite(float x, float y, std::string type) = 0;
 	virtual void	makeSprite(std::vector<std::vector<std::string>> input) = 0;
+	virtual void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt) = 0;
 	virtual void	drawText(std::vector<std::pair<std::string, std::string>> text) = 0;
 };
 

@@ -23,19 +23,23 @@ public:
 	void	refresh();
 	void	drawBack();
 	void	makeFont();
+	Key	getEvent();
+	void	makeMusic();
 	Sfml	createLib();
 	void	getContentDir();
+	std::string	drawNameBox();
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
-	Key	getEvent();
 	void	drawSprite(float x, float y, std::string type);
 	static std::string	clearGameName(std::string line);
 	void	makeSprite(std::vector<std::vector<std::string>>);
 	void	drawText(std::vector<std::pair<std::string, std::string>> text);
+	void	writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
+	void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 private:
 
 	
-	void	drawTitle();
+	void	drawTitle(std::string);
 	std::string	drawChoise();
 	void	loadSprite(std::vector<std::string> input);
 

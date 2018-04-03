@@ -207,9 +207,10 @@ void	Arcade::loadNewLib(ILib::Key key)
 
 void	Arcade::gameloop()
 {
+	bool status = true;
 	ILib::Key key = ILib::UNKNOW;
 	auto	next_frame = std::chrono::steady_clock::now();
-	while(key != ILib::ESCAPE && jeu->gameEnd().first)
+	while(key != ILib::ESCAPE && status)
 	{
 		next_frame += std::chrono::milliseconds(1000 / 60);
 		key  = lib->getEvent();
@@ -222,6 +223,9 @@ void	Arcade::gameloop()
 		lib->drawBack();
 		lib->drawText(jeu->getInfos());
 		drawMap();
+		status = jeu->gameEnd().first;
 		std::this_thread::sleep_until(next_frame);
 	}
+	std::string tmp = (jeu->gameEnd().second == 1) ? "WIN": "LOOSE";
+	lib->drawEndGame(jeu->getInfos(), tmp);
 }

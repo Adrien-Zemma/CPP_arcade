@@ -22,6 +22,7 @@ Sfml::Sfml()
 	_window = new sf::RenderWindow(sf::VideoMode(SCREEN_X, SCREEN_Y), "Arcade");
 	_window->clear(sf::Color::Black);
 	makeFont();
+	makeMusic();
 }
 
 Sfml::~Sfml()
@@ -29,8 +30,20 @@ Sfml::~Sfml()
 	delete _window;
 }
 
+void	Sfml::makeMusic()
+{
+	sf::Music music;
+	if (music.openFromFile("./assets/pacman/song.ogg"))
+	{
+		music.play();
+		music.setLoop(true);
+	}
+}
+
 void	Sfml::clear()
 {
+	sf::Event event;
+	while (_window->pollEvent(event));
 	_window->clear(sf::Color::Black);
 }
 
@@ -158,10 +171,10 @@ void	Sfml::getContentDir()
 		_window->draw(sf::Text("No file found", _font_title, 50));
 }
 
-void	Sfml::drawTitle()
+void	Sfml::drawTitle(std::string txt)
 {
-	sf::Text title("ARCADE", _font_title, 50);
-	title.setPosition(SCREEN_X / 2 - 120, SCREEN_Y / 20 * 4);
+	sf::Text title(txt, _font_title, 50);
+	title.setPosition(SCREEN_X / 2 - ((txt.size() / 2) * 50), SCREEN_Y / 20 * 4);
 	_window->draw(title);
 }
 
@@ -201,14 +214,16 @@ std::string	Sfml::drawChoise()
 
 std::string	Sfml::drawStartMenu()
 {
+	sf::Event event;
 	std::string tmp;
 	auto	next_frame = std::chrono::steady_clock::now();
 	while (getEvent() != ESCAPE)
 	{
+		while (_window->pollEvent(event));
 		next_frame += std::chrono::milliseconds(1000 / 120);
 		_window->clear(sf::Color::Black);
 		drawBack();
-		drawTitle();
+		drawTitle("ARCADE");
 		getContentDir();
 		tmp = drawChoise();
 		if (tmp != "")
@@ -217,4 +232,21 @@ std::string	Sfml::drawStartMenu()
 		std::this_thread::sleep_until(next_frame);
 	}
 	return "";
+}
+
+void	Sfml::writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt)
+{
+}
+
+std::string	Sfml::drawNameBox()
+{
+	return "adrien";
+}
+
+void	Sfml::drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt)
+{
+	clear();
+	drawBack();
+	drawTitle(std::string("YOU") + txt);
+	writeScore(infos, drawNameBox());
 }
