@@ -25,6 +25,8 @@ public:
 private:
 	std::vector<std::string>		readLine(std::string line);
 	void					initPerso();
+	void				moveHead();
+	void					moveBody();
 	void					initWall();
 	void					initCoords();
 	void					moveChara(size_t i);

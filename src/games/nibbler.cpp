@@ -141,12 +141,39 @@ void Nibbler::moveChara(size_t i)
 	}
 }
 
+void	Nibbler::moveHead()
+{
+	std::pair<std::string, std::pair<int, int>>	tmp;
+	tmp = mouveSpritePlayer();
+	if (checkColide(_coords[0], tmp.second)) {
+		if (tmp.first != "") {
+			_coords[0].first += tmp.second.first;
+			_coords[0].second += tmp.second.second;
+			_map[_coords[0].first][_coords[0].second] = tmp.first;
+		}
+	}
+}
+
+void	Nibbler::moveBody()
+{
+	if (!checkColide(_coords[0], mouveSpritePlayer().second) ||
+	mouveSpritePlayer().first == "")
+		return ;
+	std::pair<int, int> last_pos;
+	last_pos = _coords[_coords.size() - 1];
+	for (size_t i = 1; i < _coords.size(); i++)
+	{
+		_coords[i] = _coords[i - 1];
+		if (i == 1)
+			moveHead();
+		_map[_coords[i].first][_coords[i].second] = "skin";
+	}
+	_map[last_pos.first][last_pos.second] = "void";
+}
+
 void	Nibbler::movePlayer()
 {
-	moveChara(0);
-	for (size_t i = 0; i < _coords.size(); i++) {
-		moveChara(i);
-	}
+	moveBody();
 }
 
 bool Nibbler::checkColide(std::pair<int, int> input, std::pair<int, int> move)
