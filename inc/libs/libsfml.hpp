@@ -45,6 +45,7 @@ private:
 
 	sf::Font	_font_text;
 	sf::Font	_font_title;
+	sf::Music 	*_music;
 	sf::RenderWindow	*_window;
 	std::vector<std::string>	_available_games;
 	std::map<std::string, std::pair<sf::Sprite *, sf::Texture *>>	_assets;
