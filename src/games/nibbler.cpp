@@ -19,7 +19,6 @@ extern "C" void	destroyGame(IGame *jeu)
 
 Nibbler::Nibbler()
 {
-	std::cout << "Oue un nibbler" << std::endl;
 	create_map();
 	initWall();
 	initCoords();

@@ -27,16 +27,19 @@ Sfml::Sfml()
 
 Sfml::~Sfml()
 {
+	delete _music;
 	delete _window;
 }
 
 void	Sfml::makeMusic()
 {
-	sf::Music music;
-	if (music.openFromFile("./assets/pacman/song.ogg"))
+	_music = new sf::Music;
+	std::cout << "Try to launch" << std::endl;
+	if (_music->openFromFile("./assets/pacman/song.ogg"))
 	{
-		music.play();
-		music.setLoop(true);
+		std::cout << "Launched music" << std::endl;
+		_music->play();
+		_music->setLoop(true);
 	}
 }
 
