@@ -44,8 +44,7 @@ void	Sfml::makeMusic()
 
 void	Sfml::clear()
 {
-	sf::Event event;
-	while (_window->pollEvent(event));
+	while (_window->pollEvent(_event));
 	_window->clear(sf::Color::Black);
 }
 
@@ -106,8 +105,14 @@ void	Sfml::drawSprite(float x, float y, std::string type)
 		}
 }
 
+void	Sfml::updateEvent()
+{
+	while (_window->pollEvent(_event));
+}
+
 ILib::Key Sfml::getEvent()
 {
+	while (_window->pollEvent(_event));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		return LEFT;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -247,15 +252,51 @@ void	Sfml::writeScore(std::vector<std::pair<std::string, std::string>> infos, st
 	file.close();
 }
 
-std::string	Sfml::drawNameBox()
+sf::String	Sfml::getTextEntered(sf::String tmp)
 {
-	return "tokou";
+	clear();
+	std::cout << _event.text.unicode << std::endl;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && (tmp.getSize() > 0))
+		tmp.erase(tmp.getSize()-1, 1);
+	else
+		tmp += _event.text.unicode;
+	return  tmp;
+}
+
+void	Sfml::drawLittleText(std::string str, int pos)
+{
+	sf::Text txt;
+	txt.setString(str);
+	txt.setFont(_font_title);
+	txt.setPosition((SCREEN_X / 2) - ((str.size() * 17) / 2), pos);
+	_window->draw(txt);
+}
+
+std::string	Sfml::drawNameBox(std::string status)
+{
+	std::string str;	
+	auto	next_frame = std::chrono::steady_clock::now();
+	next_frame += std::chrono::milliseconds(1000 / 10);
+	std::this_thread::sleep_until(next_frame);
+	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)))
+	{
+		updateEvent();
+		next_frame += std::chrono::milliseconds(1000 / 14);
+		if (_event.type == sf::Event::TextEntered)
+			str = getTextEntered(str);
+		drawBack();
+		drawLittleText("enter your name :    ", SCREEN_Y / 2 - 40);
+		drawLittleText(str, SCREEN_Y / 2);
+		drawTitle(std::string("YOU ") + status);
+		_window->display();
+		std::this_thread::sleep_until(next_frame);
+	}
+	return str;
 }
 
 void	Sfml::drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt)
 {
 	clear();
 	drawBack();
-	drawTitle(std::string("YOU") + txt);
-	writeScore(infos, drawNameBox());
+	writeScore(infos, drawNameBox(txt));
 }

@@ -27,7 +27,7 @@ public:
 	void	makeMusic();
 	Sfml	createLib();
 	void	getContentDir();
-	std::string	drawNameBox();
+	std::string	drawNameBox(std::string status);
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
 	void	drawSprite(float x, float y, std::string type);
@@ -39,11 +39,16 @@ public:
 private:
 
 	
-	void	drawTitle(std::string);
+	void	updateEvent();
 	std::string	drawChoise();
+	void	drawTitle(std::string);
+	void	drawLittleText(std::string str);
+	sf::String	getTextEntered(sf::String tmp);
+	void	drawLittleText(std::string str, int pos);
 	void	loadSprite(std::vector<std::string> input);
 
 	sf::Font	_font_text;
+	sf::Event	_event;
 	sf::Font	_font_title;
 	sf::Music 	*_music;
 	sf::RenderWindow	*_window;
