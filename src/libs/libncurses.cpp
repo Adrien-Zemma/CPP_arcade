@@ -173,3 +173,6 @@ void	Ncurses::clear()
 
 void	Ncurses::drawBack()
 {}
+
+void	Ncurses::drawEndGame(std::vector<std::pair<std::string, std::string>> data, std::string txt)
+{}

@@ -36,7 +36,8 @@ void	Sfml::makeMusic()
 	_music = new sf::Music;
 	if (_music->openFromFile("./assets/pacman/song.ogg"))
 	{
-		_music->play();
+		//TODO:
+		//_music->play();
 		_music->setLoop(true);
 	}
 }

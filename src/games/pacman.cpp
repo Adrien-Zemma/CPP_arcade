@@ -242,8 +242,10 @@ bool Pacman::checkColide(std::pair<int, int> input)
 
 bool	Pacman::gamePlay()
 {
+	static int i = 0;
 	movePlayer();
-	moveEnemy();
+	if (++i % 2)
+		moveEnemy();
 	return true;
 }
 

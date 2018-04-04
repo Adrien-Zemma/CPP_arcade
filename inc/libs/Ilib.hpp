@@ -46,8 +46,8 @@ public:
 	virtual std::string	drawStartMenu() = 0;
 	virtual void	drawSprite(float x, float y, std::string type) = 0;
 	virtual void	makeSprite(std::vector<std::vector<std::string>> input) = 0;
-	virtual void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt) = 0;
 	virtual void	drawText(std::vector<std::pair<std::string, std::string>> text) = 0;
+	virtual void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt) = 0;
 };
 
 #endif /* !LIBSFML_HPP_ */

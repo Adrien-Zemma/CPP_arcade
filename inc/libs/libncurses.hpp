@@ -19,14 +19,15 @@ public:
 	~Ncurses();
 	void	clear();
 	void	refresh();
+	Key	getEvent();
 	void	makeFont();
 	void	drawBack();
 	std::string	drawGameMenu();
 	std::string	drawStartMenu();
-	Key	getEvent();
 	void	drawSprite(float x, float y, std::string type);
 	void	makeSprite(std::vector<std::vector<std::string>>  input);
 	void	drawText(std::vector<std::pair<std::string, std::string>> text);
+	void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 private:
 
 	void	getContentDir();
