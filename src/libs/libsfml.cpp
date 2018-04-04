@@ -34,10 +34,8 @@ Sfml::~Sfml()
 void	Sfml::makeMusic()
 {
 	_music = new sf::Music;
-	std::cout << "Try to launch" << std::endl;
 	if (_music->openFromFile("./assets/pacman/song.ogg"))
 	{
-		std::cout << "Launched music" << std::endl;
 		_music->play();
 		_music->setLoop(true);
 	}
