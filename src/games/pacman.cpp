@@ -213,7 +213,7 @@ std::vector<std::pair<std::string, std::string>>	Pacman::getInfos()
 	std::vector<std::pair<std::string, std::string>> tmp;
 	tmp.push_back({"score", std::to_string(_score)});
 	tmp.push_back({"life", std::to_string(_playerLife)});
-	tmp.push_back({"temps", std::to_string(getTime())});
+	tmp.push_back({"time", std::to_string(getTime())});
 	return tmp;
 }
 
@@ -244,8 +244,8 @@ bool	Pacman::gamePlay()
 {
 	static int i = 0;
 	movePlayer();
-	if (++i % 2)
-		moveEnemy();
+	//if (++i % 2)
+		//moveEnemy();
 	return true;
 }
 

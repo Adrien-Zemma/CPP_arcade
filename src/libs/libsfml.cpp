@@ -135,15 +135,10 @@ ILib::Key Sfml::getEvent()
 	return UNKNOW;
 }
 
-std::string	Sfml::drawGameMenu()
-{
-	return "nibbler";
-}
-
 std::string	Sfml::clearGameName(std::string line)
 {
 	line.erase(0, 11);
-	line.erase(line.size()-3, 3);
+	line.erase(line.size() - 3, 3);
 	return line;
 }
 
@@ -238,11 +233,23 @@ std::string	Sfml::drawStartMenu()
 
 void	Sfml::writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt)
 {
+	std::string tmp_score;
+	std::string tmp_time;
+	std::ofstream file("./scores", std::ios::app | std::ios::out);
+	for (auto el: infos)
+	{
+		if (el.first == "score")
+			tmp_score = el.second;
+		else if (el.first == "time")
+			tmp_time = el.second;
+	}	
+	file << txt + "\t" + tmp_score + "\t" + tmp_time + "\n"; 
+	file.close();
 }
 
 std::string	Sfml::drawNameBox()
 {
-	return "adrien";
+	return "tokou";
 }
 
 void	Sfml::drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt)

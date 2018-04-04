@@ -212,7 +212,7 @@ void	Arcade::gameloop()
 	auto	next_frame = std::chrono::steady_clock::now();
 	while(key != ILib::ESCAPE && status)
 	{
-		next_frame += std::chrono::milliseconds(1000 / 60);
+		next_frame += std::chrono::milliseconds(1000 / 10);
 		key  = lib->getEvent();
 		readAllDir();
 		loadNewLib(key);

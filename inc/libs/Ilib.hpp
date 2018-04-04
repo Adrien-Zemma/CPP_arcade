@@ -9,6 +9,7 @@
 	#define ILIB_HPP_
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <map>
 #include <dirent.h>
@@ -42,7 +43,6 @@ public:
 	virtual void	makeFont() = 0;
 	virtual	void	drawBack() = 0;
 	virtual Key	getEvent() = 0;
-	virtual std::string	drawGameMenu() = 0;
 	virtual std::string	drawStartMenu() = 0;
 	virtual void	drawSprite(float x, float y, std::string type) = 0;
 	virtual void	makeSprite(std::vector<std::vector<std::string>> input) = 0;
