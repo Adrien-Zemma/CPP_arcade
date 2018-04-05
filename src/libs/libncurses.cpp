@@ -150,8 +150,9 @@ ILib::Key	Ncurses::getEvent()
 
 void	Ncurses::drawSprite(float x, float y, std::string type)
 {
-	int status = 0;
+	int status = -1;
 
+	init_pair(0, COLOR_BLACK, COLOR_BLACK);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
 	init_pair(3, COLOR_YELLOW, COLOR_BLACK);
@@ -168,7 +169,7 @@ void	Ncurses::drawSprite(float x, float y, std::string type)
 	for(auto el: _assets)
 		if (el.first == type)
 			mvprintw(y - 10, x, "%s", el.second.data());
-	if(status != 0)
+	if(status != -1)
 		attroff(COLOR_PAIR(status));
 }
 

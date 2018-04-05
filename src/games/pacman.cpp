@@ -81,11 +81,11 @@ std::vector<std::string> Pacman::readLine(std::string line)
 
 void	Pacman::initWallPacman()
 {
-	_assets.push_back(std::vector<std::string>{"wall_H","assets/pacman/wall_H.png", "-", "0", "4"});
-	_assets.push_back(std::vector<std::string>{"wall_V","assets/pacman/wall_V.png", "|", "0", "4"});
-	_assets.push_back(std::vector<std::string>{"wall_P","assets/pacman/wall_P.png", "0", "0", "4"});
+	_assets.push_back(std::vector<std::string>{"wall_H","assets/pacman/wall_H.png", "-", "0", "6"});
+	_assets.push_back(std::vector<std::string>{"wall_V","assets/pacman/wall_V.png", "|", "0", "6"});
+	_assets.push_back(std::vector<std::string>{"wall_P","assets/pacman/wall_P.png", "0", "0", "6"});
 	_assets.push_back(std::vector<std::string>{"food", "assets/pacman/pacdot.png", ".", "0", "2"});
-	_assets.push_back(std::vector<std::string>{"back", "assets/pacman/back.png", " ", "0", "2"});
+	_assets.push_back(std::vector<std::string>{"back", "assets/pacman/back.png", " ", "0", "0"});
 }
 
 void	Pacman::initPersoPacman()
@@ -100,6 +100,8 @@ void	Pacman::initPersoPacman()
 	_assets.push_back(std::vector<std::string>{"monster_T", "assets/pacman/monster.png", "M", "0", "1"});
 	_assets.push_back(std::vector<std::string>{"monster_B", "assets/pacman/monster.png", "M", "0", "1"});
 	_assets.push_back(std::vector<std::string>{"monster_C", "assets/pacman/monster.png", "M", "0", "1"});
+	_assets.push_back(std::vector<std::string>{"monster_W", "assets/pacman/monster.png", "M", "0", "4"});
+
 }
 
 void	Pacman::initSetPacman()
