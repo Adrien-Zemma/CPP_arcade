@@ -22,7 +22,6 @@ public:
 	Key	getEvent();
 	void	makeFont();
 	void	drawBack();
-	std::string	drawGameMenu();
 	std::string	drawStartMenu();
 	void	drawSprite(float x, float y, std::string type);
 	void	makeSprite(std::vector<std::vector<std::string>>  input);

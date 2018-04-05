@@ -244,8 +244,8 @@ bool	Pacman::gamePlay()
 {
 	static int i = 0;
 	movePlayer();
-	//if (++i % 2)
-		//moveEnemy();
+	if (++i % 2)
+		moveEnemy();
 	return true;
 }
 

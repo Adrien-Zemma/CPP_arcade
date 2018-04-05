@@ -33,27 +33,24 @@ Ncurses::~Ncurses()
 void	Ncurses::makeFont()
 {}
 
-std::string	Ncurses::drawGameMenu()
-{
-	return "pacman";
-}
-
 std::string	Ncurses::drawChoise()
 {
 	static size_t index = 0;
 	static float y = 3;
 	static ILib::Key old_key = UNKNOW;
+
 	ILib::Key key = getEvent();
 	if (key == UP && index > 0 && key != old_key)
 	{
-		mvprintw(y, 3, "->");
+		y -= 2;
 		index -= 1;
 	}
 	else if (key == DOWN && index < _available_games.size() - 1 && key != old_key)
 	{
-		mvprintw(y, 3, "->");
+		y += 2;
 		index += 1;
 	}
+	mvprintw(y, 10, "->");
 	old_key = key;
 	if (key == RETURN)
 		return _available_games[index];
@@ -94,10 +91,12 @@ std::string	Ncurses::drawStartMenu()
 	auto	next_frame = std::chrono::steady_clock::now();
 	while (getEvent() != ESCAPE)
 	{
-		next_frame += std::chrono::milliseconds(1000 / 120);
+		clear();
+		next_frame += std::chrono::milliseconds(1000 / 10);
 		mvprintw(1, 15, "ARCADE");
 		getContentDir();
 		tmp = drawChoise();
+		refresh();
 		if (tmp != "")
 			return tmp;
 		std::this_thread::sleep_until(next_frame);
@@ -108,13 +107,14 @@ std::string	Ncurses::drawStartMenu()
 ILib::Key	Ncurses::getEvent()
 {
 	int key = wgetch(stdscr);
-	if (key == KEY_LEFT)
+	std::cerr << key << std::endl;
+	if (key == 269)
 		return LEFT;
-	else if (key == KEY_RIGHT)
+	else if (key == 261)
 		return RIGHT;
-	else if (key == KEY_UP)
+	else if (key == 259)
 		return UP;
-	else if (key == KEY_DOWN)
+	else if (key == 258)
 		return DOWN;
 	else if (key == 27)
 		return ESCAPE;
@@ -128,6 +128,10 @@ ILib::Key	Ncurses::getEvent()
 		return B;
 	else if (key == 110)
 		return N;
+	else if (key == 103)
+		return G;
+	else if (key == 104)
+		return H;
 	return UNKNOW;
 }
 
