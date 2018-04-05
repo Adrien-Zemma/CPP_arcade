@@ -19,6 +19,7 @@ extern "C" void	destroyLib(ILib *lib)
 Ncurses::Ncurses()
 {
 	initscr();
+	start_color();
 	keypad(stdscr, TRUE);
 	nodelay(stdscr, 0);
 	timeout(0);
@@ -31,7 +32,8 @@ Ncurses::~Ncurses()
 }
 
 void	Ncurses::makeFont()
-{}
+{
+}
 
 std::string	Ncurses::drawChoise()
 {
@@ -73,16 +75,28 @@ void	Ncurses::getContentDir()
 	while ( rep != NULL && (ent = readdir(rep)) != NULL)
 	{
 		std::string line(ent->d_name);
+		init_pair(6, COLOR_CYAN, COLOR_BLACK);
+		attron(COLOR_PAIR(6));
 		if (line.find("lib_arcade_") != std::string::npos && 
 			line.find(".so") != std::string::npos)
 			{
+				
 				mvprintw(y, 15, "%s", clearGameName(line).data());
 				y += 2;
 				_available_games.push_back(line);
 			}
+		attroff(COLOR_PAIR(6));
 	}
 	if (rep != NULL)
 		closedir(rep);
+}
+
+void	Ncurses::drawTitle(std::string txt)
+{
+	init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
+	attron(COLOR_PAIR(2));
+	mvprintw(1, 15, txt.data());
+	attroff(COLOR_PAIR(2));
 }
 
 std::string	Ncurses::drawStartMenu()
@@ -93,9 +107,9 @@ std::string	Ncurses::drawStartMenu()
 	{
 		clear();
 		next_frame += std::chrono::milliseconds(1000 / 10);
-		mvprintw(1, 15, "ARCADE");
-		getContentDir();
+		drawTitle("ARCADE test");
 		tmp = drawChoise();
+		getContentDir();
 		refresh();
 		if (tmp != "")
 			return tmp;
@@ -107,8 +121,7 @@ std::string	Ncurses::drawStartMenu()
 ILib::Key	Ncurses::getEvent()
 {
 	int key = wgetch(stdscr);
-	std::cerr << key << std::endl;
-	if (key == 269)
+	if (key == 260)
 		return LEFT;
 	else if (key == 261)
 		return RIGHT;
@@ -137,24 +150,35 @@ ILib::Key	Ncurses::getEvent()
 
 void	Ncurses::drawSprite(float x, float y, std::string type)
 {
-	for(auto el: _assets)
-	{
+	int status = 0;
+
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);
+	init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(4, COLOR_BLUE, COLOR_BLACK);
+	init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(6, COLOR_CYAN, COLOR_BLACK);
+	init_pair(7, COLOR_WHITE, COLOR_BLACK);
+	for (auto el: _asstesColors)
 		if (el.first == type)
 		{
-			mvprintw(y - 10, x, "%s", el.second.data());
+			attron(COLOR_PAIR(el.second));
+			status = el.second;
 		}
-	}
+	for(auto el: _assets)
+		if (el.first == type)
+			mvprintw(y - 10, x, "%s", el.second.data());
+	if(status != 0)
+		attroff(COLOR_PAIR(status));
 }
 
 void	Ncurses::drawText(std::vector<std::pair<std::string, std::string>> text)
 {
 	int x = 5;
-	int y = 3;
+	int y = 2;
 	for (auto el: text)
-	{
-		mvprintw(y, x,"%s:\t%s",el.first.data(), el.second.data());
-		x += (el.first.size() + el.second.size() + 3);
-	}
+		mvprintw(++y, x,"%s:\t%s",el.first.data(), el.second.data());
+	refresh();
 }
 
 void	Ncurses::makeSprite(std::vector<std::vector<std::string>>  input)
@@ -162,6 +186,7 @@ void	Ncurses::makeSprite(std::vector<std::vector<std::string>>  input)
 	for(auto el:input)
 	{
 		_assets.insert({el[0], el[2]});
+		_asstesColors.insert({el[0], stoi(el[4])});
 	}
 }
 
