@@ -38,6 +38,30 @@ Pacman::~Pacman()
 {
 }
 
+std::string	Pacman::readLine(char c, int x, int y)
+{
+	switch (c)
+	{
+		case '-' : return "wall_H";
+		case '|' : return "wall_V";
+		case '0' : return "wall_P";
+		case 'S' : return "food_S";
+		case ' ' :
+			_nbPacdot++;
+			return "food";
+		case 'P' :
+			_posPlayer = {y, x};
+			return "perso_R";
+		case 'M' :
+			_posEnemy.push_back({y, x});
+			return "monster_R";
+		case 'G' : 
+			_gate.push_back({y, x});
+			return "gate";
+	}
+	return "food";
+}
+
 std::vector<std::string> Pacman::readLine(std::string line)
 {
 	static int x = -1;
@@ -47,32 +71,7 @@ std::vector<std::string> Pacman::readLine(std::string line)
 	for (size_t i = 0; i < line.size(); i++)
 	{
 		x++;
-		if (line[i] == '-')
-			tmp.push_back("wall_H");
-		else if (line[i] == '|')
-			tmp.push_back("wall_V");
-		else if (line[i] == '0')
-			tmp.push_back("wall_P");
-		else if (line[i] == ' ')
-		{
-			tmp.push_back("food");
-			_nbPacdot++;
-		}
-		else if (line[i] == 'P')
-		{
-			tmp.push_back("perso_R");
-			_posPlayer = {y, x};
-		}
-		else if (line[i] == 'M')
-		{
-			tmp.push_back("monster_R");
-			_posEnemy.push_back({y, x});
-		}
-		else if (line[i] == 'G')
-		{
-			tmp.push_back("gate");
-			_gate.push_back({y, x});
-		}
+		tmp.push_back(readLine(line[i], x, y));
 	}
 	x = -1;
 	return tmp;
@@ -84,7 +83,9 @@ void	Pacman::initWallPacman()
 	_assets.push_back(std::vector<std::string>{"wall_V","assets/pacman/wall_V.png", "|", "0", "6"});
 	_assets.push_back(std::vector<std::string>{"wall_P","assets/pacman/wall_P.png", "0", "0", "6"});
 	_assets.push_back(std::vector<std::string>{"food", "assets/pacman/pacdot.png", ".", "0", "2"});
+	_assets.push_back(std::vector<std::string>{"food_S", "assets/pacman/pacdot.png", "@", "0", "5"});
 	_assets.push_back(std::vector<std::string>{"back", "assets/pacman/back.png", " ", "0", "0"});
+	_assets.push_back(std::vector<std::string>{"gate", "assets/pacman/back.png", "|", "0", "5"});
 }
 
 void	Pacman::initPersoPacman()

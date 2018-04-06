@@ -21,14 +21,15 @@ Ncurses::Ncurses()
 	initscr();
 	start_color();
 	keypad(stdscr, TRUE);
-	//nodelay(stdscr, 0);
+	nodelay(stdscr, 0);
 	timeout(0);
 	noecho();
 }
 
 Ncurses::~Ncurses()
 {
-	endwin();
+	
+	std::cerr << "end NCURSES\t"<< endwin() << std::endl;
 }
 
 void	Ncurses::makeFont()

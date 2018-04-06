@@ -36,6 +36,7 @@ private:
 	void	playerGetDamage();
 	void	initPersoPacman();
 	bool	checkColide(std::pair<int, int>);
+	std::string	readLine(char c, int x, int y);
 	std::vector<std::string> readLine(std::string line);
 	std::pair<int, int>	moveOneEnemy(std::pair<int, int> pos);
 	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
