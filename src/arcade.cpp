@@ -110,15 +110,16 @@ void	Arcade::initAssetsLocal(std::string game)
 	_map = jeu->getMap();
 }
 
-void	Arcade::start()
+int	Arcade::start()
 {
 	if (_exit_status)
-		return ;
+		return 84;
 	std::string tmp = lib->drawStartMenu();
 	if (tmp == "")
-		return ;
+		return 84;
 	initAssetsLocal(tmp);
 	gameloop();
+	return 0;
 }
 
 void	Arcade::drawMap()

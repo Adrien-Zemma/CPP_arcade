@@ -23,7 +23,7 @@ public:
 	Arcade(std::string arg);
 	Arcade();
 	~Arcade();
-	void	start();
+	int	start();
 	void	gameloop();
 private:
 	void	drawMap();

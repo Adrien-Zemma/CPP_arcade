@@ -14,7 +14,7 @@ int	main(int ac, char **av)
 	std::string(av[1]).find(".so") != std::string::npos))
 	{
 		Arcade station(av[1]);
-		station.start();
+		return station.start();
 	}
 	else
 	{
