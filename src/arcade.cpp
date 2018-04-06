@@ -221,6 +221,7 @@ void	Arcade::gameloop()
 		usleep(50000);
 		jeu->gamePlay();
 		_map = jeu->getMap();
+		lib->clear();
 		lib->drawBack();
 		lib->drawText(jeu->getInfos());
 		drawMap();
