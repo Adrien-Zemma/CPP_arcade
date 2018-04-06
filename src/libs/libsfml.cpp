@@ -247,7 +247,6 @@ void	Sfml::writeScore(std::vector<std::pair<std::string, std::string>> infos, st
 sf::String	Sfml::getTextEntered(sf::String tmp)
 {
 	clear();
-	std::cout << _event.text.unicode << std::endl;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && (tmp.getSize() > 0))
 		tmp.erase(tmp.getSize()-1, 1);
 	else
@@ -270,7 +269,6 @@ std::string	Sfml::drawNameBox(std::string status)
 	usleep(3000);
 	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)))
 	{
-		usleep(2000);
 		updateEvent();
 		if (_event.type == sf::Event::TextEntered)
 			str = getTextEntered(str);
@@ -279,6 +277,7 @@ std::string	Sfml::drawNameBox(std::string status)
 		drawLittleText(str, SCREEN_Y / 2);
 		drawTitle(std::string("YOU ") + status);
 		_window->display();
+		usleep(50000);
 	}
 	return str;
 }
