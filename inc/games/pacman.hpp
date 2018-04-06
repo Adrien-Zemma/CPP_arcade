@@ -45,6 +45,7 @@ private:
 	ILib::Key	_key;
 	size_t	_nbPacdot = 0;
 	int	_playerLife = 3;
+	size_t	_nbPacdotEat = 0;
 	std::pair<int, int>	_posPlayer;
 	std::vector<std::string>	_menu;
 	std::vector<std::pair<int, int>> _gate;

@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include "Ilib.hpp"
 #include "arcade.hpp"
+#include <unistd.h>
 
 class Sfml : public ILib
 {

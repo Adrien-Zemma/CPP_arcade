@@ -7,7 +7,6 @@
 
 #include "pacman.hpp"
 
-
 bool operator==(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs)
 {
 	std::pair<int, int> tmp = {rhs.first, rhs.second};
@@ -223,7 +222,11 @@ bool Pacman::checkColide(std::pair<int, int> input)
 {
 	std::pair<int, int>tmp = {_posPlayer.first + input.first, _posPlayer.second + input.second};
 	if (_map[tmp.first][tmp.second] == "food")
-		_score++;
+	{
+		_score += 10;
+		_nbPacdotEat++;
+
+	}
 	if (_map[tmp.first][tmp.second] == "food" || _map[tmp.first][tmp.second] == "back")
 		if (tmp.second >= 0 && tmp.second <= int(_map[tmp.first].size()) - 1)
 			return true;
@@ -246,7 +249,7 @@ bool	Pacman::gamePlay()
 {
 	static int i = 0;
 	movePlayer();
-	if (++i % 2)
+	if (++i % 3)
 		moveEnemy();
 	return true;
 }
@@ -267,16 +270,10 @@ std::vector<std::vector<std::string>>	Pacman::getGameAssets()
 
 std::pair<bool, IGame::state>	Pacman::gameEnd()
 {
-	if (_nbPacdot == _score)
-	{
+	if (_nbPacdot == _nbPacdotEat)
 		return {false, WIN};
-	}
 	if (_playerLife == 0)
-	{
 		return {false, LOOSE};
-	}
 	else
-	{
 		return {true, NEXT_MAP};
-	}
 }

@@ -8,6 +8,7 @@
 #include "arcade.hpp"
 #include <thread>
 #include <chrono>
+#include <unistd.h>
 
 Arcade::Arcade(std::string arg)
 {
@@ -209,22 +210,20 @@ void	Arcade::gameloop()
 {
 	bool status = true;
 	ILib::Key key = ILib::UNKNOW;
-	auto	next_frame = std::chrono::steady_clock::now();
 	while(key != ILib::ESCAPE && status)
 	{
-		next_frame += std::chrono::milliseconds(1000 / 10);
 		key  = lib->getEvent();
 		readAllDir();
 		loadNewLib(key);
 		jeu->setKey(key);
 		lib->clear();
+		usleep(2000);
 		jeu->gamePlay();
 		_map = jeu->getMap();
 		lib->drawBack();
 		lib->drawText(jeu->getInfos());
 		drawMap();
 		status = jeu->gameEnd().first;
-		std::this_thread::sleep_until(next_frame);
 	}
 	std::string tmp = (jeu->gameEnd().second == 1) ? "WIN": "LOOSE";
 	lib->drawEndGame(jeu->getInfos(), tmp);

@@ -113,30 +113,22 @@ void	Sfml::updateEvent()
 ILib::Key Sfml::getEvent()
 {
 	while (_window->pollEvent(_event));
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		return LEFT;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		return RIGHT;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		return UP;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		return DOWN;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		return ESCAPE;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-		return RETURN;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-		return C;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
-		return V;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-		return B;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-		return N;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
-		return G;
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
-		return H;
+	switch (_event.key.code)
+	{
+		case sf::Keyboard::V : return V;
+		case sf::Keyboard::B : return B;
+		case sf::Keyboard::N : return N;
+		case sf::Keyboard::G : return G;
+		case sf::Keyboard::H : return H;
+		case sf::Keyboard::C : return C;
+		case sf::Keyboard::Up : return UP;
+		case sf::Keyboard::Left : return LEFT;
+		case sf::Keyboard::Down : return DOWN;
+		case sf::Keyboard::Right : return RIGHT;
+		case sf::Keyboard::Escape : return ESCAPE;
+		case sf::Keyboard::Return : return RETURN;
+		default : return UNKNOW;
+	}
 	return UNKNOW;
 }
 
@@ -274,14 +266,12 @@ void	Sfml::drawLittleText(std::string str, int pos)
 
 std::string	Sfml::drawNameBox(std::string status)
 {
-	std::string str;	
-	auto	next_frame = std::chrono::steady_clock::now();
-	next_frame += std::chrono::milliseconds(1000 / 10);
-	std::this_thread::sleep_until(next_frame);
+	std::string str;
+	usleep(3000);
 	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)))
 	{
+		usleep(2000);
 		updateEvent();
-		next_frame += std::chrono::milliseconds(1000 / 14);
 		if (_event.type == sf::Event::TextEntered)
 			str = getTextEntered(str);
 		drawBack();
@@ -289,7 +279,6 @@ std::string	Sfml::drawNameBox(std::string status)
 		drawLittleText(str, SCREEN_Y / 2);
 		drawTitle(std::string("YOU ") + status);
 		_window->display();
-		std::this_thread::sleep_until(next_frame);
 	}
 	return str;
 }

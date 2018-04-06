@@ -21,7 +21,7 @@ Ncurses::Ncurses()
 	initscr();
 	start_color();
 	keypad(stdscr, TRUE);
-	nodelay(stdscr, 0);
+	//nodelay(stdscr, 0);
 	timeout(0);
 	noecho();
 }
@@ -121,37 +121,28 @@ std::string	Ncurses::drawStartMenu()
 ILib::Key	Ncurses::getEvent()
 {
 	int key = wgetch(stdscr);
-	if (key == 260)
-		return LEFT;
-	else if (key == 261)
-		return RIGHT;
-	else if (key == 259)
-		return UP;
-	else if (key == 258)
-		return DOWN;
-	else if (key == 27)
-		return ESCAPE;
-	else if (key == 10)
-		return RETURN;
-	else if (key == 99)
-		return C;
-	else if (key == 118)
-		return V;
-	else if (key == 98)
-		return B;
-	else if (key == 110)
-		return N;
-	else if (key == 103)
-		return G;
-	else if (key == 104)
-		return H;
+	switch (key)
+	{
+		case 99 : return C;
+		case 98 : return B;
+		case 110 : return N;
+		case 103 : return G;
+		case 104 : return H;
+		case 118 : return V;
+		case 259 : return UP;
+		case 260 : return LEFT;
+		case 258 : return DOWN;
+		case 261 : return RIGHT;
+		case 27 : return ESCAPE;
+		case 10 : return RETURN;
+		default : return UNKNOW;
+	}
 	return UNKNOW;
 }
 
 void	Ncurses::drawSprite(float x, float y, std::string type)
 {
 	int status = -1;
-
 	init_pair(0, COLOR_BLACK, COLOR_BLACK);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
