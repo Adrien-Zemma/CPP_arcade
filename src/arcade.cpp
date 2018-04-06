@@ -217,7 +217,7 @@ void	Arcade::gameloop()
 		loadNewLib(key);
 		jeu->setKey(key);
 		lib->clear();
-		usleep(2000);
+		usleep(50000);
 		jeu->gamePlay();
 		_map = jeu->getMap();
 		lib->drawBack();

@@ -27,6 +27,8 @@ Sfml::Sfml()
 
 Sfml::~Sfml()
 {
+	for (auto el: _assets)
+		delete el.second.first;
 	delete _music;
 	delete _window;
 }
@@ -232,6 +234,7 @@ void	Sfml::writeScore(std::vector<std::pair<std::string, std::string>> infos, st
 {
 	std::string tmp_score;
 	std::string tmp_time;
+	std::string tmp_game;
 	std::ofstream file("./scores", std::ios::app | std::ios::out);
 	for (auto el: infos)
 	{
@@ -239,15 +242,16 @@ void	Sfml::writeScore(std::vector<std::pair<std::string, std::string>> infos, st
 			tmp_score = el.second;
 		else if (el.first == "time")
 			tmp_time = el.second;
+		else if (el.first == "jeux")
+			tmp_game = el.second;
 	}	
-	file << txt + "\t" + tmp_score + "\t" + tmp_time + "\n"; 
+	file << txt + "\t" + tmp_game +"\t" + tmp_score + "\t" + tmp_time + "\n";
 	file.close();
 }
 
 sf::String	Sfml::getTextEntered(sf::String tmp)
 {
 	clear();
-	std::cout << _event.text.unicode << std::endl;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && (tmp.getSize() > 0))
 		tmp.erase(tmp.getSize()-1, 1);
 	else
@@ -266,11 +270,10 @@ void	Sfml::drawLittleText(std::string str, int pos)
 
 std::string	Sfml::drawNameBox(std::string status)
 {
-	std::string str;
 	usleep(3000);
-	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)))
+	std::string str;
+	while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 	{
-		usleep(2000);
 		updateEvent();
 		if (_event.type == sf::Event::TextEntered)
 			str = getTextEntered(str);
@@ -279,7 +282,10 @@ std::string	Sfml::drawNameBox(std::string status)
 		drawLittleText(str, SCREEN_Y / 2);
 		drawTitle(std::string("YOU ") + status);
 		_window->display();
+		usleep(50000);
 	}
+	if (str.size() <= 2)
+		drawNameBox(status);
 	return str;
 }
 

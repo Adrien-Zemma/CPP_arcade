@@ -4,3 +4,4 @@ test/*
 arcade
 *.so
 vgcore*
+scores
