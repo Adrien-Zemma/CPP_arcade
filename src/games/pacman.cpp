@@ -215,6 +215,7 @@ std::vector<std::pair<std::string, std::string>>	Pacman::getInfos()
 	tmp.push_back({"score", std::to_string(_score)});
 	tmp.push_back({"life", std::to_string(_playerLife)});
 	tmp.push_back({"time", std::to_string(getTime())});
+	tmp.push_back({"jeux", "pacman"});
 	return tmp;
 }
 

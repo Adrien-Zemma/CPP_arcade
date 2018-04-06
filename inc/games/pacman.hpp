@@ -37,8 +37,8 @@ private:
 	void	initPersoPacman();
 	bool	checkColide(std::pair<int, int>);
 	std::vector<std::string> readLine(std::string line);
-	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
 	std::pair<int, int>	moveOneEnemy(std::pair<int, int> pos);
+	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
 	std::pair<int, int>	checkColideEnemy(std::pair<int, int> tmp, std::pair<int, int> pos);
 
 	size_t	_score = 0;
