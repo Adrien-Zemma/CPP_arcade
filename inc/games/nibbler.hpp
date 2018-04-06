@@ -10,6 +10,7 @@
 
 #include "IGame.hpp"
 #include <string>
+#include <cstddef>
 
 class Nibbler : public IGame
 {
@@ -25,10 +26,11 @@ public:
 private:
 	std::vector<std::string>		readLine(std::string line);
 	void					initPerso();
-	void				moveHead();
+	std::string					moveHead();
 	void					moveBody();
 	void					initWall();
 	void					initFood();
+	std::string				readLine(char c, int x, int y);
 	void					goEat();
 	void					makeFood();
 	void					initCoords();

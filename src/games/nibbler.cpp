@@ -19,9 +19,9 @@ extern "C" void	destroyGame(IGame *jeu)
 
 Nibbler::Nibbler()
 {
+	_coords.push_back({0,0});
 	create_map();
 	initWall();
-	initCoords();
 	initFood();
 	_key = ILib::UNKNOW;
 }
@@ -32,15 +32,25 @@ Nibbler::~Nibbler()
 
 void	Nibbler::makeFood()
 {
-	size_t	x;
-	size_t	y;
-	while (_map[y = rand() % _map.size()][x = rand() % _map[0].size()] != "void");
-	_map[y][x] = "food";
+	long int rand_x;
+	long int rand_y;
+	bool status = true;
+	while (status)
+	{
+		rand_y = rand() % (_map.size() - 1);
+		rand_x = rand() % (_map[0].size() - 1);
+		if (_map[rand_y][rand_x] == "void")
+		{
+			_map[rand_y][rand_x] = "food";
+			status = false;
+		}
+	}
 }
 
 void	Nibbler::initFood()
 {
-	_nbFoods = 100;
+	_nbFoods = 50;
+	srand(clock() / CLOCKS_PER_SEC);
 	for (size_t i = 0; i < _nbFoods; i++) {
 		makeFood();
 	}
@@ -67,26 +77,40 @@ void Nibbler::create_map()
 		return ;
 	while (std::getline(file, str))
 		this->_map.push_back(readLine(str));
-	std::cout << "Loaded map" << std::endl;
+}
+
+std::string	Nibbler::readLine(char c, int x, int y)
+{
+	switch (c)
+	{
+		case '-' : return "wall_H";
+		break;
+		case '|' : return "wall_V";
+		break;
+		case '0' : return "wall_P";
+		break;
+		case 'H' : _coords[0] = {y, x};
+			return "head_L";
+		break;
+		case 'S' : _coords.push_back({y, x});
+			return "skin";
+		break;
+		case ' ' : return "void";
+		break;
+	}
+	return "";
 }
 
 std::vector<std::string> Nibbler::readLine(std::string line)
 {
+	int x = -1;
+	static int y = -1;
 	std::vector<std::string> tmp;
+	y++;
 	for (size_t i = 0; i < line.size(); i++)
 	{
-		if (line[i] == '-')
-			tmp.push_back("wall_H");
-		else if (line[i] == '|')
-			tmp.push_back("wall_V");
-		else if (line[i] == '0')
-			tmp.push_back("wall_P");
-		if (line[i] == 'H')
-			tmp.push_back("head_L");
-		else if (line[i] == 'S')
-			tmp.push_back("skin");
-		else if (line[i] == ' ')
-			tmp.push_back("void");
+		x++;
+		tmp.push_back(readLine(line[i], x, y));
 	}
 	return tmp;
 }
@@ -103,6 +127,8 @@ void	Nibbler::initWall()
 	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_R.png", "H", "0", "7"});
 	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "H", "0", "3"});
 	_assets.push_back(std::vector<std::string>{"food", "assets/nibbler/food.png", "$", "0", "2"});
+	_assets.push_back(std::vector<std::string>{"void", "assets/pacman/back.png", " ", "0", "2"});
+	_assets.push_back(std::vector<std::string>{"tail", "assets/pacman/monster.png", "o", "0", "2"});
 }
 
 void	Nibbler::initPerso()
@@ -132,15 +158,15 @@ std::pair<bool, IGame::state>			Nibbler::gameEnd()
 
 std::pair<std::string, std::pair<int, int>>	Nibbler::mouveSpritePlayer()
 {
-	if (_key == ILib::LEFT)
-		return {"head_R",{0, -1}};
-	else if (_key == ILib::RIGHT)
-		return {"head_L", {0, 1}};
-	else if (_key == ILib::UP)
-		return {"head_D", {-1, 0}};
-	else if (_key == ILib::DOWN)
-		return {"head_U", {1, 0}};
-	return {"", {0, 0}};
+	switch (_key)
+	{
+		case ILib::LEFT : return {"head_R",{0, -1}};
+		case ILib::RIGHT : return {"head_L", {0, 1}};
+		case ILib::UP : return {"head_D", {-1, 0}};
+		case ILib::DOWN : return {"head_U", {1, 0}};
+		default: return {"void", {0, 0}};
+	}
+	return {"void", {0, 0}};
 }
 
 void Nibbler::moveChara(size_t i)
@@ -151,7 +177,6 @@ void Nibbler::moveChara(size_t i)
 	if (checkColide(_coords[i], tmp.second)) {
 		if (tmp.first != "") {
 			_map[_coords[i].first + tmp.second.first][_coords[i].second + tmp.second.second] = (i == 0 ? tmp.first : "skin");
-			_map[_coords[i].first][_coords[i].second] = "void";
 			_coords[i].first += tmp.second.first;
 			_coords[i].second += tmp.second.second;
 		}
@@ -160,45 +185,62 @@ void Nibbler::moveChara(size_t i)
 
 void	Nibbler::goEat()
 {
-	if (_map[_coords[0].first][_coords[0].second] == "food") {
-		_coords.push_back({_coords[0].first + 2, _coords[0].second + 2});
-	}
+	if (_map[_coords[0].first][_coords[0].second].find("food") == std::string::npos)
+		return;
+	int y = _coords[_coords.size() - 1].first;
+	int x = _coords[_coords.size()- 1].second;
+	if (_map[y + 1][x].find("wall"))
+		_coords.push_back({y + 1, x});
+	else if (_map[y - 1][x].find("wall"))
+		_coords.push_back({y - 1, x});
+	else if (_map[y][x - 1].find("wall"))
+		_coords.push_back({y, x -1});
+	else if (_map[y][x + 1].find("wall"))
+		_coords.push_back({y, x + 1});
 }
 
-void	Nibbler::moveHead()
+std::string	Nibbler::moveHead()
 {
 	std::pair<std::string, std::pair<int, int>>	tmp;
 	tmp = mouveSpritePlayer();
 	if (checkColide(_coords[0], tmp.second)) {
-		if (tmp.first != "") {
-			goEat();
+		if (tmp.first != "void") {
 			_coords[0].first += tmp.second.first;
 			_coords[0].second += tmp.second.second;
-			_map[_coords[0].first][_coords[0].second] = tmp.first;
+			goEat();
 		}
 	}
+	return tmp.first;
 }
 
 void	Nibbler::moveBody()
 {
-	if (!checkColide(_coords[0], mouveSpritePlayer().second) ||
-	mouveSpritePlayer().first == "")
-		return ;
-	std::pair<int, int> last_pos;
-	last_pos = _coords[_coords.size() - 1];
-	for (size_t i = 1; i < _coords.size(); i++)
-	{
-		_coords[i] = _coords[i - 1];
-		if (i == 1)
-			moveHead();
-		_map[_coords[i].first][_coords[i].second] = "skin";
-	}
-	_map[last_pos.first][last_pos.second] = "void";
 }
 
 void	Nibbler::movePlayer()
 {
-	moveBody();
+	bool status = true;
+	size_t nb;
+	std::string tmp;
+
+	if (!checkColide(_coords[0], mouveSpritePlayer().second))
+	{
+		return;
+	}
+	for (size_t i = _coords.size() -1; i > 0; i--)
+	{
+		_coords[i] = _coords[i - 1];
+		if (i == 1)
+			tmp = moveHead();
+		_map[_coords[i].first][_coords[i].second] = "skin";
+	}
+	for (nb = 0; nb < _coords.size(); nb++) {
+	std::cout << nb << "\t" <<_coords[nb].first << "\t" << _coords[nb].second << std::endl;
+	}
+	std::cout << std::endl;
+	_map[_coords[0].first][_coords[0].second] = tmp;
+	_map[_coords[_coords.size() - 2].first][_coords[_coords.size() - 2].second] = "tail";
+	_map[_coords[_coords.size() - 1].first][_coords[_coords.size() - 1].second] = "void";
 }
 
 bool Nibbler::checkColide(std::pair<int, int> input, std::pair<int, int> move)
@@ -216,6 +258,10 @@ void Nibbler::setKey(ILib::Key key)
 std::vector<std::pair<std::string, std::string>>	Nibbler::getInfos()
 {
 	std::vector<std::pair<std::string, std::string>> tmp;
+
+	std::string tmp2 = std::to_string(_coords.size());
+
 	tmp.push_back({"Test", "Coucou"});
+	tmp.push_back({"size", tmp2});
 	return tmp;
 }

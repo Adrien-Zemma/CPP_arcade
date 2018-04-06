@@ -16,8 +16,8 @@
 #include <thread>
 #include <chrono>
 
-#define SCREEN_X 1920
-#define SCREEN_Y 1080
+#define SCREEN_X 1080
+#define SCREEN_Y 720
 
 class ILib
 {
