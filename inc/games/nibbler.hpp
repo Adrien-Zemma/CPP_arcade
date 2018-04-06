@@ -28,6 +28,9 @@ private:
 	void				moveHead();
 	void					moveBody();
 	void					initWall();
+	void					initFood();
+	void					goEat();
+	void					makeFood();
 	void					initCoords();
 	void					moveChara(size_t i);
 	void 					create_map();
@@ -38,6 +41,7 @@ private:
 	std::vector<std::vector<std::string>>	_assets;
 	ILib::Key				_key;
 	std::vector<std::pair<int, int>>	_coords;
+	size_t					_nbFoods;
 };
 
 #endif /* !NIBBLER_HPP_ */

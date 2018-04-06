@@ -22,11 +22,28 @@ Nibbler::Nibbler()
 	create_map();
 	initWall();
 	initCoords();
+	initFood();
 	_key = ILib::UNKNOW;
 }
 
 Nibbler::~Nibbler()
 {
+}
+
+void	Nibbler::makeFood()
+{
+	size_t	x;
+	size_t	y;
+	while (_map[y = rand() % _map.size()][x = rand() % _map[0].size()] != "void");
+	_map[y][x] = "food";
+}
+
+void	Nibbler::initFood()
+{
+	_nbFoods = 100;
+	for (size_t i = 0; i < _nbFoods; i++) {
+		makeFood();
+	}
 }
 
 void	Nibbler::initCoords()
@@ -77,14 +94,15 @@ std::vector<std::string> Nibbler::readLine(std::string line)
 void	Nibbler::initWall()
 {
 	_assets.clear();
-	_assets.push_back(std::vector<std::string>{"wall_H", "assets/nibbler/wall_H.png", "-", "0"});
-	_assets.push_back(std::vector<std::string>{"wall_V", "assets/nibbler/wall_V.png", "|", "0"});
-	_assets.push_back(std::vector<std::string>{"wall_P", "assets/nibbler/wall_P.png", "O", "0"});
-	_assets.push_back(std::vector<std::string>{"head_D", "assets/nibbler/head_U.png", "H", "0"});
-	_assets.push_back(std::vector<std::string>{"head_R", "assets/nibbler/head_L.png", "H", "0"});
-	_assets.push_back(std::vector<std::string>{"head_U", "assets/nibbler/head_D.png", "H", "0"});
-	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_R.png", "H", "0"});
-	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "H", "0"});
+	_assets.push_back(std::vector<std::string>{"wall_H", "assets/nibbler/wall_H.png", "-", "0", "4"});
+	_assets.push_back(std::vector<std::string>{"wall_V", "assets/nibbler/wall_V.png", "|", "0", "4"});
+	_assets.push_back(std::vector<std::string>{"wall_P", "assets/nibbler/wall_P.png", "O", "0", "4"});
+	_assets.push_back(std::vector<std::string>{"head_D", "assets/nibbler/head_U.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_R", "assets/nibbler/head_L.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_U", "assets/nibbler/head_D.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_R.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "H", "0", "3"});
+	_assets.push_back(std::vector<std::string>{"food", "assets/nibbler/food.png", "$", "0", "2"});
 }
 
 void	Nibbler::initPerso()
@@ -140,12 +158,20 @@ void Nibbler::moveChara(size_t i)
 	}
 }
 
+void	Nibbler::goEat()
+{
+	if (_map[_coords[0].first][_coords[0].second] == "food") {
+		_coords.push_back({_coords[0].first + 2, _coords[0].second + 2});
+	}
+}
+
 void	Nibbler::moveHead()
 {
 	std::pair<std::string, std::pair<int, int>>	tmp;
 	tmp = mouveSpritePlayer();
 	if (checkColide(_coords[0], tmp.second)) {
 		if (tmp.first != "") {
+			goEat();
 			_coords[0].first += tmp.second.first;
 			_coords[0].second += tmp.second.second;
 			_map[_coords[0].first][_coords[0].second] = tmp.first;

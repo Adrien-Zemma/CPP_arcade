@@ -2,9 +2,7 @@ GAME_DIR	=	src/games/
 GAME_COMPIL_DIR	=	games/
 GAME_FLAGS	=	-fPIC -I./inc/-W -Wall -Wextra
 
-NIBBLER_SRCS	=	$(GAME_DIR)nibbler.cpp \
-			$(GAME_DIR)snake.cpp	\
-			$(GAME_DIR)body.cpp
+NIBBLER_SRCS	=	$(GAME_DIR)nibbler.cpp
 NIBBLER_OBJS	=	$(NIBBLER_SRCS:.cpp=.o)
 NIBBLER_NAME	=	lib_arcade_nibbler.so
 
