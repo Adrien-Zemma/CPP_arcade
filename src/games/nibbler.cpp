@@ -24,6 +24,7 @@ Nibbler::Nibbler()
 	initWall();
 	initFood();
 	_key = ILib::UNKNOW;
+	_isDead = false;
 }
 
 Nibbler::~Nibbler()
@@ -49,7 +50,7 @@ void	Nibbler::makeFood()
 
 void	Nibbler::initFood()
 {
-	_nbFoods = 50;
+	_nbFoods = 150;
 	srand(clock() / CLOCKS_PER_SEC);
 	for (size_t i = 0; i < _nbFoods; i++) {
 		makeFood();
@@ -127,8 +128,6 @@ void	Nibbler::initWall()
 	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_R.png", "H", "0", "7"});
 	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "H", "0", "3"});
 	_assets.push_back(std::vector<std::string>{"food", "assets/nibbler/food.png", "$", "0", "2"});
-	_assets.push_back(std::vector<std::string>{"void", "assets/pacman/back.png", " ", "0", "2"});
-	_assets.push_back(std::vector<std::string>{"tail", "assets/pacman/monster.png", "o", "0", "2"});
 }
 
 void	Nibbler::initPerso()
@@ -142,6 +141,7 @@ std::vector<std::vector<std::string>>	Nibbler::getGameAssets()
 
 bool					Nibbler::gamePlay()
 {
+	std::cout << "Status of dead: " << _isDead << std::endl;
 	movePlayer();
 	return true;
 }
@@ -153,7 +153,7 @@ std::vector<std::vector<std::string>>	Nibbler::getMap()
 
 std::pair<bool, IGame::state>			Nibbler::gameEnd()
 {
-	return {true, WIN};
+	return {_isDead, (_isDead ? LOOSE : WIN)};
 }
 
 std::pair<std::string, std::pair<int, int>>	Nibbler::mouveSpritePlayer()
@@ -208,7 +208,7 @@ std::string	Nibbler::moveHead()
 			_coords[0].first += tmp.second.first;
 			_coords[0].second += tmp.second.second;
 			goEat();
-		}
+		}			
 	}
 	return tmp.first;
 }
@@ -231,13 +231,20 @@ void	Nibbler::movePlayer()
 			tmp = moveHead();
 		_map[_coords[i].first][_coords[i].second] = "skin";
 	}
+	if (_map[_coords[0].first][_coords[0].second] == "skin")
+		_isDead = true;
 	_map[_coords[0].first][_coords[0].second] = tmp;
-	_map[_coords[_coords.size() - 2].first][_coords[_coords.size() - 2].second] = "tail";
+	_map[_coords[_coords.size() - 2].first][_coords[_coords.size() - 2].second] = "skin";
 	_map[_coords[_coords.size() - 1].first][_coords[_coords.size() - 1].second] = "void";
 }
 
 bool Nibbler::checkColide(std::pair<int, int> input, std::pair<int, int> move)
 {
+	std::cout << "Excepted : " << _map[input.first + move.first][input.second + move.second] << std::endl;
+	if (_map[input.first + move.first][input.second + move.second] == "skin") {
+		_isDead = true;
+		return true;
+	}
 	if (_map[input.first + move.first][input.second + move.second].find("wall") != std::string::npos)
 		return false;
 	return true;

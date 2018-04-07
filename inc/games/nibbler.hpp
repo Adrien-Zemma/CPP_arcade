@@ -44,6 +44,7 @@ private:
 	ILib::Key				_key;
 	std::vector<std::pair<int, int>>	_coords;
 	size_t					_nbFoods;
+	bool					_isDead;
 };
 
 #endif /* !NIBBLER_HPP_ */
