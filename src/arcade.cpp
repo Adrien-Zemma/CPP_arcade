@@ -81,9 +81,7 @@ void	Arcade::loadGame(std::string game)
 		dlclose(_handle_game);
 	}
 	if (game != "")
-	{
 		_handle_game = dlopen(std::string("./games/" + game).data(), RTLD_NOW);
-	}
 	if (_handle_game != NULL)
 	{
 		createGame = reinterpret_cast<IGame*(*)()>(dlsym(_handle_game, "createGame"));
@@ -217,7 +215,6 @@ void	Arcade::gameloop()
 		loadNewLib(key);
 		jeu->setKey(key);
 		lib->clear();
-		usleep(50000);
 		jeu->gamePlay();
 		_map = jeu->getMap();
 		lib->clear();

@@ -46,6 +46,7 @@ void	Sfml::makeMusic()
 
 void	Sfml::clear()
 {
+	usleep(30000);
 	while (_window->pollEvent(_event));
 	_window->clear(sf::Color::Black);
 }
@@ -114,7 +115,7 @@ void	Sfml::updateEvent()
 
 ILib::Key Sfml::getEvent()
 {
-	while (_window->pollEvent(_event));
+	updateEvent();
 	switch (_event.key.code)
 	{
 		case sf::Keyboard::V : return V;
@@ -131,7 +132,6 @@ ILib::Key Sfml::getEvent()
 		case sf::Keyboard::Return : return RETURN;
 		default : return UNKNOW;
 	}
-	return UNKNOW;
 }
 
 std::string	Sfml::clearGameName(std::string line)

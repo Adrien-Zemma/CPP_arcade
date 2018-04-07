@@ -12,12 +12,13 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include <unistd.h>
 #include <dirent.h>
 #include <thread>
 #include <chrono>
 
-#define SCREEN_X 1080
-#define SCREEN_Y 720
+#define SCREEN_X 1920
+#define SCREEN_Y 1080
 
 class ILib
 {

@@ -32,7 +32,10 @@ private:
 
 	void	getContentDir();
 	std::string	drawChoise();
+	std::string	drawNameBox(std::string txt);
 	std::string	clearGameName(std::string line);
+	void	drawWithColor(std::pair<int, int> pos, std::string txt, int color);
+	void	writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 
 	WINDOW *_screen;
 	std::vector<std::string> _available_games;

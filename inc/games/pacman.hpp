@@ -35,18 +35,25 @@ private:
 	void	initWallPacman();
 	void	playerGetDamage();
 	void	initPersoPacman();
+	void	changeFoodToMonster();
+	void	changeMonsterToFood();
 	bool	checkColide(std::pair<int, int>);
+	void	superFood(std::pair<int, int> tmp);
 	std::string	readLine(char c, int x, int y);
 	std::vector<std::string> readLine(std::string line);
 	std::pair<int, int>	moveOneEnemy(std::pair<int, int> pos);
+	std::pair<int, int>	escapeOneEnemy(std::pair<int, int> pos);
 	std::pair<std::string, std::pair<int, int>>	mouveSpritePlayer();
 	std::pair<int, int>	checkColideEnemy(std::pair<int, int> tmp, std::pair<int, int> pos);
+	std::pair<int, int>	checkColideEnemyEscape(std::pair<int, int> tmp, std::pair<int, int> pos);
 
 	size_t	_score = 0;
 	ILib::Key	_key;
 	size_t	_nbPacdot = 0;
 	int	_playerLife = 3;
 	size_t	_nbPacdotEat = 0;
+	size_t	_timeFood;
+	bool	_mobStatus;
 	std::pair<int, int>	_posPlayer;
 	std::vector<std::string>	_menu;
 	std::vector<std::pair<int, int>> _gate;

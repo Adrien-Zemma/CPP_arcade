@@ -224,20 +224,13 @@ void	Nibbler::movePlayer()
 	std::string tmp;
 
 	if (!checkColide(_coords[0], mouveSpritePlayer().second))
-	{
-		return;
-	}
-	for (size_t i = _coords.size() -1; i > 0; i--)
-	{
+		return ;
+	for (size_t i = _coords.size() -1; i > 0; i--) {
 		_coords[i] = _coords[i - 1];
 		if (i == 1)
 			tmp = moveHead();
 		_map[_coords[i].first][_coords[i].second] = "skin";
 	}
-	for (nb = 0; nb < _coords.size(); nb++) {
-	std::cout << nb << "\t" <<_coords[nb].first << "\t" << _coords[nb].second << std::endl;
-	}
-	std::cout << std::endl;
 	_map[_coords[0].first][_coords[0].second] = tmp;
 	_map[_coords[_coords.size() - 2].first][_coords[_coords.size() - 2].second] = "tail";
 	_map[_coords[_coords.size() - 1].first][_coords[_coords.size() - 1].second] = "void";

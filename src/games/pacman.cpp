@@ -32,6 +32,7 @@ Pacman::Pacman()
 	initWallPacman();
 	initPersoPacman();
 	createMap();
+	_mobStatus = true;
 }
 
 Pacman::~Pacman()
@@ -83,7 +84,8 @@ void	Pacman::initWallPacman()
 	_assets.push_back(std::vector<std::string>{"wall_V","assets/pacman/wall_V.png", "|", "0", "6"});
 	_assets.push_back(std::vector<std::string>{"wall_P","assets/pacman/wall_P.png", "0", "0", "6"});
 	_assets.push_back(std::vector<std::string>{"food", "assets/pacman/pacdot.png", ".", "0", "2"});
-	_assets.push_back(std::vector<std::string>{"food_S", "assets/pacman/pacdot.png", "@", "0", "5"});
+	_assets.push_back(std::vector<std::string>{"food_S", "assets/pacman/food_S.png", "@", "0", "5"});
+	_assets.push_back(std::vector<std::string>{"food_M", "assets/pacman/food_M.png", "W", "0", "4"});
 	_assets.push_back(std::vector<std::string>{"back", "assets/pacman/back.png", " ", "0", "0"});
 	_assets.push_back(std::vector<std::string>{"gate", "assets/pacman/back.png", "|", "0", "5"});
 }
@@ -101,7 +103,6 @@ void	Pacman::initPersoPacman()
 	_assets.push_back(std::vector<std::string>{"monster_B", "assets/pacman/monster.png", "M", "0", "1"});
 	_assets.push_back(std::vector<std::string>{"monster_C", "assets/pacman/monster.png", "M", "0", "1"});
 	_assets.push_back(std::vector<std::string>{"monster_W", "assets/pacman/monster.png", "M", "0", "4"});
-
 }
 
 void	Pacman::initSetPacman()
@@ -200,11 +201,47 @@ size_t	Pacman::getTime()
 	return (clock() / CLOCKS_PER_SEC);
 }
 
+std::pair<int, int>	Pacman::checkColideEnemyEscape(std::pair<int, int> tmp, std::pair<int, int> pos)
+{
+	static std::string stringOldPose = "back";
+	_map[pos.first][pos.second] = stringOldPose;
+	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos)
+		pos.first += tmp.first;
+	if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos)
+		pos.second += tmp.second;
+	if (_map[pos.first][pos.second].find("perso") != std::string::npos)
+		playerGetDamage();
+	stringOldPose = _map[pos.first][pos.second];
+	_map[pos.first][pos.second] = "food_M";
+	return {pos.first, pos.second};
+}
+
+
+std::pair<int, int>	Pacman::escapeOneEnemy(std::pair<int, int> pos)
+{
+	_mobStatus = false;
+	std::pair<int, int> tmp;
+	_timeFood = getTime();
+	tmp.first = pos.first > _posPlayer.first ? 1 : -1;
+	tmp.second = pos.second > _posPlayer.second ? 1 : -1;
+	return checkColideEnemyEscape(tmp, pos);
+}
+
 void Pacman::moveEnemy()
-{ 
-	if (getTime() > 10)
+{
+	int i = -1;
+	if (!_mobStatus) 
 	{
-		int i = -1;
+		if (_timeFood + 3 >= getTime()) 
+		{
+			_mobStatus = true;
+			return ;
+		}
+		for(auto el: _posEnemy)
+			_posEnemy[++i] = escapeOneEnemy(el);
+	}	
+	if (_mobStatus)
+	{
 		for(auto el: _posEnemy)
 			_posEnemy[++i] = moveOneEnemy(el);
 	}
@@ -220,16 +257,45 @@ std::vector<std::pair<std::string, std::string>>	Pacman::getInfos()
 	return tmp;
 }
 
+void	Pacman::changeMonsterToFood()
+{
+	_mobStatus = false;
+	_timeFood = getTime();
+	for (auto el: _posEnemy)
+		_map[el.first][el.second] = "food_M";
+}
+
+void	Pacman::changeFoodToMonster()
+{
+	_timeFood = 0;
+	for (auto el: _posEnemy)
+		_map[el.first][el.second] = "monster";
+}
+
+void	Pacman::superFood(std::pair<int, int> tmp)
+{
+	if (_timeFood >= getTime() + 3)
+		changeFoodToMonster();
+	if (_map[tmp.first][tmp.second].find("food") != std::string::npos)
+	{
+		if (_map[tmp.first][tmp.second] == "food")
+			_score += 10;
+		else if (_map[tmp.first][tmp.second] == "food_S")
+		{
+			changeMonsterToFood();
+			_score += 100;
+		}
+		_nbPacdotEat++;
+	}
+}
+
 bool Pacman::checkColide(std::pair<int, int> input)
 {
 	std::pair<int, int>tmp = {_posPlayer.first + input.first, _posPlayer.second + input.second};
-	if (_map[tmp.first][tmp.second] == "food")
-	{
-		_score += 10;
-		_nbPacdotEat++;
-
-	}
-	if (_map[tmp.first][tmp.second] == "food" || _map[tmp.first][tmp.second] == "back")
+	
+	superFood(tmp);
+	if ((_map[tmp.first][tmp.second].find("food") != std::string::npos) 
+		|| _map[tmp.first][tmp.second] == "back")
 		if (tmp.second >= 0 && tmp.second <= int(_map[tmp.first].size()) - 1)
 			return true;
 	if (_map[tmp.first][tmp.second].find("monster") != std::string::npos)
@@ -251,7 +317,7 @@ bool	Pacman::gamePlay()
 {
 	static int i = 0;
 	movePlayer();
-	if (++i % 3)
+	if (++i % 3 && getTime() > 3)
 		moveEnemy();
 	return true;
 }

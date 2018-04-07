@@ -28,8 +28,7 @@ Ncurses::Ncurses()
 
 Ncurses::~Ncurses()
 {
-	
-	std::cerr << "end NCURSES\t"<< endwin() << std::endl;
+	std::cerr << "end NCURSES\t" << endwin() << std::endl;
 }
 
 void	Ncurses::makeFont()
@@ -190,11 +189,68 @@ void	Ncurses::refresh()
 
 void	Ncurses::clear()
 {
+	usleep(30000);
 	wclear(stdscr);
 }
 
 void	Ncurses::drawBack()
 {}
 
-void	Ncurses::drawEndGame(std::vector<std::pair<std::string, std::string>> data, std::string txt)
-{}
+void	Ncurses::drawWithColor(std::pair<int, int> pos, std::string txt, int color)
+{
+	init_pair(0, COLOR_BLACK, COLOR_BLACK);
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);
+	init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(4, COLOR_BLUE, COLOR_BLACK);
+	init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(6, COLOR_CYAN, COLOR_BLACK);
+	init_pair(7, COLOR_WHITE, COLOR_BLACK);
+	attron(COLOR_PAIR(color));
+	mvprintw(pos.first, pos.second, "%s", txt.data());
+	attroff(COLOR_PAIR(color));
+}
+
+std::string	Ncurses::drawNameBox(std::string txt)
+{
+	char key = -1;
+	std::string name;
+	while (key != 10)
+	{
+		key = wgetch(stdscr);
+		if (key == 127 && name.size() > 1)
+			name.erase(name.size() - 2, 1);
+		else if (key != -1 && key != 27 && key != 10)
+			name += key;
+		clear();
+		drawWithColor({8, 7}, "YOU " + txt, 5);
+		drawWithColor({10, 5}, "enter your name:", 7);
+		drawWithColor({12, 7}, name.data(), 6);
+	}
+	return name;
+}
+
+void	Ncurses::writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt)
+{
+	std::string tmp_score;
+	std::string tmp_time;
+	std::string tmp_game;
+	std::ofstream file("./scores", std::ios::app | std::ios::out);
+	for (auto el: infos)
+	{
+		if (el.first == "score")
+			tmp_score = el.second;
+		else if (el.first == "time")
+			tmp_time = el.second;
+		else if (el.first == "jeux")
+			tmp_game = el.second;
+	}	
+	file << txt + "\t" + tmp_game +"\t" + tmp_score + "\t" + tmp_time + "\n";
+	file.close();
+}
+
+void	Ncurses::drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt)
+{
+	clear();
+	writeScore(infos, drawNameBox(txt));
+}
