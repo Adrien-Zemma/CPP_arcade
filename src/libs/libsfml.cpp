@@ -110,7 +110,7 @@ void	Sfml::drawSprite(float x, float y, std::string type)
 
 void	Sfml::updateEvent()
 {
-	while (_window->pollEvent(_event));
+	_window->pollEvent(_event);
 }
 
 ILib::Key Sfml::getEvent()
@@ -118,9 +118,9 @@ ILib::Key Sfml::getEvent()
 	updateEvent();
 	switch (_event.key.code)
 	{
-		case sf::Keyboard::V : return V;
 		case sf::Keyboard::B : return B;
 		case sf::Keyboard::N : return N;
+		case sf::Keyboard::V : return V;
 		case sf::Keyboard::G : return G;
 		case sf::Keyboard::H : return H;
 		case sf::Keyboard::C : return C;

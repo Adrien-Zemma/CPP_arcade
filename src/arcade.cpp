@@ -108,6 +108,13 @@ void	Arcade::initAssetsLocal(std::string game)
 	_map = jeu->getMap();
 }
 
+void	Arcade::setCurentGame(std::string name)
+{
+	readGameDir();
+	for (nbOfCurentGame = 0; name != _available_games[nbOfCurentGame]; nbOfCurentGame++);
+	nbOfCurentGame--;
+}
+
 int	Arcade::start()
 {
 	if (_exit_status)
@@ -115,6 +122,7 @@ int	Arcade::start()
 	std::string tmp = lib->drawStartMenu();
 	if (tmp == "")
 		return 84;
+	setCurentGame(tmp);
 	initAssetsLocal(tmp);
 	gameloop();
 	return 0;
@@ -182,13 +190,12 @@ void	Arcade::readAllDir()
 
 void	Arcade::loadNewLib(ILib::Key key)
 {
-	static int nb = 0;
 	if (key == ILib::G)
 		lib->drawStartMenu();
 	if ((key == ILib::C || key == ILib::V) && key != ILib::UNKNOW)
 	{
-		nb += key;
-		loadLib("./lib/" + _available_libs[nb %  _available_libs.size()]);
+		nbOfCurentGame += key;
+		loadLib("./lib/" + _available_libs[nbOfCurentGame %  _available_libs.size()]);
 		_assets = jeu->getGameAssets();
 		lib->makeSprite(_assets);
 		_map = jeu->getMap();
@@ -196,14 +203,28 @@ void	Arcade::loadNewLib(ILib::Key key)
 	else if (key == ILib::B || key == ILib::N || key == ILib::H)
 	{
 		if (key == ILib::H)
-			initAssetsLocal(_available_games[nb % _available_games.size()]);
+			initAssetsLocal(_available_games[nbOfCurentGame % _available_games.size()]);
 		else 
 		{
-			nb += (key + 1);
-			initAssetsLocal(_available_games[nb % _available_games.size()]);
+			nbOfCurentGame += (key + 1);
+			initAssetsLocal(_available_games[nbOfCurentGame % _available_games.size()]);
 		}
 	}
 }
+
+ILib::Key	Arcade::noBlink(ILib::Key key)
+{
+	static ILib::Key oldKey = ILib::UNKNOW;
+	if (key == ILib::B || key == ILib::N)
+	{
+		if (oldKey == key)
+			key = ILib::UNKNOW;
+		else
+			oldKey = key;
+	}
+	return key;
+}
+	
 
 void	Arcade::gameloop()
 {
@@ -213,7 +234,7 @@ void	Arcade::gameloop()
 	{
 		key  = lib->getEvent();
 		readAllDir();
-		loadNewLib(key);
+		loadNewLib(noBlink(key));
 		jeu->setKey(key);
 		lib->clear();
 		jeu->gamePlay();

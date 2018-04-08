@@ -36,10 +36,12 @@ private:
 	bool	loadFunctionLib();
 	void	initAssets(std::string);
 	void	loadLib(std::string arg);
+	void	loadNewLib(ILib::Key key);
 	void	loadGame(std::string game);
 	void	loadSet(std::ifstream file);
 	void	readSet(std::ifstream file);
-	void	loadNewLib(ILib::Key key);
+	ILib::Key	noBlink(ILib::Key key);
+	void	setCurentGame(std::string name);
 	void	initAssetsLocal(std::string game);
 	static	std::pair<std::string, std::string>	split(std::string str, char cut);
 	
@@ -47,6 +49,7 @@ private:
 	IGame *jeu;
 	void	*_handle_lib;
 	void	*_handle_game;
+	int	nbOfCurentGame;
 	ILib	*(*createLib)();
 	IGame	*(*createGame)();
 	bool	_exit_status = false;

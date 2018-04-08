@@ -47,13 +47,14 @@ private:
 	std::pair<int, int>	checkColideEnemy(std::pair<int, int> tmp, std::pair<int, int> pos);
 	std::pair<int, int>	checkColideEnemyEscape(std::pair<int, int> tmp, std::pair<int, int> pos);
 
-	size_t	_score = 0;
-	ILib::Key	_key;
-	size_t	_nbPacdot = 0;
-	int	_playerLife = 3;
-	size_t	_nbPacdotEat = 0;
+	size_t	_score;
+	size_t _lastHit;
 	size_t	_timeFood;
+	size_t	_nbPacdot;
 	bool	_mobStatus;
+	int	_playerLife;
+	ILib::Key	_key;
+	size_t	_nbPacdotEat;
 	std::pair<int, int>	_posPlayer;
 	std::vector<std::string>	_menu;
 	std::vector<std::pair<int, int>> _gate;
