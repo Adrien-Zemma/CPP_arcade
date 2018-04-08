@@ -154,19 +154,6 @@ void	Pacman::setKey(ILib::Key key)
 	_key = key;
 }
 
-void	Pacman::movePlayer()
-{
-	std::pair<std::string, std::pair<int, int>> tmp;
-	tmp  = mouveSpritePlayer();
-	if (tmp.first != "" && checkColide(tmp.second))
-	{
-		_map[_posPlayer.first][_posPlayer.second] = "back";
-		_posPlayer.first += tmp.second.first;
-		_posPlayer.second += tmp.second.second;
-		_map[_posPlayer.first][_posPlayer.second] = tmp.first;
-	}
-}
-
 void	Pacman::playerGetDamage()
 {
 	if (_lastHit + 3 >= getTime())
@@ -180,14 +167,14 @@ std::pair<int, int>	Pacman::checkColideEnemy(std::pair<int, int> tmp, std::pair<
 {
 	static std::string stringOldPose = "back";
 	_map[pos.first][pos.second] = stringOldPose;
+	if (_map[pos.first][pos.second].find("perso") != std::string::npos)
+		playerGetDamage();
 	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos
 	&& _map[pos.first + tmp.first][pos.second].find("monster") == std::string::npos)
 		pos.first += tmp.first;
 	else if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos
 	&& _map[pos.first][pos.second + tmp.second].find("monster") == std::string::npos)
 		pos.second += tmp.second;
-	if (_map[pos.first][pos.second].find("perso") != std::string::npos)
-		playerGetDamage();
 	stringOldPose = _map[pos.first][pos.second];
 	_map[pos.first][pos.second] = "monster_C";
 	return {pos.first, pos.second};
@@ -316,11 +303,24 @@ bool Pacman::checkColide(std::pair<int, int> input)
 	return false;
 }
 
+void	Pacman::movePlayer()
+{
+	std::pair<std::string, std::pair<int, int>> tmp;
+	tmp  = mouveSpritePlayer();
+	if (tmp.first != "" && checkColide(tmp.second))
+	{
+		_map[_posPlayer.first][_posPlayer.second] = "back";
+		_posPlayer.first += tmp.second.first;
+		_posPlayer.second += tmp.second.second;
+		_map[_posPlayer.first][_posPlayer.second] = tmp.first;
+	}
+}
+
 bool	Pacman::gamePlay()
 {
 	static int i = 0;
 	movePlayer();
-	if (++i % 3 && getTime() > 3)
+	if (++i % 3 && getTime() > 10)
 		moveEnemy();
 	return true;
 }
