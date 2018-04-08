@@ -44,15 +44,15 @@ void	Nibbler::makeFood()
 		{
 			_map[rand_y][rand_x] = "food";
 			status = false;
+			_nbFoods++;
 		}
 	}
 }
 
 void	Nibbler::initFood()
 {
-	_nbFoods = 150;
 	srand(clock() / CLOCKS_PER_SEC);
-	for (size_t i = 0; i < _nbFoods; i++) {
+	for (size_t i = 0; i < 10; i++) {
 		makeFood();
 	}
 }
@@ -122,10 +122,10 @@ void	Nibbler::initWall()
 	_assets.push_back(std::vector<std::string>{"wall_H", "assets/nibbler/wall_H.png", "-", "0", "4"});
 	_assets.push_back(std::vector<std::string>{"wall_V", "assets/nibbler/wall_V.png", "|", "0", "4"});
 	_assets.push_back(std::vector<std::string>{"wall_P", "assets/nibbler/wall_P.png", "O", "0", "4"});
-	_assets.push_back(std::vector<std::string>{"head_D", "assets/nibbler/head_U.png", "H", "0", "7"});
-	_assets.push_back(std::vector<std::string>{"head_R", "assets/nibbler/head_L.png", "H", "0", "7"});
-	_assets.push_back(std::vector<std::string>{"head_U", "assets/nibbler/head_D.png", "H", "0", "7"});
-	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_R.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_U", "assets/nibbler/head_U.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_L", "assets/nibbler/head_L.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_D", "assets/nibbler/head_D.png", "H", "0", "7"});
+	_assets.push_back(std::vector<std::string>{"head_R", "assets/nibbler/head_R.png", "H", "0", "7"});
 	_assets.push_back(std::vector<std::string>{"skin", "assets/nibbler/skin.png", "H", "0", "3"});
 	_assets.push_back(std::vector<std::string>{"food", "assets/nibbler/food.png", "$", "0", "2"});
 }
@@ -143,6 +143,9 @@ bool					Nibbler::gamePlay()
 {
 	std::cout << "Status of dead: " << _isDead << std::endl;
 	movePlayer();
+	if (_nbFoods <= 3)
+		while (_nbFoods != 10)
+			makeFood();
 	return true;
 }
 
@@ -187,8 +190,9 @@ void	Nibbler::goEat()
 {
 	if (_map[_coords[0].first][_coords[0].second].find("food") == std::string::npos)
 		return;
+	_nbFoods--;
 	int y = _coords[_coords.size() - 1].first;
-	int x = _coords[_coords.size()- 1].second;
+	int x = _coords[_coords.size() - 1].second;
 	if (_map[y + 1][x].find("wall"))
 		_coords.push_back({y + 1, x});
 	else if (_map[y - 1][x].find("wall"))
@@ -260,8 +264,7 @@ std::vector<std::pair<std::string, std::string>>	Nibbler::getInfos()
 	std::vector<std::pair<std::string, std::string>> tmp;
 
 	std::string tmp2 = std::to_string(_coords.size());
-
-	tmp.push_back({"Test", "Coucou"});
+	tmp.push_back({"Number of food", std::to_string(_nbFoods)});
 	tmp.push_back({"size", tmp2});
 	return tmp;
 }
