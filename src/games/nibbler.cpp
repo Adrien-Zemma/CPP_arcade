@@ -141,7 +141,6 @@ std::vector<std::vector<std::string>>	Nibbler::getGameAssets()
 
 bool					Nibbler::gamePlay()
 {
-	std::cout << "Status of dead: " << _isDead << std::endl;
 	movePlayer();
 	if (_nbFoods <= 3)
 		while (_nbFoods != 10)
@@ -242,7 +241,6 @@ void	Nibbler::movePlayer()
 
 bool Nibbler::checkColide(std::pair<int, int> input, std::pair<int, int> move)
 {
-	std::cout << "Excepted : " << _map[input.first + move.first][input.second + move.second] << std::endl;
 	if (_map[input.first + move.first][input.second + move.second] == "skin") {
 		_isDead = true;
 		return true;
