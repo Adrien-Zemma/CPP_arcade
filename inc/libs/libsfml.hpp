@@ -22,31 +22,29 @@ public:
 	~Sfml();
 	void	clear();
 	void	refresh();
-	void	drawBack();
 	void	makeFont();
+	void	drawBack();
 	Key	getEvent();
-	void	makeMusic();
 	Sfml	createLib();
-	void	getContentDir();
-	std::string	drawNameBox(std::string status);
-	std::string	drawGameMenu();
 	std::string	drawStartMenu();
 	void	drawSprite(float x, float y, std::string type);
 	static std::string	clearGameName(std::string line);
-	void	makeSprite(std::vector<std::vector<std::string>>);
+	void	makeSprite(std::vector<std::vector<std::string>> input);
 	void	drawText(std::vector<std::pair<std::string, std::string>> text);
-	void	writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 	void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 private:
 	
 	void	updateEvent();
+	void	getContentDir();
 	std::string	drawChoise();
 	void	drawTitle(std::string);
 	void	drawLittleText(std::string str);
 	std::string 	keyToString(ILib::Key key)	;
 	sf::String	getTextEntered(sf::String tmp);
+	std::string	drawNameBox(std::string status);
 	void	drawLittleText(std::string str, int pos);
 	void	loadSprite(std::vector<std::string> input);
+	void	writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 
 	sf::Event	_event;
 	sf::Music 	*_music;

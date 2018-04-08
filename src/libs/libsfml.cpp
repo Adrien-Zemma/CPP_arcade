@@ -22,7 +22,6 @@ Sfml::Sfml()
 	_window = new sf::RenderWindow(sf::VideoMode(SCREEN_X, SCREEN_Y), "Arcade");
 	_window->clear(sf::Color::Black);
 	makeFont();
-	makeMusic();
 }
 
 Sfml::~Sfml()
@@ -31,17 +30,6 @@ Sfml::~Sfml()
 		delete el.second.first;
 	delete _music;
 	delete _window;
-}
-
-void	Sfml::makeMusic()
-{
-	_music = new sf::Music;
-	if (_music->openFromFile("./assets/pacman/song.ogg"))
-	{
-		//TODO:
-		//_music->play();
-		_music->setLoop(true);
-	}
 }
 
 void	Sfml::clear()
