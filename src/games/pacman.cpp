@@ -34,6 +34,8 @@ Pacman::Pacman()
 	_playerLife = 3;
 	_nbPacdotEat = 0;
 	_mobStatus = true;
+	_gate.push_back({10, 1});
+	_gate.push_back({10, 19});
 	initSetPacman();
 	initWallPacman();
 	initPersoPacman();
@@ -61,9 +63,7 @@ std::string	Pacman::readLine(char c, int x, int y)
 		case 'M' :
 			_posEnemy.push_back({y, x});
 			return "monster_R";
-		case 'G' : 
-			_gate.push_back({y, x});
-			return "gate";
+		case 'G': return "gate";
 	}
 	return "food";
 }
@@ -290,14 +290,14 @@ bool Pacman::checkColide(std::pair<int, int> input)
 			return true;
 	if (_map[tmp.first][tmp.second].find("monster") != std::string::npos)
 		playerGetDamage();
-	if (_map[tmp.first][tmp.second] == "gate")
+	if (_map[tmp.first][tmp.second] == "gate"
+	|| _map[_posPlayer.first][_posPlayer.second] == "gate")
 	{
 		_map[_posPlayer.first][_posPlayer.second] = "back";
-		if (tmp == _gate[0])
+		if (_posPlayer.first == _gate[0].first && _posPlayer.second - 1 == _gate[0].second)
 			_posPlayer = _gate[1];
-		if (tmp == _gate[1])
+		else if (_posPlayer.first == _gate[1].first && _posPlayer.second + 1 == _gate[1].second)
 			_posPlayer = _gate[0];
-		_map[_posPlayer.first][_posPlayer.second] = "back";
 		return false;
 	}
 	return false;

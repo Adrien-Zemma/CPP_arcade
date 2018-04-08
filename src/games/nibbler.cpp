@@ -20,6 +20,7 @@ extern "C" void	destroyGame(IGame *jeu)
 Nibbler::Nibbler()
 {
 	_coords.push_back({0,0});
+	_nbFoods = 0;
 	create_map();
 	initWall();
 	initFood();
