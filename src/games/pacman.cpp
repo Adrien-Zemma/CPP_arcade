@@ -28,11 +28,16 @@ extern "C" void destroyGame(IGame *game)
 
 Pacman::Pacman()
 {
+	_score = 0;
+	_lastHit = 0;
+	_nbPacdot = 0;
+	_playerLife = 3;
+	_nbPacdotEat = 0;
+	_mobStatus = true;
 	initSetPacman();
 	initWallPacman();
 	initPersoPacman();
 	createMap();
-	_mobStatus = true;
 }
 
 Pacman::~Pacman()
@@ -134,15 +139,14 @@ void Pacman::dumpMap()
 
 std::pair<std::string, std::pair<int, int>>	Pacman::mouveSpritePlayer()
 {
-	if (_key == ILib::LEFT)
-		return {"perso_L",{0, -1}};
-	else if (_key == ILib::RIGHT)
-		return {"perso_R", {0, 1}};
-	else if (_key == ILib::UP)
-		return {"perso_T", {-1, 0}};
-	else if (_key == ILib::DOWN)
-		return {"perso_B", {1, 0}};
-	return {"", {0, 0}};
+	switch (_key)
+	{
+		case ILib::LEFT: return  {"perso_L",{0, -1}};
+		case ILib::RIGHT : return {"perso_R", {0, 1}};
+		case ILib::UP : return {"perso_T", {-1, 0}};
+		case ILib::DOWN : return {"perso_B", {1, 0}};
+		default : return {"", {0, 0}};
+	}
 }
 
 void	Pacman::setKey(ILib::Key key)
@@ -165,11 +169,10 @@ void	Pacman::movePlayer()
 
 void	Pacman::playerGetDamage()
 {
-	static size_t last_hit = getTime();
-	if (last_hit > getTime() + 3)
+	if (_lastHit + 3 >= getTime())
 	{
 		_playerLife--;
-		last_hit = getTime();
+		_lastHit = getTime();
 	}
 }
 
@@ -177,9 +180,11 @@ std::pair<int, int>	Pacman::checkColideEnemy(std::pair<int, int> tmp, std::pair<
 {
 	static std::string stringOldPose = "back";
 	_map[pos.first][pos.second] = stringOldPose;
-	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos)
+	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos
+	&& _map[pos.first + tmp.first][pos.second].find("monster") == std::string::npos)
 		pos.first += tmp.first;
-	if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos)
+	else if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos
+	&& _map[pos.first][pos.second + tmp.second].find("monster") == std::string::npos)
 		pos.second += tmp.second;
 	if (_map[pos.first][pos.second].find("perso") != std::string::npos)
 		playerGetDamage();
@@ -205,12 +210,17 @@ std::pair<int, int>	Pacman::checkColideEnemyEscape(std::pair<int, int> tmp, std:
 {
 	static std::string stringOldPose = "back";
 	_map[pos.first][pos.second] = stringOldPose;
-	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos)
+	if (_map[pos.first + tmp.first][pos.second].find("wall") == std::string::npos
+	&& _map[pos.first + tmp.first][pos.second].find("food_M") == std::string::npos)
 		pos.first += tmp.first;
-	if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos)
+	if (_map[pos.first][pos.second + tmp.second].find("wall") == std::string::npos
+	&& _map[pos.first][pos.second + tmp.second].find("food_M") == std::string::npos)
 		pos.second += tmp.second;
 	if (_map[pos.first][pos.second].find("perso") != std::string::npos)
-		playerGetDamage();
+	{
+		stringOldPose = "back";
+		return {10, 10};
+	}
 	stringOldPose = _map[pos.first][pos.second];
 	_map[pos.first][pos.second] = "food_M";
 	return {pos.first, pos.second};
@@ -219,7 +229,6 @@ std::pair<int, int>	Pacman::checkColideEnemyEscape(std::pair<int, int> tmp, std:
 
 std::pair<int, int>	Pacman::escapeOneEnemy(std::pair<int, int> pos)
 {
-	_mobStatus = false;
 	std::pair<int, int> tmp;
 	_timeFood = getTime();
 	tmp.first = pos.first > _posPlayer.first ? 1 : -1;
@@ -230,21 +239,17 @@ std::pair<int, int>	Pacman::escapeOneEnemy(std::pair<int, int> pos)
 void Pacman::moveEnemy()
 {
 	int i = -1;
-	if (!_mobStatus) 
+	if (_timeFood + 10 >= getTime())
 	{
-		if (_timeFood + 3 >= getTime()) 
-		{
-			_mobStatus = true;
-			return ;
-		}
+		_mobStatus = true;
+		changeFoodToMonster();
+	}
+	if (!_mobStatus) 
 		for(auto el: _posEnemy)
 			_posEnemy[++i] = escapeOneEnemy(el);
-	}	
 	if (_mobStatus)
-	{
 		for(auto el: _posEnemy)
 			_posEnemy[++i] = moveOneEnemy(el);
-	}
 }
 
 std::vector<std::pair<std::string, std::string>>	Pacman::getInfos()
@@ -274,8 +279,6 @@ void	Pacman::changeFoodToMonster()
 
 void	Pacman::superFood(std::pair<int, int> tmp)
 {
-	if (_timeFood >= getTime() + 3)
-		changeFoodToMonster();
 	if (_map[tmp.first][tmp.second].find("food") != std::string::npos)
 	{
 		if (_map[tmp.first][tmp.second] == "food")
