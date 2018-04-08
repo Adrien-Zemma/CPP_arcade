@@ -38,6 +38,7 @@ private:
 	void	loadLib(std::string arg);
 	void	loadNewLib(ILib::Key key);
 	void	loadGame(std::string game);
+	void	switchMenu(std::string txt);
 	void	loadSet(std::ifstream file);
 	void	readSet(std::ifstream file);
 	ILib::Key	noBlink(ILib::Key key);
@@ -49,6 +50,7 @@ private:
 	IGame *jeu;
 	void	*_handle_lib;
 	void	*_handle_game;
+	int	nbOfCurentLib;
 	int	nbOfCurentGame;
 	ILib	*(*createLib)();
 	IGame	*(*createGame)();

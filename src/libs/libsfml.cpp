@@ -183,6 +183,26 @@ void	Sfml::drawBack()
 	_window->draw(sprite);
 }
 
+std::string 	Sfml::keyToString(ILib::Key key)
+{
+	switch (key)
+	{
+		case RETURN : return std::to_string(0);
+		case C : return std::to_string(1);
+		case V : return std::to_string(-1);
+		case G : return std::to_string(8);
+		case H : return std::to_string(9);
+		case B : return std::to_string(2);
+		case N : return std::to_string(-2);
+		case UP : return std::to_string(3);
+		case LEFT : return std::to_string(4);
+		case RIGHT : return std::to_string(5);
+		case DOWN : return std::to_string(6);
+		case ESCAPE : return std::to_string(7);
+		default: return std::to_string(42);
+	}
+}
+
 std::string	Sfml::drawChoise()
 {
 	static size_t index = 0;
@@ -191,6 +211,8 @@ std::string	Sfml::drawChoise()
 	ILib::Key key = getEvent();
 	sf::Text arrow("->", _font_text, 15);
 	arrow.setPosition(150, y);
+	if (key == C || key == V)
+		return (keyToString(key));
 	if (key == UP && index > 0 && key != old_key)
 	{
 		arrow.setPosition(150, y -= 21);
@@ -210,12 +232,11 @@ std::string	Sfml::drawChoise()
 
 std::string	Sfml::drawStartMenu()
 {
-	sf::Event event;
 	std::string tmp;
 	auto	next_frame = std::chrono::steady_clock::now();
 	while (getEvent() != ESCAPE)
 	{
-		while (_window->pollEvent(event));
+		updateEvent();
 		next_frame += std::chrono::milliseconds(1000 / 120);
 		_window->clear(sf::Color::Black);
 		drawBack();

@@ -112,7 +112,26 @@ void	Arcade::setCurentGame(std::string name)
 {
 	readGameDir();
 	for (nbOfCurentGame = 0; name != _available_games[nbOfCurentGame]; nbOfCurentGame++);
-	nbOfCurentGame--;
+	nbOfCurentGame--;	
+}
+
+void	Arcade::switchMenu(std::string txt)
+{
+	int tmp;
+	tmp = stoi(txt);
+	if (tmp == 0)
+		return ;
+	if (tmp == -1)
+	{
+		loadNewLib(ILib::V);
+		start();
+	}
+	else if (tmp == 1)
+	{
+		loadNewLib(ILib::C);
+		start();
+	}
+	
 }
 
 int	Arcade::start()

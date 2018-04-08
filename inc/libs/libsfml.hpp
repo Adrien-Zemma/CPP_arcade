@@ -38,12 +38,12 @@ public:
 	void	writeScore(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 	void	drawEndGame(std::vector<std::pair<std::string, std::string>> infos, std::string txt);
 private:
-
 	
 	void	updateEvent();
 	std::string	drawChoise();
 	void	drawTitle(std::string);
 	void	drawLittleText(std::string str);
+	std::string 	keyToString(ILib::Key key)	;
 	sf::String	getTextEntered(sf::String tmp);
 	void	drawLittleText(std::string str, int pos);
 	void	loadSprite(std::vector<std::string> input);
