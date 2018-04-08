@@ -223,8 +223,6 @@ void	Nibbler::moveBody()
 
 void	Nibbler::movePlayer()
 {
-	bool status = true;
-	size_t nb;
 	std::string tmp;
 
 	if (!checkColide(_coords[0], mouveSpritePlayer().second))
